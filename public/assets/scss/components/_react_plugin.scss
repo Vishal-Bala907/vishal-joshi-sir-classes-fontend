@@ -1,0 +1,114 @@
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  > span {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0px;
+  }
+
+  .br-selected {
+    display: block;
+    width: 12px;
+    padding: 5px 0;
+    height: 28px;
+    float: left;
+    background-color: rgba($primary-color, 0.2);
+    margin: 1px;
+    text-align: center;
+  }
+
+  .br-widget {
+    display: block;
+    width: calc(40px + (60 - 40) * ((100vw - 320px) / (1920 - 320)));
+    height: 8px;
+    float: left;
+    background-color: rgba($primary-color, 0.2);
+    margin: 1px;
+  }
+
+  .br-current {
+    background-color: $primary-color !important;
+    color: $white !important;
+  }
+
+  .square-number {
+    display: block;
+    width: 30px;
+    height: 30px;
+    float: left;
+    border: 2px solid rgba($primary-color, 0.2);
+    background-color: rgba($primary-color, 0.01);
+    margin: 2px;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+    color: rgba($primary-color, 0.1);
+    font-weight: 600;
+
+    &.active {
+      border: 2px solid $primary-color;
+      color: $primary-color;
+    }
+  }
+
+  &.reverse {
+    .square-number {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .txt-primary {
+    color: $primary-color !important;
+  }
+
+  .text-body {
+    color: var(--body-font-color);
+  }
+
+  .star {
+    color: #ffa800;
+  }
+
+  &.pill-rating-list {
+    .pill-rating {
+      padding: 7px 15px;
+      background-color: rgba($primary-color, 0.2);
+      color: var(--theme-default);
+      display: block;
+      text-decoration: none;
+      font-size: 13px;
+      text-align: center;
+      font-weight: 400;
+    }
+
+    > span {
+      > span {
+        &:first-of-type {
+          .pill-rating {
+            border-top-left-radius: 999px;
+            border-bottom-left-radius: 999px;
+          }
+        }
+
+        &:last-of-type {
+          .pill-rating {
+            border-top-right-radius: 999px;
+            border-bottom-right-radius: 999px;
+          }
+        }
+      }
+    }
+  }
+
+  .current-rating {
+    font-size: 20px;
+    line-height: 1;
+    color: var(--theme-default);
+    font-weight: 400;
+  }
+}

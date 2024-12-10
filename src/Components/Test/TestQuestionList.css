@@ -1,0 +1,50 @@
+/* TestQuestionList.css */
+
+/* Base style for question box */
+.question-box {
+    background-color: #f8f9fa;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;  /* Initial border */
+}
+
+/* Hover effect */
+.question-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for selected questions */
+.question-box.selected {
+    color: white;               /* White text when selected */
+    border-color: #0056b3;      /* Darker border when selected */
+}
+
+/* Question number styling */
+.question-number {
+    font-size: 1.5rem;
+    color: #007bff;  /* Blue color for numbers */
+}
+
+/* Muted styling for question text */
+.question-text {
+    font-size: 1rem;
+    color: #6c757d;  /* Muted grey for text */
+}
+
+/* Optional: Add a subtle animation when the question is selected */
+.question-box.selected {
+    animation: selected-animation 0.3s ease-in-out;
+}
+
+@keyframes selected-animation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
