@@ -56,7 +56,7 @@ export const subjectOptions = [
 
 const CreateTest = ({ type, setReload }: { type: string; setReload: any }) => {
   const [testCreate, setTestCreate] = useState(false);
-  alert("Create test");
+  // alert("Create test");
 
   const [test, setTest] = useState<Test>({
     name: "",
@@ -163,9 +163,9 @@ const CreateTest = ({ type, setReload }: { type: string; setReload: any }) => {
         style={{ display: "flex", justifyContent: "end" }}
         className="mr-4 mb-2"
       >
-        <Button color="primary" onClick={() => setTestCreate(true)}>
+        {/* <Button color="primary" onClick={() => setTestCreate(true)}>
           Create New
-        </Button>
+        </Button> */}
       </div>
       <Modal isOpen={testCreate}>
         <ModalHeader>

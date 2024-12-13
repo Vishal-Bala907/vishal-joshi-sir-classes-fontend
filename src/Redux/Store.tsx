@@ -6,6 +6,9 @@ import UserReducer from "./Reducers/userSlice";
 import StudyReducer from "./Reducers/StudyReducer";
 import ChatSlice from "./Reducers/ChatSlice";
 import socketReducer from "./Reducers/SocketSlice";
+import liveTestReducer from "./Reducers/LiveTestSlice";
+import testDetailsSlice from "./Reducers/TestCounterSlice";
+import attendDetailsSlice from "./Reducers/AttendSlice";
 
 const Store = configureStore({
   reducer: {
@@ -16,6 +19,9 @@ const Store = configureStore({
     bookmarkHeader: BookmarkHeaderSlice,
     themeCustomizer: ThemeCustomizerReducer,
     socket: socketReducer,
+    liveTest: liveTestReducer,
+    testCounter: testDetailsSlice,
+    attend: attendDetailsSlice,
   },
 });
 

@@ -1,8 +1,35 @@
+"use client";
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-quill/dist/quill.snow.css"; // Import Quill's CSS
+import ReactQuill from "react-quill";
+import { useDispatch } from "react-redux";
+import { setTestDetails } from "@/Redux/Reducers/LiveTestSlice";
+import { addTestMetaData } from "@/server/tests";
+import { setTestId } from "@/Redux/Reducers/TestCounterSlice";
 
-const LiveTestForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+interface LiveTestFormProps {
+  setTest: React.Dispatch<React.SetStateAction<any>>;
+  setcreatedTest: React.Dispatch<React.SetStateAction<any>>;
+}
+
+interface FormDataType {
+  testName: string;
+  description: string;
+  timeDuration: string;
+  time: string;
+  date: string;
+  category: string;
+  instructions: string;
+  positiveMarking: string;
+  negativeMarking: string;
+}
+
+const LiveTestForm: React.FC<LiveTestFormProps> = ({
+  setTest,
+  setcreatedTest,
+}) => {
+  const [formData, setFormData] = useState<FormDataType>({
     testName: "",
     description: "",
     timeDuration: "",
@@ -10,6 +37,8 @@ const LiveTestForm: React.FC = () => {
     date: "",
     category: "",
     instructions: "",
+    positiveMarking: "",
+    negativeMarking: "",
   });
 
   const handleChange = (
@@ -21,10 +50,31 @@ const LiveTestForm: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleDescriptionChange = (value: string) => {
+    setFormData((prevData) => ({ ...prevData, description: value }));
+  };
+
+  const dispatch = useDispatch();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    // Add your submission logic here
+
+    // const data = new FormData();
+    // for (const key in formData) {
+    //   data.append(key, formData[key as keyof typeof formData]);
+    // }
+    // console.log(data);
+    dispatch(setTestDetails(formData));
+
+    addTestMetaData(formData)
+      .then((data) => {
+        console.log(data.message._id);
+        dispatch(setTestId(data.message._id));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    setcreatedTest(formData);
+    // console.log("Form Data Submitted:", Object.fromEntries(data.entries()));
   };
 
   return (
@@ -53,15 +103,12 @@ const LiveTestForm: React.FC = () => {
           <label htmlFor="description" className="form-label">
             Description
           </label>
-          <textarea
-            className="form-control"
-            id="description"
-            name="description"
-            placeholder="Enter Test Description"
+          <ReactQuill
+            theme="snow"
             value={formData.description}
-            onChange={handleChange}
-            required
-          ></textarea>
+            onChange={handleDescriptionChange}
+            placeholder="Enter Test Description"
+          />
         </div>
 
         {/* Time Duration */}
@@ -127,9 +174,9 @@ const LiveTestForm: React.FC = () => {
             required
           >
             <option value="">Select Category</option>
-            <option value="Physics">Physics</option>
-            <option value="Chemistry">Chemistry</option>
-            <option value="Maths">Maths</option>
+            <option value="JEE">JEE</option>
+            <option value="JEE Advance">JEE Advance</option>
+            <option value="NEET">NEET</option>
           </select>
         </div>
 
@@ -149,10 +196,52 @@ const LiveTestForm: React.FC = () => {
           ></textarea>
         </div>
 
+        {/* Positive Marking */}
+        <div className="mb-3">
+          <label htmlFor="positiveMarking" className="form-label">
+            Positive Marking (per question)
+          </label>
+          <input
+            type="number"
+            className="form-control"
+            id="positiveMarking"
+            name="positiveMarking"
+            placeholder="Enter Positive Marks"
+            value={formData.positiveMarking}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Negative Marking */}
+        <div className="mb-3">
+          <label htmlFor="negativeMarking" className="form-label">
+            Negative Marking (per question)
+          </label>
+          <input
+            type="number"
+            className="form-control"
+            id="negativeMarking"
+            name="negativeMarking"
+            placeholder="Enter Negative Marks"
+            value={formData.negativeMarking}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
         {/* Submit Button */}
         <div className="text-center">
           <button type="submit" className="btn btn-primary">
-            Create Test
+            Add
+          </button>
+          <button
+            className="btn mx-4 btn-danger"
+            onClick={() => {
+              setTest("TEST-LIST");
+            }}
+          >
+            Cancel
           </button>
         </div>
       </form>
