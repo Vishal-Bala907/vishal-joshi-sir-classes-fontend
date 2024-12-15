@@ -40,6 +40,7 @@ const Attend = () => {
     type: "integer",
     description: "",
     correctAnswer: "",
+    _id: "",
   });
   //* Integer question
   const [multiSelectQuestion, setmultiSelectQuestion] = useState({
@@ -100,7 +101,7 @@ const Attend = () => {
   const [testCounter, settestCounter] = useState(0);
   const test = useSelector((state: RootState) => state.attend);
   const user = useSelector((state: RootState) => state.user);
-  console.log(test.Questions);
+  console.log(test);
   console.log(testCounter);
   function updateIndex(action: string) {
     if (action === "INCREMENT") {
@@ -178,7 +179,14 @@ const Attend = () => {
       <main className="bg-light text-dark d-flex justify-content-between align-items-center flex-row  w-100 p-2 gap-3">
         <div className="w-75">
           {test.Questions[testCounter].questionType === "integer" ? (
-            <IntegerQuestion integerQuestion={integerQuestion} />
+            // index , questionId , testId, userId, rightAnswer
+            <IntegerQuestion
+              index={testCounter}
+              testId={test._id}
+              integerQuestion={integerQuestion}
+              negativeMarking={Number(test.negativeMarking)}
+              positiveMarking={Number(test.positiveMarking)}
+            />
           ) : test.Questions[testCounter].questionType === "select" ? (
             <SelecQuestion selectQuestion={multiSelectQuestion} />
           ) : (

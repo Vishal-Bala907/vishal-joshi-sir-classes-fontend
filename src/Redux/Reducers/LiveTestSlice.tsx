@@ -1,5 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface Question {
+  questionId: string;
+  questionText: string;
+  options: string[];
+  correctAnswer: string;
+  marks: number;
+}
+
 interface LiveTestFormData {
   testName: string;
   description: string;
@@ -8,9 +16,10 @@ interface LiveTestFormData {
   date: string;
   category: string;
   instructions: string;
-  positiveMarking: string;
-  negativeMarking: string;
-  Questions: any[]; // Array of any type to store questions
+  positiveMarking: number;
+  negativeMarking: number;
+  Questions: Question[]; // Array of Question objects
+  _id: string;
 }
 
 const initialState: LiveTestFormData = {
@@ -21,9 +30,10 @@ const initialState: LiveTestFormData = {
   date: "",
   category: "",
   instructions: "",
-  positiveMarking: "",
-  negativeMarking: "",
+  positiveMarking: 0,
+  negativeMarking: 0,
   Questions: [], // Initialize as an empty array
+  _id: "", // Initialize as an empty string
 };
 
 const liveTestSlice = createSlice({
@@ -36,8 +46,8 @@ const liveTestSlice = createSlice({
     resetFormData() {
       return initialState;
     },
-    addQuestion(state, action: PayloadAction<any>) {
-      state.Questions.push(action.payload);
+    addQuestion(state, action: PayloadAction<Question>) {
+      state.Questions = [...state.Questions, action.payload];
     },
   },
 });

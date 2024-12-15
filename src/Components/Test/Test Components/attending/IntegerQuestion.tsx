@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
+import { useSelector } from "react-redux";
+import { RootState } from "@/Redux/Store";
 
 interface IntegerQuestionProps {
   integerQuestion: {
@@ -10,34 +12,56 @@ interface IntegerQuestionProps {
     type: string; // Keep "integer" as a specific value
     description: string;
     correctAnswer: string;
+    _id: string;
   };
+  index: number;
+  testId: string;
+  negativeMarking: number;
+  positiveMarking: number;
 }
+
+interface QuestionAnswer {
+  questionIndex: number; // Index of the question
+  questionId: string; // Unique identifier for the question
+  testId: string; // Identifier for the test
+  userId: string; // Identifier for the user
+  userAnswer: string; // User's answer to the question
+  rightAnswer: string; // Correct answer to the question
+
+  questionStatus: string; // 'correct' or 'incorrect'
+  marks: number; // Marks obtained for the question
+}
+
+// index  , testId
 
 const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   integerQuestion,
+  index,
+  testId,
+  negativeMarking,
+  positiveMarking,
 }) => {
   console.log(integerQuestion);
-  // const [question, setQuestion] = useState({
-  //   subject: "Math",
-  //   topic: "Algebra",
-  //   subtopic: "Linear Equations",
-  //   level: "easy",
-  //   type: "multipleChoice",
-  //   description: "Solve for x in the equation 2x + 5 = 15.",
-  //   correctAnswer: "",
-  // });
-
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setQuestion((prevState) => ({
-  //     ...prevState,
-  //     correctAnswer: e.target.value,
-  //   }));
-  // };
-
+  const [answer, setAnswer] = useState<number>();
+  const user = useSelector((state: RootState) => state.user);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log("Form submitted with question:", question);
-    // Handle form submission logic here, like sending data to a server
+    const userANS = answer?.toString;
+    const status =
+      Number(integerQuestion.correctAnswer) === Number(userANS)
+        ? "CORRECT"
+        : "INCORRECT";
+    const respone = {
+      questionIndex: index,
+      questionId: integerQuestion._id,
+      testId: testId,
+      userId: user._id,
+      rightAnswer: integerQuestion.correctAnswer,
+      userAnswer: userANS,
+      questionStatus: status,
+      marks: status === "CORRECT" ? positiveMarking : negativeMarking,
+    };
+    console.log(respone);
   };
 
   return (
@@ -77,14 +101,18 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
             Correct Answer
           </label>
           <input
-            type="text"
+            type="number"
             id="correctAnswer"
             name="correctAnswer"
             className="form-control"
+            onChange={(e) => {
+              setAnswer(e.target.value);
+            }}
             // value={integerQuestion.correctAnswer}
             // onChange={handleInputChange}
           />
         </div>
+        <button className="btn btn-success">Submit Answer</button>
       </form>
     </div>
   );

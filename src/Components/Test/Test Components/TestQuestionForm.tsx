@@ -77,7 +77,7 @@ const TestQuestionForm: React.FC<LiveTestFormProps> = ({
             >
               <option value="select">Select</option>
               <option value="integer">Integer</option>
-              <option value="match the column">Match the Column</option>
+              <option value="match">Match the Column</option>
             </select>
           </div>
 
@@ -120,7 +120,7 @@ const TestQuestionForm: React.FC<LiveTestFormProps> = ({
         ) : type === "select" ? (
           <MultiSelect type={type} />
         ) : (
-          <MatchTheColumn type={"match"} />
+          <MatchTheColumn type={type} />
         )}
       </div>
     </div>

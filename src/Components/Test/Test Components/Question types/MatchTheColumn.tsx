@@ -82,6 +82,7 @@ const MatchColumnsForm = ({ type }: Props) => {
     descriptionImage: null, // Initialize the new descriptionImage field
   });
 
+  // console.log(type);
   const dispatch = useDispatch();
 
   // Function to convert a file to Base64

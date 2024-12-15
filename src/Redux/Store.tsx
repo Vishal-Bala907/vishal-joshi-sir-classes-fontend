@@ -9,6 +9,7 @@ import socketReducer from "./Reducers/SocketSlice";
 import liveTestReducer from "./Reducers/LiveTestSlice";
 import testDetailsSlice from "./Reducers/TestCounterSlice";
 import attendDetailsSlice from "./Reducers/AttendSlice";
+import UserAnswers from "./Reducers/UserAnswers";
 
 const Store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const Store = configureStore({
     liveTest: liveTestReducer,
     testCounter: testDetailsSlice,
     attend: attendDetailsSlice,
+    answer: UserAnswers,
   },
 });
 

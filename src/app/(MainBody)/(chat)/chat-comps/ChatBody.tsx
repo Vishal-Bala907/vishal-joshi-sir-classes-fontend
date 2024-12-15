@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
-import { timeStamp } from "console";
+// import { timeStamp } from "console";
 import { IoMdArrowBack } from "react-icons/io";
 import { setChats, setSelectedUser } from "@/Redux/Reducers/ChatSlice";
 import { getChats } from "@/server/chats";
+import { Hourglass } from "react-loader-spinner";
 
 interface Chat {
   _id: string;
@@ -48,7 +49,7 @@ const ChatBody = () => {
         let data = null; // Await the promise from getChats
         // if (loggedInUser.role === "student") {
         data = await getChats(ROOM, SELECTED);
-        console.log(data);
+        // console.log(data);
         // } else {
         //   //
         //   let ROLE = selectedUser === "admin" ? "admin" : selectedUser.role;
@@ -79,19 +80,35 @@ const ChatBody = () => {
   }, [data, BOTTOM]);
 
   if (loading) {
-    return <div>Loading</div>;
+    return (
+      <div className="h-100 w-100">
+        <Hourglass
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="hourglass-loading"
+          wrapperStyle={{}}
+          wrapperClass="w-100"
+          colors={["#306cce", "#72a1ed"]}
+        />
+      </div>
+    );
   }
 
   return (
-    <div className="right-sidebar-Chats w-100 position-relative">
+    <div className="vb right-sidebar-Chats w-100 position-relative rounded-3">
       <IoMdArrowBack
         onClick={() => {
           dispatch(setSelectedUser(null));
         }}
-        style={{ fontSize: "30px", position: "sticky", top: "0px" }}
+        style={{ fontSize: "30px", position: "absolute", top: "0px" }}
       />
-      <div ref={msgContainerParent} className="msger">
-        <div ref={msgContainer} id="chat-container" className="msger-chat">
+      <div ref={msgContainerParent} className="msger rounded-3">
+        <div
+          ref={msgContainer}
+          id="chat-container"
+          className="msger-chat rounded-4"
+        >
           {data.length > 0 ? (
             data.map((item: Chat, id: number) => {
               let formatedDate = getMyFormatedDate(`${item.timestamp}`);

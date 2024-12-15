@@ -66,7 +66,7 @@ export default function RootLayout({
           socketRef.current.on("sendMessage", (MESSAGE) => {
             const recipient = MESSAGE.sender;
             // console.log(MESSAGE.sender, selectedUser);
-            // console.log(recipient , )
+            console.log(MESSAGE);
             let USER =
               selectedUser === "admin"
                 ? "admin"
@@ -83,6 +83,24 @@ export default function RootLayout({
               // dispatch(setChats(data));
             } else {
               toast.success(`you got a new message from ${MESSAGE.senderName}`);
+              const id = `s-u-${MESSAGE.sender}`;
+              const chat = document.getElementById(id);
+
+              // take the field into top ?
+              let chatBubbles = document.getElementsByClassName("chat-bubble");
+              const doc = document.getElementById(MESSAGE.sender);
+              // console.log(chatBubbles);
+              if (chat && doc) {
+                chat.style.visibility = "visible";
+                doc.style.order = "0";
+              }
+              if (chatBubbles && chatBubbles.length > 0) {
+                Array.from(chatBubbles).map((element, index) => {
+                  if (element !== doc) {
+                    element.style.order = "10";
+                  }
+                });
+              }
             }
           });
         }

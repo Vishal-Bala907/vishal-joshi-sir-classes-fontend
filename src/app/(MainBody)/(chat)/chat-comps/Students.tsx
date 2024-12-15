@@ -13,6 +13,7 @@ import {
 import { RootState } from "@/Redux/Store";
 import { getChats } from "@/server/chats";
 import { setChats, setSelectedUser } from "@/Redux/Reducers/ChatSlice";
+import { WiMoonAltNew } from "react-icons/wi";
 
 interface Student {
   id: number;
@@ -47,19 +48,46 @@ const Students = () => {
   }, [loggedInUser]);
 
   return (
-    <div className="container bg-dark-subtle pt-3 d-flex justify-content-center align-items-center flex-column pb-3 gap-4 w-100">
+    <div
+      className="container py-3 rounded-4  d-flex justify-content-center align-items-center d-flex flex-column  gap-4 w-100"
+      style={{
+        backgroundColor: "rgb(241 155 244 / 57%)",
+        backdropFilter: "blur(31px)",
+      }}
+    >
       {selectedUser === null ? (
         students.map((student, i) => {
           return (
             <div
               key={i}
-              className={`bg-body-secondary w-100 p-2 rounded-2 ${style.mentorHover}`}
+              className={`d-flex flex-column chat-bubble  w-100 p-2 rounded-2 position-relative ${style.mentorHover}`}
               onClick={() => {
+                const chat = document.getElementById(`s-u-${student._id}`);
+                if (chat) {
+                  chat.style.visibility = "visible";
+                }
                 dispatch(setSelectedUser(student));
+              }}
+              style={{
+                backgroundColor: "#eeb0e2",
+                border: "1px solid #00000029",
               }}
             >
               <p className="p-0 m-0 fw-semibold">{student.name}</p>
               <p className="p-0 m-0">{student.email}</p>
+              <WiMoonAltNew
+                id={`s-u-${student._id}`}
+                style={{
+                  position: "absolute",
+                  top: "30%",
+                  right: "3%",
+                  fontSize: "x-large",
+                  color: "#000bff",
+                  border: "1px solid white",
+                  borderRadius: "50%",
+                  visibility: "hidden",
+                }}
+              />
             </div>
           );
         })
