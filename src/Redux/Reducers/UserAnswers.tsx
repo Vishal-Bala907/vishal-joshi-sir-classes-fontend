@@ -1,4 +1,5 @@
 // Import necessary functions from Redux Toolkit
+import { submitTest } from "@/server/tests";
 import { createSlice } from "@reduxjs/toolkit";
 
 // Initial state
@@ -23,16 +24,25 @@ const questionSlice = createSlice({
   initialState,
   reducers: {
     addQuestion: (state, action) => {
-      state.questions.push(action.payload);
-    },
-    updateQuestion: (state, action) => {
-      const { questionIndex, updates } = action.payload;
-      const question = state.questions.find(
+      const { questionIndex, ...newQuestion } = action.payload;
+      const existingQuestionIndex = state.questions.findIndex(
         (q) => q.questionIndex === questionIndex
       );
-      if (question) {
-        Object.assign(question, updates);
+
+      if (existingQuestionIndex !== -1) {
+        // Update the existing question
+        state.questions[existingQuestionIndex] = {
+          ...state.questions[existingQuestionIndex],
+          ...newQuestion,
+        };
+      } else {
+        // Add a new question
+        state.questions.push({ questionIndex, ...newQuestion });
       }
+    },
+    submitTestCompleted: (state) => {
+      const data = JSON.parse(JSON.stringify(state.questions));
+      submitTest(data);
     },
     resetQuestions: (state) => {
       state.questions = [
@@ -52,7 +62,7 @@ const questionSlice = createSlice({
 });
 
 // Export actions
-export const { addQuestion, updateQuestion, resetQuestions } =
+export const { addQuestion, submitTestCompleted, resetQuestions } =
   questionSlice.actions;
 
 // Export reducer

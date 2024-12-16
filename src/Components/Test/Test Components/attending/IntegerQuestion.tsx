@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
+import { addQuestion, submitTestCompleted } from "@/Redux/Reducers/UserAnswers";
+import { toast } from "react-toastify";
 
 interface IntegerQuestionProps {
   integerQuestion: {
@@ -18,6 +20,7 @@ interface IntegerQuestionProps {
   testId: string;
   negativeMarking: number;
   positiveMarking: number;
+  settestCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface QuestionAnswer {
@@ -40,15 +43,17 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   testId,
   negativeMarking,
   positiveMarking,
+  settestCounter,
 }) => {
-  console.log(integerQuestion);
+  // console.log(integerQuestion);
+  const dispatch = useDispatch();
   const [answer, setAnswer] = useState<number>();
   const user = useSelector((state: RootState) => state.user);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const userANS = answer?.toString;
     const status =
-      Number(integerQuestion.correctAnswer) === Number(userANS)
+      Number(integerQuestion.correctAnswer) === Number(answer)
         ? "CORRECT"
         : "INCORRECT";
     const respone = {
@@ -57,13 +62,25 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
       testId: testId,
       userId: user._id,
       rightAnswer: integerQuestion.correctAnswer,
-      userAnswer: userANS,
+      userAnswer: answer,
       questionStatus: status,
       marks: status === "CORRECT" ? positiveMarking : negativeMarking,
     };
-    console.log(respone);
+    dispatch(addQuestion(respone));
+    if (test.Questions.length - 1 > index) {
+      settestCounter((prev) => prev + 1);
+    } else {
+      toast.success("No next question...", {
+        position: "top-center",
+      });
+    }
   };
 
+  const userAnswers = useSelector((state: RootState) => state.answer.questions);
+  const test = useSelector((state: RootState) => state.attend);
+  function submitTest() {
+    dispatch(submitTestCompleted());
+  }
   return (
     <div className="container mt-5 bg-primary-subtle rounded-4 p-3 my-4">
       <form onSubmit={handleSubmit}>
@@ -106,13 +123,23 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
             name="correctAnswer"
             className="form-control"
             onChange={(e) => {
-              setAnswer(e.target.value);
+              setAnswer(Number(e.target.value));
             }}
             // value={integerQuestion.correctAnswer}
             // onChange={handleInputChange}
           />
         </div>
         <button className="btn btn-success">Submit Answer</button>
+        {test.Questions.length - 1 === index ? (
+          <button
+            onClick={() => {
+              submitTest();
+            }}
+            className="btn btn-danger mx-3"
+          >
+            Submit Test
+          </button>
+        ) : null}
       </form>
     </div>
   );

@@ -10,6 +10,7 @@ interface LiveTestFormData {
   instructions: string;
   positiveMarking: string;
   negativeMarking: string;
+  testId: string;
   Questions: any[]; // Array of any type to store questions
 }
 
@@ -17,6 +18,7 @@ const initialState: LiveTestFormData = {
   testName: "",
   description: "",
   timeDuration: "",
+  testId: "",
   time: "",
   date: "",
   category: "",

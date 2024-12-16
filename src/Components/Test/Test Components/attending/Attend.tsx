@@ -61,6 +61,7 @@ const Attend = () => {
     imageOptionsC: "",
     imageOptionsD: "",
     correctAnswer: [],
+    _id: "",
   });
   //* match the column
   const [matchTheColumn, setmatchTheColumn] = useState({
@@ -101,8 +102,8 @@ const Attend = () => {
   const [testCounter, settestCounter] = useState(0);
   const test = useSelector((state: RootState) => state.attend);
   const user = useSelector((state: RootState) => state.user);
-  console.log(test);
-  console.log(testCounter);
+  // console.log(test);
+  // console.log(testCounter);
   function updateIndex(action: string) {
     if (action === "INCREMENT") {
       if (testCounter < test.Questions.length - 1) {
@@ -154,6 +155,12 @@ const Attend = () => {
     return <div>Loadding</div>;
   }
 
+  // const userAnswers = useSelector((state: RootState) => state.answer.questions);
+  function submitTest() {
+    //
+    // console.log(userAnswers);
+  }
+
   return (
     <div className="w-100 bg-primary-subtle">
       <header className="w-100">
@@ -181,16 +188,31 @@ const Attend = () => {
           {test.Questions[testCounter].questionType === "integer" ? (
             // index , questionId , testId, userId, rightAnswer
             <IntegerQuestion
+              integerQuestion={integerQuestion}
               index={testCounter}
               testId={test._id}
-              integerQuestion={integerQuestion}
               negativeMarking={Number(test.negativeMarking)}
               positiveMarking={Number(test.positiveMarking)}
+              settestCounter={settestCounter}
             />
           ) : test.Questions[testCounter].questionType === "select" ? (
-            <SelecQuestion selectQuestion={multiSelectQuestion} />
+            <SelecQuestion
+              selectQuestion={multiSelectQuestion}
+              index={testCounter}
+              testId={test._id}
+              negativeMarking={Number(test.negativeMarking)}
+              positiveMarking={Number(test.positiveMarking)}
+              settestCounter={settestCounter}
+            />
           ) : (
-            <MatchTheColumn matchTheColumnQuestions={matchTheColumn} />
+            <MatchTheColumn
+              matchTheColumnQuestions={matchTheColumn}
+              index={testCounter}
+              testId={test._id}
+              negativeMarking={Number(test.negativeMarking)}
+              positiveMarking={Number(test.positiveMarking)}
+              settestCounter={settestCounter}
+            />
           )}
 
           <div>
@@ -210,10 +232,19 @@ const Attend = () => {
             >
               Next
             </button>
-            <button className="btn btn-danger mx-3">Submit Test</button>
+            {/* 
+            <button
+              onClick={() => {
+                submitTest();
+              }}
+              className="btn btn-danger mx-3"
+            >
+              Submit Test
+            </button> 
+            */}
           </div>
         </div>
-        <aside
+        {/* <aside
           style={{
             borderLeft: "2px solid black",
           }}
@@ -239,7 +270,7 @@ const Attend = () => {
               </select>
             </div>
           ))}
-        </aside>
+        </aside> */}
       </main>
     </div>
   );

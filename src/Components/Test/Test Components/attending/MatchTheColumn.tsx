@@ -1,4 +1,8 @@
+import { addQuestion, submitTestCompleted } from "@/Redux/Reducers/UserAnswers";
+import { RootState } from "@/Redux/Store";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 interface MatchColumnFormData {
   matchTheColumnQuestions: {
@@ -34,10 +38,27 @@ interface MatchColumnFormData {
 
     descriptionImage: string;
   };
+  index: number;
+  testId: string;
+  negativeMarking: number;
+  positiveMarking: number;
+  settestCounter: React.Dispatch<React.SetStateAction<number>>;
 }
+
+// create a map in js
+let map = new Map();
+map.set(0, "A");
+map.set(1, "B");
+map.set(2, "C");
+map.set(3, "D");
 
 const MatchTheColumn: React.FC<MatchColumnFormData> = ({
   matchTheColumnQuestions,
+  index,
+  testId,
+  negativeMarking,
+  positiveMarking,
+  settestCounter,
 }) => {
   const [matches, setMatches] = useState<{ left: string; right: string }[]>([]);
 
@@ -61,11 +82,55 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
       }
     });
   };
-  console.log(matches);
+
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
 
   const handleSubmit = () => {
-    console.log("Submitted Matches:", matches);
+    const rightAnswers = matchTheColumnQuestions.correctMatchings;
+    const userAnswers = matches;
+    // check the answers
+    let AnsStatus = true;
+    rightAnswers.map((rAns, ind) => {
+      // left
+      const left = map.get(ind); // left option A
+      const right = map.get(rAns.rightOption - 1); //
+
+      const result = userAnswers.find((obj) => obj.left === left);
+      if (right !== result?.right) {
+        AnsStatus = false;
+      }
+    });
+
+    const respone = {
+      questionIndex: index,
+      questionId: matchTheColumnQuestions._id,
+      testId: testId,
+      userId: user._id,
+      rightAnswer: rightAnswers,
+      userAnswer: userAnswers,
+      questionStatus: AnsStatus ? "CORRECT" : "INCORRECT",
+      marks: AnsStatus ? positiveMarking : negativeMarking,
+    };
+
+    dispatch(addQuestion(respone));
+    // console.log(respone);
+    if (test.Questions.length - 1 > index) {
+      settestCounter((prev) => prev + 1);
+    } else {
+      toast.success("No next question...", {
+        position: "top-center",
+      });
+    }
   };
+
+  const userAnswers = useSelector((state: RootState) => state.answer.questions);
+  const test = useSelector((state: RootState) => state.attend);
+  function submitTest() {
+    dispatch(submitTestCompleted());
+  }
+
+  // }
 
   return (
     <div className="container mt-4 w-75 bg-light rounded-4 p-3 text-dark">
@@ -222,9 +287,20 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
             </div>
           </div>
         ))}
-        {/* <button className="btn btn-primary mt-3" onClick={handleSubmit}>
+        <button className="btn btn-primary mt-3" onClick={handleSubmit}>
           Submit
-        </button> */}
+        </button>
+
+        {test.Questions.length - 1 === index ? (
+          <button
+            onClick={() => {
+              submitTest();
+            }}
+            className="btn btn-danger mx-3"
+          >
+            Submit Test
+          </button>
+        ) : null}
       </div>
     </div>
   );

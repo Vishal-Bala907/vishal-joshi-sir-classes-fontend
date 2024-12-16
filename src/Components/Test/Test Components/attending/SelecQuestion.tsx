@@ -1,4 +1,8 @@
+import { addQuestion, submitTestCompleted } from "@/Redux/Reducers/UserAnswers";
+import { RootState } from "@/Redux/Store";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 interface IntegerQuestionProps {
   selectQuestion: {
@@ -19,10 +23,23 @@ interface IntegerQuestionProps {
     imageOptionsC: string;
     imageOptionsD: string;
     correctAnswer: string[];
+    _id: string;
   };
+  index: number;
+  testId: string;
+  negativeMarking: number;
+  positiveMarking: number;
+  settestCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SelecQuestion: React.FC<IntegerQuestionProps> = ({ selectQuestion }) => {
+const SelecQuestion: React.FC<IntegerQuestionProps> = ({
+  selectQuestion,
+  index,
+  testId,
+  negativeMarking,
+  positiveMarking,
+  settestCounter,
+}) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
   const handleCheckboxChange = (option: string) => {
@@ -33,6 +50,72 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({ selectQuestion }) => {
           : [...prev, option] // Add if not already selected
     );
   };
+
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  function saveTheAnswer() {
+    let ansStatus = false;
+
+    const arr1 = selectQuestion.correctAnswer;
+    const arr2 = selectedOptions;
+
+    const countOccurrences = (arr: any) => {
+      return arr.reduce((acc: any, char: string) => {
+        acc[char] = (acc[char] || 0) + 1;
+        return acc;
+      }, {});
+    };
+
+    const map1 = countOccurrences(arr1);
+    const map2 = countOccurrences(arr2);
+
+    // Compare the keys and their counts
+    for (let char in map1) {
+      if (map1[char] !== map2[char]) {
+        ansStatus = false;
+      } else {
+        ansStatus = true;
+      }
+    }
+
+    if (arr1.length !== arr2.length) {
+      ansStatus = false; // Different lengths mean arrays can't match.
+    }
+
+    const respone = {
+      questionIndex: index,
+      questionId: selectQuestion._id,
+      testId: testId,
+      userId: user._id,
+      rightAnswer: selectQuestion.correctAnswer,
+      userAnswer: selectedOptions,
+      questionStatus: ansStatus ? "CORRECT" : "INCORRECT",
+      marks: ansStatus ? positiveMarking : negativeMarking,
+    };
+
+    dispatch(addQuestion(respone));
+    console.log(respone);
+    if (test.Questions.length - 1 > index) {
+      settestCounter((prev) => prev + 1);
+    } else {
+      toast.success("No next question...", {
+        position: "top-center",
+      });
+    }
+
+    // if (!ansStatus) {
+
+    // } else {
+
+    // }
+  }
+
+  const userAnswers = useSelector((state: RootState) => state.answer.questions);
+  const test = useSelector((state: RootState) => state.attend);
+  function submitTest() {
+    dispatch(submitTestCompleted());
+  }
+
   return (
     <div className="container mt-4 w-75 bg-primary-subtle rounded-4 p-3 my-4">
       <section className="d-flex justify-content-center align-items-center flex-row gap-4 flex-wrap">
@@ -214,12 +297,24 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({ selectQuestion }) => {
         </div>
       </div>
 
-      {/* <button
+      <button
         className="btn btn-primary mt-3"
-        onClick={() => console.log("Selected Option:")}
+        onClick={() => {
+          saveTheAnswer();
+        }}
       >
         Submit Answer
-      </button> */}
+      </button>
+      {test.Questions.length - 1 === index ? (
+        <button
+          onClick={() => {
+            submitTest();
+          }}
+          className="btn btn-danger mx-3"
+        >
+          Submit Test
+        </button>
+      ) : null}
     </div>
   );
 };

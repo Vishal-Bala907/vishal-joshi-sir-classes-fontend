@@ -82,23 +82,30 @@ export default function RootLayout({
               dispatch(setMoveToBottom());
               // dispatch(setChats(data));
             } else {
-              toast.success(`you got a new message from ${MESSAGE.senderName}`);
-              const id = `s-u-${MESSAGE.sender}`;
-              const chat = document.getElementById(id);
+              toast.success(`You got a new message from ${MESSAGE.senderName}`);
+              const chatId = `s-u-${MESSAGE.sender}`;
+              const chat = document.getElementById(chatId);
 
-              // take the field into top ?
               let chatBubbles = document.getElementsByClassName("chat-bubble");
-              const doc = document.getElementById(MESSAGE.sender);
-              // console.log(chatBubbles);
-              if (chat && doc) {
+              const senderBubble = document.getElementById(MESSAGE.sender);
+
+              if (chat && senderBubble) {
+                // Make the sender's chat visible and bring it to the top
                 chat.style.visibility = "visible";
-                doc.style.order = "0";
-              }
-              if (chatBubbles && chatBubbles.length > 0) {
-                Array.from(chatBubbles).map((element, index) => {
-                  if (element !== doc) {
-                    element.style.order = "10";
+                senderBubble.style.order = "0";
+
+                // Push other chat bubbles to the background
+                Array.from(chatBubbles).forEach((bubble) => {
+                  const chatBubble = bubble as HTMLElement;
+                  if (bubble !== senderBubble) {
+                    chatBubble.style.order = "10";
                   }
+                });
+
+                // Scroll sender's chat bubble into view
+                senderBubble.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
                 });
               }
             }

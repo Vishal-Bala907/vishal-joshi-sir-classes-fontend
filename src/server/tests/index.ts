@@ -77,7 +77,9 @@ export const addTestMetaData = async (testMetaData: any) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/tests/api/create/meta`,
       testMetaData
     );
-    return response.data;
+    const res = await response.data;
+    console.log(res);
+    return res;
   } catch (error: any) {
     return error.response?.data || { message: "Something went wrong" };
   }
@@ -190,6 +192,7 @@ export const getSingleTest = async (testId: string) => {
 };
 
 export const submitTest = async (data: any) => {
+  console.log(data);
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/tests/test-completed`,

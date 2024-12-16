@@ -56,7 +56,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
     dispatch(setAttendTestDetails(test));
     setTest("ATTENDING");
 
-    // attendTestNow(test._id, USER._id);
+    attendTestNow(test._id, USER._id);
   };
 
   return (
