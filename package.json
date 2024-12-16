@@ -42,7 +42,7 @@
     "@types/react-slick": "^0.23.13",
     "@types/react-vertical-timeline-component": "^3.3.6",
     "accept-language": "^3.0.18",
-    "apexcharts": "^3.49.1",
+    "apexcharts": "^4.2.0",
     "axios": "^1.7.7",
     "body-scroll-lock": "^4.0.0-beta.0",
     "bootstrap": "^5.3.3",
