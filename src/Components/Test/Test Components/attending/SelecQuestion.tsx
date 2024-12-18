@@ -3,6 +3,7 @@ import { RootState } from "@/Redux/Store";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
 
 interface IntegerQuestionProps {
   selectQuestion: {
@@ -42,6 +43,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
+  console.log(selectQuestion);
   const handleCheckboxChange = (option: string) => {
     setSelectedOptions(
       (prev) =>
@@ -53,7 +55,8 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
 
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  function saveTheAnswer() {
+
+  function saveTheAnswer(color: string, action: string) {
     let ansStatus = false;
 
     const arr1 = selectQuestion.correctAnswer;
@@ -83,14 +86,24 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
     }
 
     const respone = {
+      color: color,
       questionIndex: index,
       questionId: selectQuestion._id,
       testId: testId,
       userId: user._id,
       rightAnswer: selectQuestion.correctAnswer,
-      userAnswer: selectedOptions,
+      userAnswer:
+        action === "SAVE" || action === "SAVE"
+          ? selectedOptions
+          : action === "CLEAR"
+          ? ""
+          : action === "REVIEW"
+          ? ""
+          : "",
       questionStatus: ansStatus ? "CORRECT" : "INCORRECT",
       marks: ansStatus ? positiveMarking : negativeMarking,
+      type: selectQuestion.type,
+      subject: selectQuestion.subject,
     };
 
     dispatch(addQuestion(respone));
@@ -102,19 +115,9 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
         position: "top-center",
       });
     }
-
-    // if (!ansStatus) {
-
-    // } else {
-
-    // }
   }
 
-  const userAnswers = useSelector((state: RootState) => state.answer.questions);
   const test = useSelector((state: RootState) => state.attend);
-  function submitTest() {
-    dispatch(submitTestCompleted());
-  }
 
   return (
     <div className="container mt-4 w-75 bg-primary-subtle rounded-4 p-3 my-4">
@@ -298,23 +301,39 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
       </div>
 
       <button
-        className="btn btn-primary mt-3"
+        className="btn btn-success mt-3 timesUp"
         onClick={() => {
-          saveTheAnswer();
+          saveTheAnswer("green", "SAVE");
         }}
       >
-        Submit Answer
+        Save & Next
       </button>
-      {test.Questions.length - 1 === index ? (
+      <div className="d-flex justify-content-center align-items-center gap-3 flex-wrap ">
         <button
+          className="btn  btn-outline-primary mt-3 timesUp"
           onClick={() => {
-            submitTest();
+            saveTheAnswer("blue", "SAVE-MARK");
           }}
-          className="btn btn-danger mx-3"
         >
-          Submit Test
+          Save and mark for review
         </button>
-      ) : null}
+        <button
+          className="btn btn-outline-dark mt-3 timesUp"
+          onClick={() => {
+            saveTheAnswer("white", "CLEAR");
+          }}
+        >
+          Clear response
+        </button>
+        <button
+          className="btn btn-outline-warning mt-3 timesUp"
+          onClick={() => {
+            saveTheAnswer("yellow", "REVIEW");
+          }}
+        >
+          Mark for review and next
+        </button>
+      </div>
     </div>
   );
 };

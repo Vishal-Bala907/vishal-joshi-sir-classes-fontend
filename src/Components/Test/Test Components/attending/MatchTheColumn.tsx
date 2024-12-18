@@ -3,6 +3,7 @@ import { RootState } from "@/Redux/Store";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
 
 interface MatchColumnFormData {
   matchTheColumnQuestions: {
@@ -37,6 +38,7 @@ interface MatchColumnFormData {
     description: string;
 
     descriptionImage: string;
+    _id: string;
   };
   index: number;
   testId: string;
@@ -62,6 +64,7 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
 }) => {
   const [matches, setMatches] = useState<{ left: string; right: string }[]>([]);
 
+  // console.log(matchTheColumnQuestions);
   const handleMatchChange = (leftOption: string, rightOption: string) => {
     setMatches((prev) => {
       const existingMatchIndex = prev.findIndex(
@@ -86,11 +89,12 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
 
-  const handleSubmit = () => {
+  const saveTheAnswer = (color: string, action: string) => {
+    // console.log(matchTheColumnQuestions);
     const rightAnswers = matchTheColumnQuestions.correctMatchings;
     const userAnswers = matches;
     // check the answers
-    let AnsStatus = true;
+    let ansStatus = true;
     rightAnswers.map((rAns, ind) => {
       // left
       const left = map.get(ind); // left option A
@@ -98,19 +102,29 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
 
       const result = userAnswers.find((obj) => obj.left === left);
       if (right !== result?.right) {
-        AnsStatus = false;
+        ansStatus = false;
       }
     });
 
     const respone = {
+      color: color,
       questionIndex: index,
       questionId: matchTheColumnQuestions._id,
       testId: testId,
       userId: user._id,
       rightAnswer: rightAnswers,
-      userAnswer: userAnswers,
-      questionStatus: AnsStatus ? "CORRECT" : "INCORRECT",
-      marks: AnsStatus ? positiveMarking : negativeMarking,
+      userAnswer:
+        action === "SAVE" || action === "SAVE"
+          ? userAnswers
+          : action === "CLEAR"
+          ? ""
+          : action === "REVIEW"
+          ? ""
+          : "",
+      questionStatus: ansStatus ? "CORRECT" : "INCORRECT",
+      marks: ansStatus ? positiveMarking : negativeMarking,
+      type: matchTheColumnQuestions.type,
+      subject: matchTheColumnQuestions.subject,
     };
 
     dispatch(addQuestion(respone));
@@ -124,11 +138,7 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
     }
   };
 
-  const userAnswers = useSelector((state: RootState) => state.answer.questions);
   const test = useSelector((state: RootState) => state.attend);
-  function submitTest() {
-    dispatch(submitTestCompleted());
-  }
 
   // }
 
@@ -287,20 +297,40 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
             </div>
           </div>
         ))}
-        <button className="btn btn-primary mt-3" onClick={handleSubmit}>
-          Submit
+        <button
+          className="btn btn-success mt-3 timesUp"
+          onClick={() => {
+            saveTheAnswer("green", "SAVE");
+          }}
+        >
+          Save & Next
         </button>
-
-        {test.Questions.length - 1 === index ? (
+        <div className="d-flex justify-content-center align-items-center gap-3 flex-wrap">
           <button
+            className="btn  btn-outline-primary mt-3 timesUp"
             onClick={() => {
-              submitTest();
+              saveTheAnswer("blue", "SAVE-MARK");
             }}
-            className="btn btn-danger mx-3"
           >
-            Submit Test
+            Save and mark for review
           </button>
-        ) : null}
+          <button
+            className="btn btn-outline-dark mt-3 timesUp"
+            onClick={() => {
+              saveTheAnswer("white", "CLEAR");
+            }}
+          >
+            Clear response
+          </button>
+          <button
+            className="btn btn-outline-warning mt-3 timesUp"
+            onClick={() => {
+              saveTheAnswer("yellow", "REVIEW");
+            }}
+          >
+            Mark for review and next
+          </button>
+        </div>
       </div>
     </div>
   );

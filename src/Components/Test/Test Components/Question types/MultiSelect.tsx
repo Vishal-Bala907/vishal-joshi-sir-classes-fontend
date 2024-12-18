@@ -1,4 +1,3 @@
-import { addQuestion } from "@/Redux/Reducers/LiveTestSlice";
 import {
   setBiologyCount,
   setChemistryCount,
@@ -15,7 +14,7 @@ interface TestQuestionFormData1 {
   topic: string;
   subtopic: string;
   level: "easy" | "medium" | "hard";
-  type: "single select" | "multi select";
+  type: "select";
   description: string;
   descriptionImage: string | null; // Base64 string or URL
   optionType: "text" | "textImage";
@@ -36,11 +35,11 @@ interface Props {
 
 const MultiSelectWithCheckboxes = ({ type }: Props) => {
   const [formData, setFormData] = useState<TestQuestionFormData1>({
-    subject: "",
+    subject: "physics",
     topic: "",
     subtopic: "",
     level: "easy",
-    type: "single select",
+    type: "select",
     description: "",
     descriptionImage: null,
     optionType: "text",
@@ -88,31 +87,32 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
+  // console.log(formData);
 
   const testId = useSelector((state: RootState) => state.testCounter.testId);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Handle form data without image files, assume images are base64 encoded
-    const requestData = {
-      subject: formData.subject,
-      topic: formData.topic,
-      subtopic: formData.subtopic,
-      level: formData.level,
-      type: type,
-      description: formData.description,
-      optionType: formData.optionType,
-      correctAnswer: formData.correctAnswer,
-      textOptionsA: formData.textOptionsA,
-      textOptionsB: formData.textOptionsB,
-      textOptionsC: formData.textOptionsC,
-      textOptionsD: formData.textOptionsD,
-      imageOptionsA: formData.imageOptionsA,
-      imageOptionsB: formData.imageOptionsB,
-      imageOptionsC: formData.imageOptionsC,
-      imageOptionsD: formData.imageOptionsD,
-      descriptionImage: formData.descriptionImage, // Send base64 or image URL
-    };
+    // const requestData = {
+    //   subject: formData.subject,
+    //   topic: formData.topic,
+    //   subtopic: formData.subtopic,
+    //   level: formData.level,
+    //   type: type,
+    //   description: formData.description,
+    //   optionType: formData.optionType,
+    //   correctAnswer: formData.correctAnswer,
+    //   textOptionsA: formData.textOptionsA,
+    //   textOptionsB: formData.textOptionsB,
+    //   textOptionsC: formData.textOptionsC,
+    //   textOptionsD: formData.textOptionsD,
+    //   imageOptionsA: formData.imageOptionsA,
+    //   imageOptionsB: formData.imageOptionsB,
+    //   imageOptionsC: formData.imageOptionsC,
+    //   imageOptionsD: formData.imageOptionsD,
+    //   descriptionImage: formData.descriptionImage, // Send base64 or image URL
+    // };
 
     // console.log(requestData);
     addSelectTypeQuestion(formData, testId)
@@ -127,11 +127,11 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
           dispatch(setBiologyCount());
         }
         setFormData({
-          subject: "",
+          subject: "physics",
           topic: "",
           subtopic: "",
           level: "easy",
-          type: "single select",
+          type: "select",
           description: "",
           descriptionImage: null,
           optionType: "text",
@@ -167,13 +167,14 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
           className="form-control"
           value={formData.subject}
           onChange={handleChange}
+          defaultValue={"physics"}
           required
           // style={getFieldStyle("subject")}
         >
-          <option value="phycs">Physics</option>
-          <option value="chem">Chemistry</option>
+          <option value="physics">Physics</option>
+          <option value="chemistry">Chemistry</option>
           <option value="maths">Mathematics</option>
-          <option value="bio">Biology</option>
+          <option value="biology">Biology</option>
         </select>
       </div>
 

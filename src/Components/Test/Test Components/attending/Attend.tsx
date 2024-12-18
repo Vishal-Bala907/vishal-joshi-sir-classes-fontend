@@ -1,6 +1,6 @@
 import { RootState } from "@/Redux/Store";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 // import img from "/myImages/logo3.png";
 import img from "./logo3.png";
 import CountdownTimer from "./CountdownTimer";
@@ -9,10 +9,17 @@ import IntegerQuestion from "./IntegerQuestion";
 import { getQuestion } from "@/server/tests";
 import SelecQuestion from "./SelecQuestion";
 import MatchTheColumn from "./MatchTheColumn";
+import { addQuestion, submitTestCompleted } from "@/Redux/Reducers/UserAnswers";
+import Info from "./Info";
+import SubjectButtons from "./SubjectButtons";
 
-const Attend = () => {
-  const subjects = ["Maths", "Physics", "Chemistry", "Biology"];
-  const options = ["Easy", "Medium", "Hard"];
+interface LiveTestFormProps {
+  setTest: React.Dispatch<React.SetStateAction<any>>;
+}
+
+const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
+  // const subjects = ["Maths", "Physics", "Chemistry", "Biology"];
+  // const options = ["Easy", "Medium", "Hard"];
 
   // State to hold the selected difficulty for each subject
   const [selections, setSelections] = useState<{ [key: string]: string }>({
@@ -23,12 +30,12 @@ const Attend = () => {
   });
 
   // Handler for updating the selection
-  const handleSelectionChange = (subject: string, value: string) => {
-    setSelections((prevSelections) => ({
-      ...prevSelections,
-      [subject]: value,
-    }));
-  };
+  // const handleSelectionChange = (subject: string, value: string) => {
+  //   setSelections((prevSelections) => ({
+  //     ...prevSelections,
+  //     [subject]: value,
+  //   }));
+  // };
 
   // question states
   //* Integer question
@@ -97,32 +104,95 @@ const Attend = () => {
 
     // New field for description image
     descriptionImage: "",
+    _id: "",
   });
 
   const [testCounter, settestCounter] = useState(0);
   const test = useSelector((state: RootState) => state.attend);
   const user = useSelector((state: RootState) => state.user);
+  // const userAnswers = useSelector((state: RootState) => state.answer.questions);
+
+  // Memoized Time Difference
+  const timeDifference = useMemo(() => {
+    const currentTime = new Date();
+    const currentMinutes =
+      currentTime.getHours() * 60 + currentTime.getMinutes();
+    const [startHour, startMinute] = test.time.split(":").map(Number);
+    const testStartMinutes = startHour * 60 + startMinute;
+    const testEndMinutes = testStartMinutes + parseInt(test.timeDuration, 10);
+    return testEndMinutes - currentMinutes;
+  }, [test.time, test.timeDuration]);
+
+  const dispatch = useDispatch();
   // console.log(test);
   // console.log(testCounter);
-  function updateIndex(action: string) {
-    if (action === "INCREMENT") {
-      if (testCounter < test.Questions.length - 1) {
-        settestCounter((prev) => prev + 1);
-      } else {
-        toast.error("Already at the end", {
-          position: "top-center",
-        });
+
+  useEffect(() => {
+    // setting all answer to incorrect
+
+    test.Questions.forEach((SingleTest, index) => {
+      console.log(SingleTest);
+      const status = "INIT";
+      const respone = {
+        color: "white",
+        questionIndex: index,
+        questionId: SingleTest.questionId,
+        testId: test._id,
+        userId: user._id,
+        rightAnswer: SingleTest.correctAnswer,
+        userAnswer: "null",
+        questionStatus: "INIT",
+        type: SingleTest.type,
+        subject: SingleTest.subject,
+        marks: status === "INIT" ? test.positiveMarking : test.negativeMarking,
+      };
+
+      dispatch(addQuestion(respone));
+    });
+  }, []);
+
+  const updateIndex = useCallback(
+    (action: string) => {
+      if (action === "INCREMENT") {
+        if (testCounter < test.Questions.length - 1) {
+          settestCounter((prev) => prev + 1);
+        } else {
+          toast.error("You have reached the last question.", {
+            position: "top-center",
+          });
+        }
+      } else if (action === "DECREMENT") {
+        if (testCounter > 0) {
+          settestCounter((prev) => prev - 1);
+        } else {
+          toast.error("You are already at the first question.", {
+            position: "top-center",
+          });
+        }
       }
-    } else {
-      if (testCounter > 0) {
-        settestCounter((prev) => prev - 1);
-      } else {
-        toast.error("No previous questions are available", {
-          position: "top-center",
-        });
-      }
-    }
-  }
+    },
+    [testCounter, test.Questions.length, settestCounter]
+  );
+
+  // function updateIndex (action: string) {
+  //   if (action === "INCREMENT") {
+  //     if (testCounter < test.Questions.length - 1) {
+  //       settestCounter((prev) => prev + 1);
+  //     } else {
+  //       toast.error("Already at the end", {
+  //         position: "top-center",
+  //       });
+  //     }
+  //   } else {
+  //     if (testCounter > 0) {
+  //       settestCounter((prev) => prev - 1);
+  //     } else {
+  //       toast.error("No previous questions are available", {
+  //         position: "top-center",
+  //       });
+  //     }
+  //   }
+  // }
 
   const [loading, setLoadding] = useState(true);
 
@@ -131,8 +201,8 @@ const Attend = () => {
     const questionId = test.Questions[testCounter].questionId;
     const type = test.Questions[testCounter].questionType;
     // fetch the question with question id and question type
-    console.log(questionId);
-    console.log(type);
+    // console.log(questionId);
+    // console.log(type);
     getQuestion(questionId, type)
       .then((data) => {
         // console.log(data);
@@ -155,36 +225,22 @@ const Attend = () => {
     return <div>Loadding</div>;
   }
 
-  // const userAnswers = useSelector((state: RootState) => state.answer.questions);
   function submitTest() {
-    //
-    // console.log(userAnswers);
+    dispatch(submitTestCompleted());
   }
 
   return (
     <div className="w-100 bg-primary-subtle">
-      <header className="w-100">
-        <section className="d-flex justify-content-between align-items-center flex-row w-100 p-2">
-          <div className="left d-flex justify-content-center align-items-center flex-row">
-            <img
-              src={`${process.env.NEXT_PUBLIC_BASE_URL}/images/logo3.png`}
-              alt="image"
-            />
-            <h3>{test.testName}</h3>
-          </div>
-          <div className="right  align-items-center flex-row">
-            <div>
-              Candidate name <b>{user.name}</b>
-            </div>
-            <CountdownTimer minutes={Number(test.timeDuration)} />
-          </div>
-        </section>
-      </header>
       <div className="p-3 bg-warning">
         <b> {test.category}</b>
       </div>
       <main className="bg-light text-dark d-flex justify-content-between align-items-center flex-row  w-100 p-2 gap-3">
-        <div className="w-75">
+        <div
+          className=""
+          style={{
+            width: "60%",
+          }}
+        >
           {test.Questions[testCounter].questionType === "integer" ? (
             // index , questionId , testId, userId, rightAnswer
             <IntegerQuestion
@@ -217,7 +273,7 @@ const Attend = () => {
 
           <div>
             <button
-              className="btn btn-info mx-3"
+              className="btn btn-info mx-3 timesUp"
               onClick={() => {
                 updateIndex("DECREMENT");
               }}
@@ -225,52 +281,35 @@ const Attend = () => {
               Previous
             </button>
             <button
-              className="btn btn-info mx-3"
+              className="btn btn-info mx-3 timesUp"
               onClick={() => {
                 updateIndex("INCREMENT");
               }}
             >
               Next
             </button>
-            {/* 
+
             <button
               onClick={() => {
                 submitTest();
+                setTest("TEST-LIST");
               }}
               className="btn btn-danger mx-3"
             >
               Submit Test
-            </button> 
-            */}
+            </button>
           </div>
         </div>
-        {/* <aside
+        <aside
           style={{
             borderLeft: "2px solid black",
+            width: "40%",
           }}
-          className="w-25 ps-2"
+          className="ps-2 h-100"
         >
-          <h6>Select Difficulty Levels</h6>
-          {subjects.map((subject) => (
-            <div className="col-md-6" key={subject}>
-              <label htmlFor={subject} className="form-label">
-                {subject}:
-              </label>
-              <select
-                id={subject}
-                className="form-select"
-                value={selections[subject]}
-                onChange={(e) => handleSelectionChange(subject, e.target.value)}
-              >
-                {options.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-          ))}
-        </aside> */}
+          <Info />
+          <SubjectButtons settestCounter={settestCounter} />
+        </aside>
       </main>
     </div>
   );

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LiveTestFormData {
+  _id: string;
   testName: string;
   description: string;
   timeDuration: string;
@@ -11,10 +12,13 @@ interface LiveTestFormData {
   positiveMarking: string;
   negativeMarking: string;
   testId: string;
+  type: string;
+  subject: string;
   Questions: any[]; // Array of any type to store questions
 }
 
 const initialState: LiveTestFormData = {
+  _id: "",
   testName: "",
   description: "",
   timeDuration: "",
@@ -25,6 +29,8 @@ const initialState: LiveTestFormData = {
   instructions: "",
   positiveMarking: "",
   negativeMarking: "",
+  type: "",
+  subject: "",
   Questions: [], // Initialize as an empty array
 };
 

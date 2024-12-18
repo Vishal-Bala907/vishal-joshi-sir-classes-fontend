@@ -1,8 +1,5 @@
 "use client";
 
-import Breadcrumbs from "@/CommonComponent/Breadcrumbs";
-import CreateTest from "@/Components/Test/CreateTest";
-import TestList from "@/Components/Test/TestList";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { Button } from "reactstrap";
@@ -11,6 +8,8 @@ import TestQuestionForm from "@/Components/Test/Test Components/TestQuestionForm
 import { RootState } from "@/Redux/Store";
 import TestLists from "@/Components/Test/Test Components/TestLists";
 import Attend from "@/Components/Test/Test Components/attending/Attend";
+import Result from "@/Components/Test/Test Components/result analysis/Result";
+import Wrapper from "@/Components/Test/Test Components/attending/Wrapper";
 
 const Sessions = () => {
   const [reload, setReload] = useState(0);
@@ -38,10 +37,10 @@ const Sessions = () => {
       ) : test === "CREATE-TEST" && createdTest !== null ? (
         <TestQuestionForm setTest={setTest} setcreatedTest={setcreatedTest} />
       ) : test === "ATTENDING" ? (
-        <Attend />
-      ) : (
-        <div>not</div>
-      )}
+        <Wrapper setTest={setTest} />
+      ) : test === "RESULT" ? (
+        <Result setTest={setTest} />
+      ) : null}
     </div>
   );
 };

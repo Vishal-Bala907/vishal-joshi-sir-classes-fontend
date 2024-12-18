@@ -14,6 +14,9 @@ const initialState = {
       rightAnswer: "",
       questionStatus: "", // 'correct' or 'incorrect'
       marks: 0,
+      subject: "",
+      type: "",
+      color: "red",
     },
   ],
 };
@@ -55,6 +58,9 @@ const questionSlice = createSlice({
           rightAnswer: "",
           questionStatus: "",
           marks: 0,
+          subject: "",
+          type: "",
+          color: "",
         },
       ];
     },

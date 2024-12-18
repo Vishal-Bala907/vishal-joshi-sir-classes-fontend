@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
@@ -23,17 +23,17 @@ interface IntegerQuestionProps {
   settestCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
-interface QuestionAnswer {
-  questionIndex: number; // Index of the question
-  questionId: string; // Unique identifier for the question
-  testId: string; // Identifier for the test
-  userId: string; // Identifier for the user
-  userAnswer: string; // User's answer to the question
-  rightAnswer: string; // Correct answer to the question
+// interface QuestionAnswer {
+//   questionIndex: number; // Index of the question
+//   questionId: string; // Unique identifier for the question
+//   testId: string; // Identifier for the test
+//   userId: string; // Identifier for the user
+//   userAnswer: string; // User's answer to the question
+//   rightAnswer: string; // Correct answer to the question
 
-  questionStatus: string; // 'correct' or 'incorrect'
-  marks: number; // Marks obtained for the question
-}
+//   questionStatus: string; // 'correct' or 'incorrect'
+//   marks: number; // Marks obtained for the question
+// }
 
 // index  , testId
 
@@ -45,27 +45,39 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   positiveMarking,
   settestCounter,
 }) => {
-  // console.log(integerQuestion);
+  console.log(integerQuestion);
   const dispatch = useDispatch();
   const [answer, setAnswer] = useState<number>();
   const user = useSelector((state: RootState) => state.user);
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const test = useSelector((state: RootState) => state.attend);
+
+  const saveTheAnswer = (color: string, action: string) => {
     const userANS = answer?.toString;
     const status =
       Number(integerQuestion.correctAnswer) === Number(answer)
         ? "CORRECT"
         : "INCORRECT";
     const respone = {
+      color: color,
       questionIndex: index,
       questionId: integerQuestion._id,
       testId: testId,
       userId: user._id,
       rightAnswer: integerQuestion.correctAnswer,
-      userAnswer: answer,
+      userAnswer:
+        action === "SAVE" || action === "SAVE"
+          ? answer
+          : action === "CLEAR"
+          ? ""
+          : action === "REVIEW"
+          ? ""
+          : "",
       questionStatus: status,
+      type: integerQuestion.type,
+      subject: integerQuestion.subject,
       marks: status === "CORRECT" ? positiveMarking : negativeMarking,
     };
+
     dispatch(addQuestion(respone));
     if (test.Questions.length - 1 > index) {
       settestCounter((prev) => prev + 1);
@@ -76,14 +88,9 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
     }
   };
 
-  const userAnswers = useSelector((state: RootState) => state.answer.questions);
-  const test = useSelector((state: RootState) => state.attend);
-  function submitTest() {
-    dispatch(submitTestCompleted());
-  }
   return (
     <div className="container mt-5 bg-primary-subtle rounded-4 p-3 my-4">
-      <form onSubmit={handleSubmit}>
+      <div>
         <section className="d-flex justify-content-center align-items-center flex-row gap-4 flex-wrap">
           <div className="mb-3 text-center">
             <label className="form-label">Subject</label>
@@ -129,18 +136,41 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
             // onChange={handleInputChange}
           />
         </div>
-        <button className="btn btn-success">Submit Answer</button>
-        {test.Questions.length - 1 === index ? (
+        <button
+          className="btn btn-success mt-3 timesUp"
+          onClick={() => {
+            saveTheAnswer("green", "SAVE");
+          }}
+        >
+          Save & Next
+        </button>
+        <div className="d-flex justify-content-center align-items-center gap-3 flex-wrap">
           <button
+            className="btn  btn-outline-primary mt-3 timesUp"
             onClick={() => {
-              submitTest();
+              saveTheAnswer("blue", "SAVE-MARK");
             }}
-            className="btn btn-danger mx-3"
           >
-            Submit Test
+            Save and mark for review
           </button>
-        ) : null}
-      </form>
+          <button
+            className="btn btn-outline-dark mt-3 timesUp"
+            onClick={() => {
+              saveTheAnswer("white", "CLEAR");
+            }}
+          >
+            Clear response
+          </button>
+          <button
+            className="btn btn-outline-warning mt-3 timesUp"
+            onClick={() => {
+              saveTheAnswer("yellow", "REVIEW");
+            }}
+          >
+            Mark for review and next
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -2,10 +2,7 @@ import { addQuestion } from "@/Redux/Reducers/LiveTestSlice";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  addMatchTheColumnQuestion,
-  addSelectTypeQuestion,
-} from "@/server/tests";
+import { addMatchTheColumnQuestion } from "@/server/tests";
 import { RootState } from "@/Redux/Store";
 import {
   setBiologyCount,
@@ -137,7 +134,7 @@ const MatchColumnsForm = ({ type }: Props) => {
 
   const testId = useSelector((state: RootState) => state.testCounter.testId);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     dispatch(addQuestion(formData));
 
@@ -158,33 +155,33 @@ const MatchColumnsForm = ({ type }: Props) => {
       });
 
     // Reset form after submit
-    // setFormData({
-    //   subject: "",
-    //   topic: "",
-    //   subtopic: "",
-    //   level: "easy",
-    //   type: "",
-    //   leftOptionsA: "",
-    //   leftOptionsB: "",
-    //   leftOptionsC: "",
-    //   leftOptionsD: "",
-    //   rightOptionsA: "",
-    //   rightOptionsB: "",
-    //   rightOptionsC: "",
-    //   rightOptionsD: "",
-    //   leftImagesA: null,
-    //   leftImagesB: null,
-    //   leftImagesC: null,
-    //   leftImagesD: null,
-    //   rightImagesA: null,
-    //   rightImagesB: null,
-    //   rightImagesC: null,
-    //   rightImagesD: null,
-    //   correctMatchings: [],
-    //   optionType: "text",
-    //   description: "",
-    //   descriptionImage: null, // Reset description image
-    // });
+    setFormData({
+      subject: "",
+      topic: "",
+      subtopic: "",
+      level: "easy",
+      type: "",
+      leftOptionsA: "",
+      leftOptionsB: "",
+      leftOptionsC: "",
+      leftOptionsD: "",
+      rightOptionsA: "",
+      rightOptionsB: "",
+      rightOptionsC: "",
+      rightOptionsD: "",
+      leftImagesA: null,
+      leftImagesB: null,
+      leftImagesC: null,
+      leftImagesD: null,
+      rightImagesA: null,
+      rightImagesB: null,
+      rightImagesC: null,
+      rightImagesD: null,
+      correctMatchings: [],
+      optionType: "text",
+      description: "",
+      descriptionImage: null, // Reset description image
+    });
   };
 
   return (

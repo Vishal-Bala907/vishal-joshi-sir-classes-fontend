@@ -10,6 +10,7 @@ import liveTestReducer from "./Reducers/LiveTestSlice";
 import testDetailsSlice from "./Reducers/TestCounterSlice";
 import attendDetailsSlice from "./Reducers/AttendSlice";
 import UserAnswers from "./Reducers/UserAnswers";
+import chartData from "./Reducers/ChartData";
 
 const Store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const Store = configureStore({
     testCounter: testDetailsSlice,
     attend: attendDetailsSlice,
     answer: UserAnswers,
+    chart: chartData,
   },
 });
 

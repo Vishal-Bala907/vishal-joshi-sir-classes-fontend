@@ -105,8 +105,7 @@ const TestQuestionForm = ({ type }: Props) => {
           {/* Subject */}
           <div className="mb-3 w-75">
             <label htmlFor="subject" className="form-label">
-              {" "}
-              Subject{" "}
+              Subject
             </label>
             <select
               id="subject"
