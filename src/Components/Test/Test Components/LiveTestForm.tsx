@@ -21,8 +21,8 @@ interface FormDataType {
   date: string;
   category: string;
   instructions: string;
-  positiveMarking: string;
-  negativeMarking: string;
+  positiveMarking: number;
+  negativeMarking: number;
 }
 
 const LiveTestForm: React.FC<LiveTestFormProps> = ({
@@ -37,8 +37,8 @@ const LiveTestForm: React.FC<LiveTestFormProps> = ({
     date: "",
     category: "",
     instructions: "",
-    positiveMarking: "",
-    negativeMarking: "",
+    positiveMarking: 0,
+    negativeMarking: 0,
   });
 
   const handleChange = (
