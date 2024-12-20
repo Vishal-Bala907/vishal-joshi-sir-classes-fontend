@@ -1,8 +1,4 @@
 "use client";
-
-import Breadcrumbs from "@/CommonComponent/Breadcrumbs";
-import UpcomingFeature from "@/CommonComponent/UpcomingFeature";
-import PrivateChatContainer from "@/Components/Chat/AdminChat/PrivateChatContainer";
 // import Chat from "../chat-comps/ChatArea";
 import ChatWithStudents from "../chat-comps/ChatWithStudents";
 import Students from "../chat-comps/Students";
