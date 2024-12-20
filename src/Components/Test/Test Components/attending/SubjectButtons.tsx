@@ -70,7 +70,7 @@ const SubjectButtons: React.FC<Props> = ({ settestCounter }) => {
                     handleSubjectButtonClicked(question.questionId);
                   }}
                 >
-                  {counter}
+                  {/* {counter} */}
                 </button>
               );
             })}

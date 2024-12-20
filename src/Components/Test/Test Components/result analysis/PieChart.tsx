@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -10,27 +10,63 @@ interface PieChartProps {
 }
 
 const PieChart: React.FC<PieChartProps> = ({ subjectsData }) => {
-  // Extract subject names
-  const subjects = Object.keys(subjectsData);
+  const [series, setSeries] = useState<number[]>([]);
+  const [flatSeries, setFlatSeries] = useState<number[]>([]);
+  const [totalPositiveMarks, setTotalPositiveMarks] = useState<number>(0);
+  const [totalNegativeMarks, setTotalNegativeMarks] = useState<number>(0);
 
-  // Prepare the series for the donut chart with positive marks count for each subject
-  const series = subjects.map(
-    (subject) => subjectsData[subject].positiveMarksCount
-  );
+  // Function to calculate series and total marks
+  const calculateMarks = () => {
+    const subjects = Object.keys(subjectsData);
 
-  // Sum up the total number of negative marks across all subjects
-  const totalNegativeMarks = subjects.reduce((acc, subject) => {
-    const positiveMarks = subjectsData[subject].positiveMarksCount;
-    const negativeMarks = subjectsData[subject].totalQuestions - positiveMarks;
-    return acc + negativeMarks;
-  }, 0);
+    // Prepare the series for the donut chart with positive marks count for each subject
+    const seriesData = subjects.map(
+      (subject) => subjectsData[subject].positiveMarksCount
+    );
+
+    // Sum up the total number of negative marks across all subjects
+    const totalNegativeMarksData = subjects.reduce((acc, subject) => {
+      const positiveMarks = subjectsData[subject].positiveMarksCount;
+      const negativeMarks =
+        subjectsData[subject].totalQuestions - positiveMarks;
+      return acc + negativeMarks;
+    }, 0);
+
+    // Prepare flatSeries (positive marks and negative marks)
+    const flatSeriesData = [...seriesData, totalNegativeMarksData];
+
+    // Sum up the total positive marks across all subjects
+    const totalPositiveMarksData = seriesData.reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+
+    // Update state with calculated values
+    setSeries(seriesData);
+    setFlatSeries(flatSeriesData);
+    setTotalPositiveMarks(totalPositiveMarksData);
+    setTotalNegativeMarks(totalNegativeMarksData);
+  };
+
+  // Calculate marks when component mounts or when subjectsData changes
+  useEffect(() => {
+    calculateMarks();
+
+    // Cleanup function to reset data when the component unmounts
+    return () => {
+      setSeries([]);
+      setFlatSeries([]);
+      setTotalPositiveMarks(0);
+      setTotalNegativeMarks(0);
+    };
+  }, [subjectsData]); // Recalculate when subjectsData changes
 
   // Prepare options for the donut chart
   const options = {
     chart: {
       type: "donut" as "donut", // Donut chart type
     },
-    labels: [...subjects, "Total Negative Marks"], // Include "Total Negative Marks" label
+    labels: ["Total Positive Marks", "Total Negative Marks"], // Include labels for positive and negative marks
     title: {
       text: "Subject Analysis (Positive vs Negative Marks)",
       align: "center" as "center",
@@ -50,12 +86,6 @@ const PieChart: React.FC<PieChartProps> = ({ subjectsData }) => {
       },
     },
   };
-
-  // Add the total negative marks as a single data point in the series
-  const flatSeries = [...series, totalNegativeMarks];
-
-  // Sum up the total positive marks across all subjects
-  const totalPositiveMarks = series.reduce((acc, curr) => acc + curr, 0);
 
   return (
     <div>

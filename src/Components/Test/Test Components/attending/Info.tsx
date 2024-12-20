@@ -1,10 +1,67 @@
 import React from "react";
 import { Badge } from "react-bootstrap";
+import { MdCheckBoxOutlineBlank } from "react-icons/md";
 
 const Info = () => {
   return (
     <div className="d-flex align-items-start flex-wrap gap-3">
-      <Badge className="" bg="light" text="dark">
+      <div className="d-flex align-items-center justify-content-center flex-wrap gap-3">
+        <MdCheckBoxOutlineBlank
+          style={{
+            backgroundColor: "white",
+            borderRadius: "4px",
+            height: "20px",
+            width: "20px",
+          }}
+        />
+        <p className="p-0 m-0">Not Answerd</p>
+      </div>
+      <div className="d-flex align-items-center justify-content-center flex-wrap gap-3">
+        <MdCheckBoxOutlineBlank
+          style={{
+            backgroundColor: "#0def0d",
+            borderRadius: "4px",
+            height: "20px",
+            width: "20px",
+          }}
+        />
+        <p className="p-0 m-0">Save & Next</p>
+      </div>
+      <div className="d-flex align-items-center justify-content-center flex-wrap gap-3">
+        <MdCheckBoxOutlineBlank
+          style={{
+            backgroundColor: "#0d6efd",
+            borderRadius: "4px",
+            height: "20px",
+            width: "20px",
+          }}
+        />
+        <p className="p-0 m-0">Save & Mark for review</p>
+      </div>
+      <div className="d-flex align-items-center justify-content-center flex-wrap gap-3">
+        <MdCheckBoxOutlineBlank
+          style={{
+            backgroundColor: "black",
+            borderRadius: "4px",
+            height: "20px",
+            width: "20px",
+          }}
+        />
+        <p className="p-0 m-0">Clear Response</p>
+      </div>
+      <div className="d-flex align-items-center justify-content-center flex-wrap gap-3">
+        <MdCheckBoxOutlineBlank
+          style={{
+            backgroundColor: "#ffc107",
+            borderRadius: "4px",
+            height: "20px",
+            width: "20px",
+          }}
+        />
+        <p className="p-0 m-0">MArk for review and next</p>
+      </div>
+
+      {/* <Badge className="" bg="light" text="dark">
         Not Visited
       </Badge>
       <Badge bg="danger">Not Answered</Badge>
@@ -12,7 +69,7 @@ const Info = () => {
       <Badge bg="secondary">Marked for Review</Badge>
       <Badge bg="primary">
         Answered & Marked for Review <br /> (will be considered for evaluation)
-      </Badge>
+      </Badge> */}
     </div>
   );
 };

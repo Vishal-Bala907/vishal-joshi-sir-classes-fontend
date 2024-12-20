@@ -307,7 +307,10 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
         </button>
         <div className="d-flex justify-content-center align-items-center gap-3 flex-wrap">
           <button
-            className="btn  btn-outline-primary mt-3 timesUp"
+            style={{
+              fontSize: "10px",
+            }}
+            className="btn btn-primary mt-3 timesUp"
             onClick={() => {
               saveTheAnswer("blue", "SAVE-MARK");
             }}
@@ -315,7 +318,10 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
             Save and mark for review
           </button>
           <button
-            className="btn btn-outline-dark mt-3 timesUp"
+            style={{
+              fontSize: "10px",
+            }}
+            className="btn btn-dark mt-3 timesUp"
             onClick={() => {
               saveTheAnswer("white", "CLEAR");
             }}
@@ -323,7 +329,10 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
             Clear response
           </button>
           <button
-            className="btn btn-outline-warning mt-3 timesUp"
+            style={{
+              fontSize: "10px",
+            }}
+            className="btn btn-warning mt-3 timesUp"
             onClick={() => {
               saveTheAnswer("yellow", "REVIEW");
             }}

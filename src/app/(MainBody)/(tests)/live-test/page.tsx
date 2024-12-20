@@ -7,7 +7,6 @@ import LiveTestForm from "@/Components/Test/Test Components/LiveTestForm";
 import TestQuestionForm from "@/Components/Test/Test Components/TestQuestionForm";
 import { RootState } from "@/Redux/Store";
 import TestLists from "@/Components/Test/Test Components/TestLists";
-import Attend from "@/Components/Test/Test Components/attending/Attend";
 import Result from "@/Components/Test/Test Components/result analysis/Result";
 import Wrapper from "@/Components/Test/Test Components/attending/Wrapper";
 

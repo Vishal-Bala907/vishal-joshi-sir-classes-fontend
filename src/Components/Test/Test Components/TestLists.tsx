@@ -4,6 +4,7 @@ import { RootState } from "@/Redux/Store";
 import {
   attendTestNow,
   getAllAttendedTests,
+  getTestById,
   getTestDataFromBackend,
   getTests,
 } from "@/server/tests";
@@ -37,6 +38,16 @@ interface AttendedTest {
   __v?: number;
 }
 
+interface ATTENDED {
+  category: string;
+  description: string;
+  date: string;
+  testName: string;
+  time: string;
+  timeDuration: string;
+  _id: string;
+}
+
 interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
 }
@@ -45,9 +56,14 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
   const USER = useSelector((state: RootState) => state.user);
   const [tests, setTests] = useState<LiveTestFormData[]>([]);
   const [attendedTest, setAttendedTest] = useState<AttendedTest[]>([]);
+  const [selectedType, setSelectedType] = useState<string>("AVAILABLE");
+  const [attendedTestDetails, setattendedTestDetails] = useState<ATTENDED[]>(
+    []
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // Fetch available tests based on user role
     getTests(USER.role)
       .then((data) => {
         setTests(data || []);
@@ -55,86 +71,67 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
       .catch((err) => console.error("Error fetching tests:", err));
 
     if (USER.role === "student") {
+      // Fetch attended tests for students
       getAllAttendedTests(USER._id)
-        .then((data) => setAttendedTest(data?.data || []))
+        .then((data) => {
+          setAttendedTest(data?.data || []);
+          console.log(data);
+          if (data?.data && data?.data.length > 0) {
+            data?.data.map((t, ind) => {
+              getTestById(t.liveTestId)
+                .then((data) => {
+                  console.log(data.data);
+                  const obj = {
+                    category: data.data.category,
+                    description: data.data.description,
+                    date: data.data.date,
+                    testName: data.data.testName,
+                    time: data.data.time,
+                    timeDuration: data.data.timeDuration,
+                    _id: data.data._id,
+                  };
+                  setattendedTestDetails((prev) => [...prev, obj]);
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+            });
+          }
+        })
         .catch((err) => console.error("Error fetching attended tests:", err));
     }
-  }, [USER.role, USER._id]);
+
+    return () => {
+      setAttendTestDetails([]);
+    };
+  }, [USER._id, USER.role]);
 
   const attendTest = (test: LiveTestFormData) => {
-    // Assuming `test.time` and `test.timeDuration` are provided
-    /*
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Today's 12:00 AM timestamp
-    const TODAYTIMESTAMP = today.getTime();
-
-    // Get the current time (in minutes since midnight)
-    const currentTime = new Date();
-    const currentMinutes =
-      currentTime.getHours() * 60 + currentTime.getMinutes();
-
-    // Test start time in minutes since midnight
-    const testStartTime = test.time.split(":");
-    const testStartMinutes =
-      parseInt(testStartTime[0], 10) * 60 + parseInt(testStartTime[1], 10);
-
-    // Calculate test end time in minutes since midnight
-    const testEndMinutes = testStartMinutes + parseInt(test.timeDuration, 10);
-
-    // Calculate the time difference between current time and test end time
-    const timeDifference = testEndMinutes - currentMinutes;
-
-    // Convert the time difference to hours and minutes
-    const diffHours = Math.floor(timeDifference / 60);
-    const diffMinutes = timeDifference % 60;
-
-    // Log debugging information
-    console.log(
-      `Test Start: ${Math.floor(testStartMinutes / 60)}:${
-        testStartMinutes % 60
-      }`
-    );
-    console.log(
-      `Current Time: ${currentTime.getHours()}:${currentTime.getMinutes()}`
-    );
-    console.log(
-      `Test End: ${Math.floor(testEndMinutes / 60)}:${testEndMinutes % 60}`
-    );
-    console.log(
-      `Time Difference: ${diffHours} hours and ${diffMinutes} minutes`
-    );
-
-    // Check if the test is for today
-    if (TODAYTIMESTAMP !== +test.timestamp) {
-      toast.error("Can't Attend right now", {
-        position: "top-left",
-      });
-      return;
-    }
-
-    // Check if the current time is before the test start time
-    if (currentMinutes < testStartMinutes) {
-      toast.error("Can't Attend right now", {
-        position: "top-left",
-      });
-      return;
-    }
-
-    // Check if the current time is after the test end time
-    if (currentMinutes > testEndMinutes) {
-      toast.error("Can't Attend right now", {
-        position: "top-left",
-      });
-      return;
-    }
-      */
-
     dispatch(setAttendTestDetails(test));
     setTest("ATTENDING");
     attendTestNow(test._id, USER._id);
   };
-  function getTestData(_id: string): void {
+
+  const getTestData = (_id: string) => {
     const userId = USER._id;
+
+    // getTestById(_id)
+    //   .then((data) => {
+    //     const obj = {
+    //       category: data.data.category,
+    //       description: data.data.description,
+    //       date: data.data.date,
+    //       testName: data.data.testName,
+    //       time: data.data.time,
+    //       timeDuration: data.data.timeDuration,
+    //     };
+
+    //     setAttendTestDetails(obj);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err);
+    //   });
+
     getTestDataFromBackend(_id, userId)
       .then((data) => {
         dispatch(setChartData(data?.data));
@@ -143,126 +140,178 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
       .catch((err) => {
         console.error(err);
       });
-  }
-  // console.log(tests);
+  };
+  console.log(attendedTestDetails);
   return (
     <div className="w-100">
-      <div className="accordion w-100" id="accordionExample">
-        {tests.length === 0 ? (
-          <div>No Tests available</div>
-        ) : (
-          tests.map((test, index) => {
-            const collapseId = `collapse${index}`;
-            const headerId = `heading${index}`;
-            const attendedDetails = attendedTest.find(
-              (attended) => attended.liveTestId === test._id
-            );
+      {/* Dropdown for selecting Available/Attended Tests */}
+      <div className="btn-group">
+        <button
+          className="btn btn-secondary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {selectedType === "AVAILABLE" ? "Available Tests" : "Attended Tests"}
+        </button>
+        <ul className="dropdown-menu">
+          <li
+            onClick={() => {
+              setSelectedType("AVAILABLE");
+            }}
+          >
+            <a className="dropdown-item" href="#">
+              Available
+            </a>
+          </li>
+          <li
+            onClick={() => {
+              setSelectedType("ATTENDED");
+            }}
+          >
+            <a className="dropdown-item" href="#">
+              Attended
+            </a>
+          </li>
+        </ul>
+      </div>
 
-            return (
-              <div
-                key={test._id || index}
-                className="accordion-item my-3 bg-info-subtle"
-              >
-                <h2 className="accordion-header" id={headerId}>
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={`#${collapseId}`}
-                    aria-expanded="false"
-                    aria-controls={collapseId}
-                  >
-                    <b>Test:</b> {test.testName} &nbsp; | &nbsp;
-                    <b>Time:</b> {test.time} &nbsp; | &nbsp;
-                    <b>Duration:</b> {test.timeDuration} mins &nbsp; | &nbsp;
-                    <b>Date:</b> {test.date ? test.date.split("T")[0] : "N/A"}
-                  </button>
-                </h2>
+      {/* Render Available Tests or Attended Tests based on selection */}
+      {selectedType === "AVAILABLE" ? (
+        <div className="accordion w-100" id="accordionExample">
+          {tests.length === 0 ? (
+            <div>No Tests available</div>
+          ) : (
+            tests.map((test, index) => {
+              const collapseId = `collapse${index}`;
+              const headerId = `heading${index}`;
+              return (
                 <div
-                  id={collapseId}
-                  className="accordion-collapse collapse"
-                  aria-labelledby={headerId}
-                  data-bs-parent="#accordionExample"
+                  key={test._id || index}
+                  className="accordion-item my-3 bg-info-subtle"
                 >
-                  <div className="accordion-body">
-                    {USER.role === "admin" ? (
-                      <div className="container mt-5">
-                        <h6 className="mb-4">Reschedule Test</h6>
-                        <form>
-                          <div className="mb-3">
-                            <label
-                              htmlFor={`testDate${index}`}
-                              className="form-label"
-                            >
-                              Select Date
-                            </label>
-                            <input
-                              type="date"
-                              className="form-control"
-                              id={`testDate${index}`}
-                              name="testDate"
-                              required
-                            />
-                          </div>
-                          <div className="mb-3">
-                            <label
-                              htmlFor={`testTime${index}`}
-                              className="form-label"
-                            >
-                              Select Time
-                            </label>
-                            <input
-                              type="time"
-                              className="form-control"
-                              id={`testTime${index}`}
-                              name="testTime"
-                              required
-                            />
-                          </div>
-                          <button type="submit" className="btn btn-primary">
-                            Reschedule Test
-                          </button>
-                        </form>
-                      </div>
-                    ) : attendedDetails ? (
-                      <div>
-                        <h5>Test Attended Details:</h5>
-                        <p>
-                          <b>Start Time:</b>{" "}
-                          {new Date(attendedDetails.startTime).toLocaleString()}
-                        </p>
-                        <p>
-                          <b>End Time:</b>{" "}
-                          {new Date(attendedDetails.endTime).toLocaleString()}
-                        </p>
-                        <p>
-                          <b>Student ID:</b> {attendedDetails.studentId}
-                        </p>
+                  <h2 className="accordion-header" id={headerId}>
+                    <button
+                      className="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#${collapseId}`}
+                      aria-expanded="false"
+                      aria-controls={collapseId}
+                    >
+                      <b>Test:</b> {test.testName} &nbsp; | &nbsp;
+                      <b>Time:</b> {test.time} &nbsp; | &nbsp;
+                      <b>Duration:</b> {test.timeDuration} mins &nbsp; | &nbsp;
+                      <b>Date:</b> {test.date ? test.date.split("T")[0] : "N/A"}
+                    </button>
+                  </h2>
+                  <div
+                    id={collapseId}
+                    className="accordion-collapse collapse"
+                    aria-labelledby={headerId}
+                    data-bs-parent="#accordionExample"
+                  >
+                    <div className="accordion-body">
+                      {USER.role === "admin" ? (
+                        <div className="container mt-5">
+                          <h6 className="mb-4">Reschedule Test</h6>
+                          <form>
+                            <div className="mb-3">
+                              <label
+                                htmlFor={`testDate${index}`}
+                                className="form-label"
+                              >
+                                Select Date
+                              </label>
+                              <input
+                                type="date"
+                                className="form-control"
+                                id={`testDate${index}`}
+                                name="testDate"
+                                required
+                              />
+                            </div>
+                            <div className="mb-3">
+                              <label
+                                htmlFor={`testTime${index}`}
+                                className="form-label"
+                              >
+                                Select Time
+                              </label>
+                              <input
+                                type="time"
+                                className="form-control"
+                                id={`testTime${index}`}
+                                name="testTime"
+                                required
+                              />
+                            </div>
+                            <button type="submit" className="btn btn-primary">
+                              Reschedule Test
+                            </button>
+                          </form>
+                        </div>
+                      ) : (
                         <button
-                          className="btn btn-danger"
-                          // onClick={() => {
-                          //   getTestData(test._id);
-                          // }}
+                          className="btn btn-primary"
                           onClick={() => attendTest(test)}
                         >
-                          View Result
+                          Attend Test
                         </button>
-                      </div>
-                    ) : (
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => attendTest(test)}
-                      >
-                        Attend Test
-                      </button>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })
-        )}
-      </div>
+              );
+            })
+          )}
+        </div>
+      ) : (
+        <div className="accordion w-100" id="accordionExample">
+          {attendedTestDetails.length === 0 ? (
+            <div>No Tests attended</div>
+          ) : (
+            attendedTestDetails.map((test, index) => {
+              const collapseId = `collapse${index}`;
+              const headerId = `heading${index}`;
+              return (
+                <div
+                  key={test._id || index}
+                  className="accordion-item my-3 bg-info-subtle"
+                >
+                  <h2 className="accordion-header" id={headerId}>
+                    <button
+                      className="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target={`#${collapseId}`}
+                      aria-expanded="false"
+                      aria-controls={collapseId}
+                    >
+                      {test?.testName}
+                    </button>
+                  </h2>
+                  <div
+                    id={collapseId}
+                    className="accordion-collapse collapse"
+                    aria-labelledby={headerId}
+                    data-bs-parent="#accordionExample"
+                  >
+                    <div className="accordion-body">
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => getTestData(test._id)}
+                      >
+                        View Result
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
     </div>
   );
 };

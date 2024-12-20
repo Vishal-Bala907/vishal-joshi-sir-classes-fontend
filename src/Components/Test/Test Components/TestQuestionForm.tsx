@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Integer from "./Question types/Integer";
-import SingleSelect from "./Question types/SingleSelect";
 import MultiSelect from "./Question types/MultiSelect";
 import MatchTheColumn from "./Question types/MatchTheColumn";
 import { useDispatch, useSelector } from "react-redux";
@@ -116,11 +115,11 @@ const TestQuestionForm: React.FC<LiveTestFormProps> = ({
         </form>
         {/* Conditional Question Type Components */}
         {type === "integer" ? (
-          <Integer type={type} />
+          <Integer type={"integer"} />
         ) : type === "select" ? (
-          <MultiSelect type={type} />
+          <MultiSelect type={"select"} />
         ) : (
-          <MatchTheColumn type={type} />
+          <MatchTheColumn type={"match"} />
         )}
       </div>
     </div>

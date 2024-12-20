@@ -48,6 +48,16 @@ export const getAllAttendedTests = async (id: any) => {
     return error.response?.data || { message: "Something went wrong" };
   }
 };
+export const getTestById = async (id: any) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/tests/api/get/test/testById/${id}`
+    );
+    return response.data;
+  } catch (error: any) {
+    return error.response?.data || { message: "Something went wrong" };
+  }
+};
 
 export const attendTestNow = async (testId: string, studentId: string) => {
   try {
