@@ -7,15 +7,17 @@ import Image from "next/image";
 import { Badge } from "reactstrap";
 
 const ChatUserProfile = () => {
-  const { members, selectedUser, currentUser, chats } = useAppSelector((state) => state.chat);
+  const { members, selectedUser, currentUser, chats } = useAppSelector(
+    (state) => state.chat
+  );
   var activeChat = 0;
   if (selectedUser != null) activeChat = selectedUser.id;
   const dispatch = useAppDispatch();
   const changeChatClick = (selectUser: number) => {
     const currentUserId = currentUser?.id;
-    const currentChat = chats.find((x: { users: number[] }) => currentUser?.id !== undefined && x.users.includes(currentUser?.id) && x.users.includes(selectUser));
-    if (currentChat) dispatch(changeChat(selectUser));
-    else dispatch(createNewChatAsync({ currentUserId, selectUser, chats }));
+    // const currentChat = chats.find((x: { users: number[] }) => currentUser?.id !== undefined && x.users.includes(currentUser?.id) && x.users.includes(selectUser));
+    // if (currentChat) dispatch(changeChat(selectUser));
+    // else dispatch(createNewChatAsync({ currentUserId, selectUser, chats }));
   };
   return (
     <>
@@ -24,10 +26,22 @@ const ChatUserProfile = () => {
           {members
             .filter((x: AllMemberType) => x.id !== currentUser?.id)
             .map((item: AllMemberType, id: number) => (
-              <li className={`common-space ${activeChat === item.id ? "active" : ""}`} key={id} onClick={() => changeChatClick(item.id)}>
+              <li
+                className={`common-space ${
+                  activeChat === item.id ? "active" : ""
+                }`}
+                key={id}
+                onClick={() => changeChatClick(item.id)}
+              >
                 <div className="chat-time">
                   <div className="active-profile">
-                    <Image width={40} height={40} className="img-fluid rounded-circle" src={`${ImagePath}/${item.image}`} alt="user" />
+                    <Image
+                      width={40}
+                      height={40}
+                      className="img-fluid rounded-circle"
+                      src={`${ImagePath}/${item.image}`}
+                      alt="user"
+                    />
                     <div className={`status bg-${item.online}`} />
                   </div>
                   <div>
@@ -37,12 +51,21 @@ const ChatUserProfile = () => {
                 </div>
                 <div>
                   <p>{item.time} </p>
-                  {item.badge && (<Badge color="light-success" className="badge-light-success">15</Badge>)}
+                  {item.badge && (
+                    <Badge
+                      color="light-success"
+                      className="badge-light-success"
+                    >
+                      15
+                    </Badge>
+                  )}
                 </div>
               </li>
             ))}
         </ul>
-      ) : (<SearchNotFoundClass word="Contact" />)}
+      ) : (
+        <SearchNotFoundClass word="Contact" />
+      )}
     </>
   );
 };

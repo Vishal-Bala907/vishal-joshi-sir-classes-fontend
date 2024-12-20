@@ -2,8 +2,6 @@ import { RootState } from "@/Redux/Store";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import img from "/myImages/logo3.png";
-import img from "./logo3.png";
-import CountdownTimer from "./CountdownTimer";
 import { toast } from "react-toastify";
 import IntegerQuestion from "./IntegerQuestion";
 import { getQuestion } from "@/server/tests";
@@ -129,7 +127,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
   useEffect(() => {
     // setting all answer to incorrect
-
+    console.log("hello");
     test.Questions.forEach((SingleTest, index) => {
       console.log(SingleTest);
       const status = "INIT";

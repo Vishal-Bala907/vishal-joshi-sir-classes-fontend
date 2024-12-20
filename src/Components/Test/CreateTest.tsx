@@ -1,5 +1,4 @@
 import { createTest } from "@/server/tests";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
 import {
   Button,

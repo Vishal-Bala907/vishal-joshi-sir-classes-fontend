@@ -1,5 +1,4 @@
 import React from "react";
-import { Badge } from "react-bootstrap";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 
 const Info = () => {

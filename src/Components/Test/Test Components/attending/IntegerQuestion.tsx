@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
-import { addQuestion, submitTestCompleted } from "@/Redux/Reducers/UserAnswers";
+import { addQuestion } from "@/Redux/Reducers/UserAnswers";
 import { toast } from "react-toastify";
 
 interface IntegerQuestionProps {

@@ -339,7 +339,14 @@ const Result: React.FC<LiveTestFormProps> = ({ setTest }) => {
                           return (
                             <span key={idx}>
                               Left Option {idx + 1} <FaArrowRight /> Right
-                              Option {answer.rightOption}
+                              Option{" "}
+                              {answer.right === "A"
+                                ? 1
+                                : answer.right === "B"
+                                ? 2
+                                : answer.right === "C"
+                                ? 3
+                                : 4}
                               {idx !== q.rightAnswer.length - 1 ? ", " : ""}
                             </span>
                           );

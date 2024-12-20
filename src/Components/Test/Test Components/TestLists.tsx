@@ -107,6 +107,70 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
   }, [USER._id, USER.role]);
 
   const attendTest = (test: LiveTestFormData) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Today's 12:00 AM timestamp
+    const TODAYTIMESTAMP = today.getTime();
+
+    // Get the current time (in minutes since midnight)
+    const currentTime = new Date();
+    const currentMinutes =
+      currentTime.getHours() * 60 + currentTime.getMinutes();
+
+    // Test start time in minutes since midnight
+    const testStartTime = test.time.split(":");
+    const testStartMinutes =
+      parseInt(testStartTime[0], 10) * 60 + parseInt(testStartTime[1], 10);
+
+    // Calculate test end time in minutes since midnight
+    const testEndMinutes = testStartMinutes + parseInt(test.timeDuration, 10);
+
+    // Calculate the time difference between current time and test end time
+    const timeDifference = testEndMinutes - currentMinutes;
+
+    // Convert the time difference to hours and minutes
+    const diffHours = Math.floor(timeDifference / 60);
+    const diffMinutes = timeDifference % 60;
+
+    // Log debugging information
+    console.log(
+      `Test Start: ${Math.floor(testStartMinutes / 60)}:${
+        testStartMinutes % 60
+      }`
+    );
+    console.log(
+      `Current Time: ${currentTime.getHours()}:${currentTime.getMinutes()}`
+    );
+    console.log(
+      `Test End: ${Math.floor(testEndMinutes / 60)}:${testEndMinutes % 60}`
+    );
+    console.log(
+      `Time Difference: ${diffHours} hours and ${diffMinutes} minutes`
+    );
+
+    // Check if the test is for today
+    if (TODAYTIMESTAMP !== +test.timestamp) {
+      toast.error("Can't Attend right now", {
+        position: "top-left",
+      });
+      return;
+    }
+
+    // Check if the current time is before the test start time
+    if (currentMinutes < testStartMinutes) {
+      toast.error("Can't Attend right now", {
+        position: "top-left",
+      });
+      return;
+    }
+
+    // Check if the current time is after the test end time
+    if (currentMinutes > testEndMinutes) {
+      toast.error("Can't Attend right now", {
+        position: "top-left",
+      });
+      return;
+    }
+
     dispatch(setAttendTestDetails(test));
     setTest("ATTENDING");
     attendTestNow(test._id, USER._id);
@@ -145,36 +209,41 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
   return (
     <div className="w-100">
       {/* Dropdown for selecting Available/Attended Tests */}
-      <div className="btn-group">
-        <button
-          className="btn btn-secondary dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          {selectedType === "AVAILABLE" ? "Available Tests" : "Attended Tests"}
-        </button>
-        <ul className="dropdown-menu">
-          <li
-            onClick={() => {
-              setSelectedType("AVAILABLE");
-            }}
+
+      {USER.role === "admin" ? null : (
+        <div className="btn-group">
+          <button
+            className="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
           >
-            <a className="dropdown-item" href="#">
-              Available
-            </a>
-          </li>
-          <li
-            onClick={() => {
-              setSelectedType("ATTENDED");
-            }}
-          >
-            <a className="dropdown-item" href="#">
-              Attended
-            </a>
-          </li>
-        </ul>
-      </div>
+            {selectedType === "AVAILABLE"
+              ? "Available Tests"
+              : "Attended Tests"}
+          </button>
+          <ul className="dropdown-menu">
+            <li
+              onClick={() => {
+                setSelectedType("AVAILABLE");
+              }}
+            >
+              <a className="dropdown-item" href="#">
+                Available
+              </a>
+            </li>
+            <li
+              onClick={() => {
+                setSelectedType("ATTENDED");
+              }}
+            >
+              <a className="dropdown-item" href="#">
+                Attended
+              </a>
+            </li>
+          </ul>
+        </div>
+      )}
 
       {/* Render Available Tests or Attended Tests based on selection */}
       {selectedType === "AVAILABLE" ? (
