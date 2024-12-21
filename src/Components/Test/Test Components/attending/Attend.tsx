@@ -74,7 +74,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
     topic: "",
     subtopic: "",
     level: "",
-    type: "",
+    type: "match",
 
     leftOptionsA: "",
     leftOptionsB: "",
@@ -127,7 +127,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
   useEffect(() => {
     // setting all answer to incorrect
-    console.log("hello");
+    // console.log("hello");
     test.Questions.forEach((SingleTest, index) => {
       console.log(SingleTest);
       const status = "INIT";
@@ -205,6 +205,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
       .then((data) => {
         // console.log(data);
         if (type === "integer") {
+          console.log(data);
           setintegerQuestion(data);
         } else if (type === "select") {
           setmultiSelectQuestion(data);

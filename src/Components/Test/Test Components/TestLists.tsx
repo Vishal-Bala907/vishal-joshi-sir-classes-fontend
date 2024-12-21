@@ -74,8 +74,8 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
       // Fetch attended tests for students
       getAllAttendedTests(USER._id)
         .then((data) => {
-          setAttendedTest(data?.data || []);
           console.log(data);
+          setAttendedTest(data?.data || []);
           if (data?.data && data?.data.length > 0) {
             data?.data.map((t, ind) => {
               getTestById(t.liveTestId)
@@ -132,20 +132,20 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
     const diffMinutes = timeDifference % 60;
 
     // Log debugging information
-    console.log(
-      `Test Start: ${Math.floor(testStartMinutes / 60)}:${
-        testStartMinutes % 60
-      }`
-    );
-    console.log(
-      `Current Time: ${currentTime.getHours()}:${currentTime.getMinutes()}`
-    );
-    console.log(
-      `Test End: ${Math.floor(testEndMinutes / 60)}:${testEndMinutes % 60}`
-    );
-    console.log(
-      `Time Difference: ${diffHours} hours and ${diffMinutes} minutes`
-    );
+    // console.log(
+    //   `Test Start: ${Math.floor(testStartMinutes / 60)}:${
+    //     testStartMinutes % 60
+    //   }`
+    // );
+    // console.log(
+    //   `Current Time: ${currentTime.getHours()}:${currentTime.getMinutes()}`
+    // );
+    // console.log(
+    //   `Test End: ${Math.floor(testEndMinutes / 60)}:${testEndMinutes % 60}`
+    // );
+    // console.log(
+    //   `Time Difference: ${diffHours} hours and ${diffMinutes} minutes`
+    // );
 
     // Check if the test is for today
     if (TODAYTIMESTAMP !== +test.timestamp) {
@@ -198,6 +198,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
     getTestDataFromBackend(_id, userId)
       .then((data) => {
+        console.log(data);
         dispatch(setChartData(data?.data));
         setTest("RESULT");
       })
@@ -205,9 +206,9 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
         console.error(err);
       });
   };
-  console.log(attendedTestDetails);
+  // console.log(attendedTestDetails);
   return (
-    <div className="w-100">
+    <div className="w-100 d-flex justify-content-center align-items-center flex-row flex-wrap">
       {/* Dropdown for selecting Available/Attended Tests */}
 
       {USER.role === "admin" ? null : (
@@ -247,7 +248,10 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
       {/* Render Available Tests or Attended Tests based on selection */}
       {selectedType === "AVAILABLE" ? (
-        <div className="accordion w-100" id="accordionExample">
+        <div
+          className="accordion w-100 d-flex justify-content-center align-items-center flex-row flex-wrap"
+          id="accordionExample"
+        >
           {tests.length === 0 ? (
             <div>No Tests available</div>
           ) : (
@@ -257,21 +261,31 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
               return (
                 <div
                   key={test._id || index}
-                  className="accordion-item my-3 bg-info-subtle"
+                  className="accordion-item my-3 bg-info-subtle d-flex justify-content-center align-items-center flex-row flex-wrap"
                 >
-                  <h2 className="accordion-header" id={headerId}>
+                  <h2 className="accordion-header " id={headerId}>
                     <button
-                      className="accordion-button collapsed"
+                      className="accordion-button collapsed d-flex justify-content-center align-items-center flex-row flex-wrap"
                       type="button"
                       data-bs-toggle="collapse"
                       data-bs-target={`#${collapseId}`}
                       aria-expanded="false"
                       aria-controls={collapseId}
                     >
-                      <b>Test:</b> {test.testName} &nbsp; | &nbsp;
-                      <b>Time:</b> {test.time} &nbsp; | &nbsp;
-                      <b>Duration:</b> {test.timeDuration} mins &nbsp; | &nbsp;
-                      <b>Date:</b> {test.date ? test.date.split("T")[0] : "N/A"}
+                      <div>
+                        <b>Test:</b> {test.testName} &nbsp; | &nbsp;
+                      </div>
+                      <div>
+                        <b>Time:</b> {test.time} &nbsp; | &nbsp;
+                      </div>
+                      <div>
+                        <b>Duration:</b> {test.timeDuration} mins &nbsp; |
+                        &nbsp;
+                      </div>
+                      <div>
+                        <b>Date:</b>{" "}
+                        {test.date ? test.date.split("T")[0] : "N/A"}
+                      </div>
                     </button>
                   </h2>
                   <div

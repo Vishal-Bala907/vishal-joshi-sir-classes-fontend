@@ -56,7 +56,7 @@ const MatchColumnsForm = ({ type }: Props) => {
     topic: "",
     subtopic: "",
     level: "easy",
-    type: type,
+    type: "match",
     leftOptionsA: "",
     leftOptionsB: "",
     leftOptionsC: "",
@@ -94,26 +94,34 @@ const MatchColumnsForm = ({ type }: Props) => {
     });
   };
 
+  const handleFileChange = (
+    files: FileList | null,
+    key: keyof MatchColumnFormData1
+  ) => {
+    if (files && files[0]) {
+      const file = files[0];
+      convertToBase64(file)
+        .then((base64Image) => {
+          setFormData((prev) => ({
+            ...prev,
+            [key]: base64Image,
+          }));
+        })
+        .catch((err) => console.error("Error converting file to Base64", err));
+    }
+  };
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
     key: keyof MatchColumnFormData1
   ) => {
-    const { value, type: inputType, files } = e.target;
+    const target = e.target;
 
-    if (inputType === "file" && files) {
-      // Convert selected file to Base64 before updating state
-      convertToBase64(files[0])
-        .then((base64Image) => {
-          setFormData((prev) => ({
-            ...prev,
-            [key]: base64Image, // Store Base64 image string
-          }));
-        })
-        .catch((err) => console.error("Error converting file to Base64", err));
+    if (target instanceof HTMLInputElement && target.type === "file") {
+      handleFileChange(target.files, key);
     } else {
-      setFormData((prev) => ({ ...prev, [key]: value }));
+      setFormData((prev) => ({ ...prev, [key]: target.value }));
     }
   };
 
@@ -136,7 +144,7 @@ const MatchColumnsForm = ({ type }: Props) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    dispatch(addQuestion(formData));
+    // dispatch(addQuestion(formData));
 
     addMatchTheColumnQuestion(formData, testId)
       .then((data) => {
@@ -160,7 +168,7 @@ const MatchColumnsForm = ({ type }: Props) => {
       topic: "",
       subtopic: "",
       level: "easy",
-      type: "",
+      type: "match",
       leftOptionsA: "",
       leftOptionsB: "",
       leftOptionsC: "",

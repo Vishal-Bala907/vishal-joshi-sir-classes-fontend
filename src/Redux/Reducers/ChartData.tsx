@@ -25,7 +25,7 @@ const chartData = createSlice({
   initialState,
   reducers: {
     setChartData(state, action: PayloadAction<ChartData[]>) {
-      return [...state, ...action.payload]; // Add new data to the existing state
+      return [...action.payload]; // Add new data to the existing state
     },
     resetChartData() {
       return []; // Reset the state to an empty array

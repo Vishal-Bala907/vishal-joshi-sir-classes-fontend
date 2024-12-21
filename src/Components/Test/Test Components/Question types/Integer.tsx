@@ -73,7 +73,7 @@ const TestQuestionForm = ({ type }: Props) => {
       topic: "",
       subtopic: "",
       level: "easy",
-      type: "single select",
+      type: "intger",
       description: "",
       correctAnswer: "",
     });
