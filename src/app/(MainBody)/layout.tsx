@@ -66,7 +66,7 @@ export default function RootLayout({
           socketRef.current.on("sendMessage", (MESSAGE) => {
             const recipient = MESSAGE.sender;
             // console.log(MESSAGE.sender, selectedUser);
-            console.log(MESSAGE);
+            // console.log(MESSAGE);
             let USER =
               selectedUser === "admin"
                 ? "admin"
@@ -85,6 +85,7 @@ export default function RootLayout({
               toast.success(`You got a new message from ${MESSAGE.senderName}`);
               const chatId = `s-u-${MESSAGE.sender}`;
               const chat = document.getElementById(chatId);
+              console.log(chat);
 
               let chatBubbles = document.getElementsByClassName("chat-bubble");
               const senderBubble = document.getElementById(MESSAGE.sender);

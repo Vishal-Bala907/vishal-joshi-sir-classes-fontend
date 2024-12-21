@@ -20,8 +20,8 @@ const HeaderRight = () => {
         <MaximizeScreen />
         <Bookmark />
         <CloudDesign /> */}
-        <Profile/>
-        </ul>
+        <Profile />
+      </ul>
     </div>
   );
 };

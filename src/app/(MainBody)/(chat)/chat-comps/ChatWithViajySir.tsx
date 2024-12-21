@@ -81,32 +81,35 @@ const ChatWithViajySir = () => {
       >
         <section className="w-100 d-flex justify-content-center align-items-center flex-column gap-3 position-relative">
           <ChatBody />
+          <div
+            style={{
+              // padding: "20px",
+              // height: "65px",
+              position: "relative",
+              zIndex: 10,
+              // bottom: "0px",
+            }}
+            className="w-100 bg-primary d-flex justify-content-center align-items-center gap-2 py-1"
+          >
+            <input
+              value={message}
+              style={{ outline: "none" }}
+              className="w-75 rounded-3 border border-0 ps-3 fs-6 py-2"
+              type="text"
+              name="Enter text here "
+              id=""
+              onChange={(e) => {
+                setMessage(e.target.value);
+              }}
+            />
+            <IoMdSend
+              onClick={(e) => {
+                sendMessage(e);
+              }}
+              style={{ fontSize: "30px" }}
+            />
+          </div>
         </section>
-        <div
-          style={{
-            padding: "20px",
-            height: "65px",
-          }}
-          className="w-100 bg-primary d-flex justify-content-center align-items-center gap-2 py-1"
-        >
-          <input
-            value={message}
-            style={{ outline: "none" }}
-            className="w-75 rounded-3 border border-0 ps-3 fs-6 py-2"
-            type="text"
-            name="Enter text here "
-            id=""
-            onChange={(e) => {
-              setMessage(e.target.value);
-            }}
-          />
-          <IoMdSend
-            onClick={(e) => {
-              sendMessage(e);
-            }}
-            style={{ fontSize: "30px" }}
-          />
-        </div>
       </div>
     </>
   );

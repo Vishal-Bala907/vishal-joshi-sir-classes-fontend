@@ -5,7 +5,7 @@ const HeaderLeft = () => {
   return (
     <div className="header-left">
       <SearchBar />
-      <HeaderSearch />
+      {/* <HeaderSearch /> */}
     </div>
   );
 };

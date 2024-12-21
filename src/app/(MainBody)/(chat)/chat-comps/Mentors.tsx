@@ -59,9 +59,9 @@ const Mentors = () => {
 
   return (
     <div
-      className="container rounded-4 w-100 h-100  pt-3 d-flex justify-content-center align-items-center flex-column gap-4 w-100 p-4"
+      className="rounded-4 w-100 h-100  pt-3 d-flex justify-content-center align-items-center flex-column gap-4 w-100 p-4"
       style={{
-        backgroundColor: "rgb(241 155 244 / 57%)",
+        backgroundColor: "rgb(233 233 233 / 57%)",
         backdropFilter: "blur(31px)",
       }}
     >
@@ -81,7 +81,7 @@ const Mentors = () => {
               key={i}
               className={`chat-bubble w-100 p-2 rounded-2 position-relative ${style.mentorHover}`}
               style={{
-                backgroundColor: "#eeb0e2",
+                backgroundColor: "#ffffff",
                 border: "1px solid #00000029",
               }}
             >

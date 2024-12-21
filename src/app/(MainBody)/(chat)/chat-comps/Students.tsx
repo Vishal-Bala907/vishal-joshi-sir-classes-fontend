@@ -49,9 +49,9 @@ const Students = () => {
 
   return (
     <div
-      className="container py-3 rounded-4  d-flex justify-content-center align-items-center d-flex flex-column  gap-4 w-100"
+      className="py-3 rounded-4  d-flex justify-content-center align-items-center d-flex flex-column  gap-4 w-100 p-4"
       style={{
-        backgroundColor: "rgb(241 155 244 / 57%)",
+        backgroundColor: "rgb(233 233 233 / 57%)",
         backdropFilter: "blur(31px)",
       }}
     >
@@ -60,6 +60,7 @@ const Students = () => {
           return (
             <div
               key={i}
+              id={`${student._id}`}
               className={`d-flex flex-column chat-bubble  w-100 p-2 rounded-2 position-relative ${style.mentorHover}`}
               onClick={() => {
                 const chat = document.getElementById(`s-u-${student._id}`);
@@ -69,7 +70,7 @@ const Students = () => {
                 dispatch(setSelectedUser(student));
               }}
               style={{
-                backgroundColor: "#eeb0e2",
+                backgroundColor: "#ffffff",
                 border: "1px solid #00000029",
               }}
             >

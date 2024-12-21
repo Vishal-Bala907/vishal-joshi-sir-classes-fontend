@@ -1,7 +1,7 @@
 .mentorHover:hover {
-  color: white;
+  color: #000000;
   cursor: pointer;
-  background: linear-gradient(90deg, #840089, #e413ec, #e413ec, #840089);
-  box-shadow: 1px 5px 15px #da69df, inset 1px 3px 10px #7f0084;
+  background: linear-gradient(90deg, #d6d6d6, #d6d6d6, #d6d6d6, #d6d6d6);
+  box-shadow: 1px 5px 15px #9999997d, inset 1px 2px 13px #92929200;
   transition: 0.4s all;
 }

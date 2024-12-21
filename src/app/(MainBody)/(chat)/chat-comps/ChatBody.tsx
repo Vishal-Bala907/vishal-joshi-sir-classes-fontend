@@ -96,18 +96,24 @@ const ChatBody = () => {
   }
 
   return (
-    <div className="vb right-sidebar-Chats w-100 position-relative rounded-3">
+    <div
+      className="vb right-sidebar-Chats w-100 h-100 position-relative rounded-3"
+      style={{}}
+    >
       <IoMdArrowBack
         onClick={() => {
           dispatch(setSelectedUser(null));
         }}
         style={{ fontSize: "30px", position: "absolute", top: "0px" }}
       />
-      <div ref={msgContainerParent} className="msger rounded-3">
+      <div ref={msgContainerParent} className="msger rounded-3 h-100">
         <div
           ref={msgContainer}
           id="chat-container"
           className="msger-chat rounded-4"
+          style={{
+            height: "85vh",
+          }}
         >
           {data.length > 0 ? (
             data.map((item: Chat, id: number) => {

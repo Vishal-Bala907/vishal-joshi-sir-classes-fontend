@@ -68,8 +68,8 @@ const ChatWithStudents = () => {
         </section>
         <div
           style={{
-            padding: "20px",
-            height: "65px",
+            position: "relative",
+            zIndex: 10,
           }}
           className="w-100 bg-primary d-flex justify-content-center align-items-center gap-2 py-1"
         >
