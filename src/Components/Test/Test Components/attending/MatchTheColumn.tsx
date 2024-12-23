@@ -174,6 +174,7 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
 
       {/* Description */}
       <div className="mt-3">
+        <h4>Description</h4>
         <p className="fw-bold">{matchTheColumnQuestions.description}</p>
         {matchTheColumnQuestions.descriptionImage && (
           <div className="text-center mb-3">
@@ -297,15 +298,19 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
             </div>
           </div>
         ))}
-        <button
-          className="btn btn-success mt-3 timesUp"
-          onClick={() => {
-            saveTheAnswer("green", "SAVE");
-          }}
-        >
-          Save & Next
-        </button>
+
         <div className="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+          <button
+            style={{
+              fontSize: "10px",
+            }}
+            className="btn btn-success mt-3 timesUp"
+            onClick={() => {
+              saveTheAnswer("green", "SAVE");
+            }}
+          >
+            Save & Next
+          </button>
           <button
             style={{
               fontSize: "10px",

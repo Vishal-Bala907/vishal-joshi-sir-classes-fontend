@@ -15,12 +15,12 @@ import { useSession } from "next-auth/react";
 import { setUser } from "@/Redux/Reducers/userSlice";
 import { useEffect, useMemo, useRef } from "react";
 import { getMyProfile } from "@/server/user";
-import { UseDispatch } from "react-redux";
 import { setSocket } from "../../Redux/Reducers/SocketSlice";
 
-import { connect, io, Socket } from "socket.io-client";
-import { setChats, setMoveToBottom } from "@/Redux/Reducers/ChatSlice";
+import { io, Socket } from "socket.io-client";
+import { setMoveToBottom } from "@/Redux/Reducers/ChatSlice";
 import { toast } from "react-toastify";
+import style from "./layout.module.css";
 
 interface Chat {
   _id?: string;
@@ -167,6 +167,8 @@ export default function RootLayout({
     getUserProfile();
   }, []);
 
+  const ATTENDING = useSelector((state: RootState) => state.attending.status);
+
   return (
     <Provider store={Store}>
       <div
@@ -175,9 +177,23 @@ export default function RootLayout({
         } ${sideBarToggle ? "sidebar-open" : ""}`}
         id="pageWrapper"
       >
-        <Header />
-        <div className="page-body-wrapper">
-          <Sidebar />
+        {/* <Header /> */}
+        {!ATTENDING && <Header />}
+
+        <div
+          className={`page-body-wrapper`}
+          style={
+            ATTENDING
+              ? {
+                  marginLeft: 0,
+                }
+              : {
+                  // marginLeft: "253px",
+                }
+          }
+        >
+          {!ATTENDING && <Sidebar />}
+          {/* <Sidebar /> */}
           <div className="page-body">{children}</div>
           <Footer />
         </div>

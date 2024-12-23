@@ -1,0 +1,23 @@
+.form {
+  /* position: absolute; */
+  background-color: #0039ff42;
+  z-index: 10;
+  padding: 50px;
+  border-radius: 28px;
+  backdrop-filter: blur(6px);
+  background-image: url("images/bg.png");
+}
+.bg {
+  /* position: absolute; */
+  background-color: #0039ff42;
+  z-index: 10;
+  padding: 50px;
+  border-radius: 28px;
+  backdrop-filter: blur(6px);
+  background-image: url("images/todaysSession.png");
+}
+
+.hover:hover {
+  box-shadow: 1px 4px 9px #00000063;
+  cursor: pointer;
+}

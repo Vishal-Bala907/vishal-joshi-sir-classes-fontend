@@ -11,6 +11,7 @@ import testDetailsSlice from "./Reducers/TestCounterSlice";
 import attendDetailsSlice from "./Reducers/AttendSlice";
 import UserAnswers from "./Reducers/UserAnswers";
 import chartData from "./Reducers/ChartData";
+import AttendStatus from "./Reducers/AttendStatus";
 
 const Store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const Store = configureStore({
     attend: attendDetailsSlice,
     answer: UserAnswers,
     chart: chartData,
+    attending: AttendStatus,
   },
 });
 

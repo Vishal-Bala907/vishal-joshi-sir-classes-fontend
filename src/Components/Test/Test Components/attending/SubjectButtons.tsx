@@ -65,12 +65,12 @@ const SubjectButtons: React.FC<Props> = ({ settestCounter }) => {
                     border: "1px solid black",
                   }}
                   key={question.questionId}
-                  className="p-2 btn timesUp"
+                  className="p-1 btn timesUp m-0 p-0"
                   onClick={() => {
                     handleSubjectButtonClicked(question.questionId);
                   }}
                 >
-                  {/* {counter} */}
+                  {counter + 1}
                 </button>
               );
             })}

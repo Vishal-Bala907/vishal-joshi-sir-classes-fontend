@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { IoMdSend } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import Store, { RootState } from "@/Redux/Store";
+import { RootState } from "@/Redux/Store";
 import { selectSocket } from "@/Redux/Reducers/SocketSlice";
 import ChatBody from "./ChatBody";
 import { getChats } from "@/server/chats";
@@ -10,7 +10,6 @@ import {
   setMoveToBottom,
   setSelectedUser,
 } from "@/Redux/Reducers/ChatSlice";
-import { timeStamp } from "console";
 import appendMessageToTheBottomOnSend from "./AppenMessageHelper";
 
 interface Chat {

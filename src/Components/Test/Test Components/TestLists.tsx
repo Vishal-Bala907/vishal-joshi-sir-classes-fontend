@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { setChartData } from "@/Redux/Reducers/ChartData";
 import { toast } from "react-toastify";
+import { setAttending } from "@/Redux/Reducers/AttendStatus";
 
 interface LiveTestFormData {
   _id: string;
@@ -102,12 +103,14 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
     }
 
     return () => {
-      setAttendTestDetails([]);
+      // dispatch(setAttendTestDetails([]));
+      // dispatch(setAttending());
+      // setTest("TEST-LIST");
     };
   }, [USER._id, USER.role]);
 
   const attendTest = (test: LiveTestFormData) => {
-    const today = new Date();
+    /*   const today = new Date();
     today.setHours(0, 0, 0, 0); // Today's 12:00 AM timestamp
     const TODAYTIMESTAMP = today.getTime();
 
@@ -130,22 +133,6 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
     // Convert the time difference to hours and minutes
     const diffHours = Math.floor(timeDifference / 60);
     const diffMinutes = timeDifference % 60;
-
-    // Log debugging information
-    // console.log(
-    //   `Test Start: ${Math.floor(testStartMinutes / 60)}:${
-    //     testStartMinutes % 60
-    //   }`
-    // );
-    // console.log(
-    //   `Current Time: ${currentTime.getHours()}:${currentTime.getMinutes()}`
-    // );
-    // console.log(
-    //   `Test End: ${Math.floor(testEndMinutes / 60)}:${testEndMinutes % 60}`
-    // );
-    // console.log(
-    //   `Time Difference: ${diffHours} hours and ${diffMinutes} minutes`
-    // );
 
     // Check if the test is for today
     if (TODAYTIMESTAMP !== +test.timestamp) {
@@ -170,10 +157,12 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
       });
       return;
     }
+      */
 
     dispatch(setAttendTestDetails(test));
+    dispatch(setAttending());
     setTest("ATTENDING");
-    attendTestNow(test._id, USER._id);
+    // attendTestNow(test._id, USER._id);
   };
 
   const getTestData = (_id: string) => {
@@ -248,10 +237,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
       {/* Render Available Tests or Attended Tests based on selection */}
       {selectedType === "AVAILABLE" ? (
-        <div
-          className="accordion w-100 d-flex justify-content-center align-items-center flex-row flex-wrap"
-          id="accordionExample"
-        >
+        <div className="accordion w-100 " id="accordionExample">
           {tests.length === 0 ? (
             <div>No Tests available</div>
           ) : (
@@ -261,7 +247,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
               return (
                 <div
                   key={test._id || index}
-                  className="accordion-item my-3 bg-info-subtle d-flex justify-content-center align-items-center flex-row flex-wrap"
+                  className="accordion-item my-3 bg-info-subtle"
                 >
                   <h2 className="accordion-header " id={headerId}>
                     <button

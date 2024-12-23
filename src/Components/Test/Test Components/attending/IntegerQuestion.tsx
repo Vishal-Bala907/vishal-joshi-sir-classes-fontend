@@ -115,7 +115,8 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
           </div>
         </section>
         <div className="mb-3">
-          <label className="form-label">Description</label>
+          <h4>Description</h4>
+          {/* <label className="form-label">Description</label> */}
           <p className="form-control-plaintext">
             {integerQuestion.description}
           </p>
@@ -136,15 +137,19 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
             // onChange={handleInputChange}
           />
         </div>
-        <button
-          className="btn btn-success mt-3 timesUp"
-          onClick={() => {
-            saveTheAnswer("green", "SAVE");
-          }}
-        >
-          Save & Next
-        </button>
+
         <div className="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+          <button
+            style={{
+              fontSize: "10px",
+            }}
+            className="btn btn-success mt-3 timesUp"
+            onClick={() => {
+              saveTheAnswer("green", "SAVE");
+            }}
+          >
+            Save & Next
+          </button>
           <button
             style={{
               fontSize: "10px",

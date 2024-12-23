@@ -7,9 +7,15 @@ import IntegerQuestion from "./IntegerQuestion";
 import { getQuestion } from "@/server/tests";
 import SelecQuestion from "./SelecQuestion";
 import MatchTheColumn from "./MatchTheColumn";
-import { addQuestion, submitTestCompleted } from "@/Redux/Reducers/UserAnswers";
+import {
+  addQuestion,
+  resetQuestions,
+  submitTestCompleted,
+} from "@/Redux/Reducers/UserAnswers";
 import Info from "./Info";
 import SubjectButtons from "./SubjectButtons";
+import { resetAttending } from "@/Redux/Reducers/AttendStatus";
+import { resetAttendFormData } from "@/Redux/Reducers/AttendSlice";
 
 interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
@@ -20,12 +26,12 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
   // const options = ["Easy", "Medium", "Hard"];
 
   // State to hold the selected difficulty for each subject
-  const [selections, setSelections] = useState<{ [key: string]: string }>({
-    Maths: "Easy",
-    Physics: "Easy",
-    Chemistry: "Easy",
-    Biology: "Easy",
-  });
+  // const [selections, setSelections] = useState<{ [key: string]: string }>({
+  //   Maths: "Easy",
+  //   Physics: "Easy",
+  //   Chemistry: "Easy",
+  //   Biology: "Easy",
+  // });
 
   // Handler for updating the selection
   // const handleSelectionChange = (subject: string, value: string) => {
@@ -111,15 +117,15 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
   // const userAnswers = useSelector((state: RootState) => state.answer.questions);
 
   // Memoized Time Difference
-  const timeDifference = useMemo(() => {
-    const currentTime = new Date();
-    const currentMinutes =
-      currentTime.getHours() * 60 + currentTime.getMinutes();
-    const [startHour, startMinute] = test.time.split(":").map(Number);
-    const testStartMinutes = startHour * 60 + startMinute;
-    const testEndMinutes = testStartMinutes + parseInt(test.timeDuration, 10);
-    return testEndMinutes - currentMinutes;
-  }, [test.time, test.timeDuration]);
+  // const timeDifference = useMemo(() => {
+  //   const currentTime = new Date();
+  //   const currentMinutes =
+  //     currentTime.getHours() * 60 + currentTime.getMinutes();
+  //   const [startHour, startMinute] = test.time.split(":").map(Number);
+  //   const testStartMinutes = startHour * 60 + startMinute;
+  //   const testEndMinutes = testStartMinutes + parseInt(test.timeDuration, 10);
+  //   return testEndMinutes - currentMinutes;
+  // }, [test.time, test.timeDuration]);
 
   const dispatch = useDispatch();
   // console.log(test);
@@ -147,6 +153,15 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
       dispatch(addQuestion(respone));
     });
+
+    return () => {
+      // alert("heyyy");
+
+      dispatch(resetAttending());
+      dispatch(addQuestion([]));
+      dispatch(resetAttendFormData());
+      dispatch(resetQuestions());
+    };
   }, []);
 
   const updateIndex = useCallback(
@@ -226,6 +241,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
   function submitTest() {
     dispatch(submitTestCompleted());
+    dispatch(resetAttending());
   }
 
   return (
@@ -237,7 +253,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
         <div
           className=""
           style={{
-            width: "60%",
+            width: "70%",
           }}
         >
           {test.Questions[testCounter].questionType === "integer" ? (
@@ -302,7 +318,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
         <aside
           style={{
             borderLeft: "2px solid black",
-            width: "40%",
+            width: "30%",
           }}
           className="ps-2 h-100"
         >
