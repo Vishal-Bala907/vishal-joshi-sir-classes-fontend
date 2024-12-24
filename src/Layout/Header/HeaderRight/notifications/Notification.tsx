@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import style from "./notifications.module.css";
 import { GiCancel } from "react-icons/gi";
-import { getAllTodaysSession } from "@/server/sessions";
+import { getAllTodaysSession, goLIve } from "@/server/sessions";
 import { Card, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/Redux/Store";
+import { setIsLive } from "@/Redux/Reducers/isLiveSlice";
+import { setVideoCallState } from "@/Redux/Reducers/VideoCall";
 
 interface NotificationProps {
   setNotification: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +35,20 @@ const Notification: React.FC<NotificationProps> = ({ setNotification }) => {
         console.error(err);
       });
   }, []);
+
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  function goLiveButton(sessionId: string) {
+    goLIve(sessionId, user.role, user._id)
+      .then((data) => {
+        console.log(data);
+        dispatch(setIsLive(true));
+        dispatch(setVideoCallState(data.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   return (
     <div
@@ -68,6 +86,7 @@ const Notification: React.FC<NotificationProps> = ({ setNotification }) => {
         {notifications ? (
           notifications.map((notification) => {
             // Format the date and time for better display
+            console.log(notification);
             const formattedDate = new Date(
               notification.date
             ).toLocaleDateString();
@@ -85,13 +104,17 @@ const Notification: React.FC<NotificationProps> = ({ setNotification }) => {
                   <Card.Subtitle className="mb-2 text-muted">
                     {formattedDate} at {formattedTime}
                   </Card.Subtitle>
-                  {/* <Card.Text>
-                    Status: <strong>{notification.status}</strong>
-                  </Card.Text> */}
-                  {/* <Button variant="primary" className="me-2">
-                    Start Session
-                  </Button>
-                  <Button variant="danger">Cancel Session</Button> */}
+                  {notification.status === "ACTIVE" && (
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        goLiveButton(notification._id);
+                      }}
+                    >
+                      {" "}
+                      Join{" "}
+                    </button>
+                  )}
                 </Card.Body>
               </Card>
             );

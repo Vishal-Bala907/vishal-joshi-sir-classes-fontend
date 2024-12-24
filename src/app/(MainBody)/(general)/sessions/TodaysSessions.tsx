@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import style from "./SessionInput.module.css";
-import { getAllTodaysSession } from "@/server/sessions";
+import { getAllTodaysSession, goLIve } from "@/server/sessions";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSocket } from "@/Redux/Reducers/SocketSlice";
+import { toast } from "react-toastify";
+import { RootState } from "@/Redux/Store";
+import { setVideoCallState } from "@/Redux/Reducers/VideoCall";
+import { setIsLive } from "@/Redux/Reducers/isLiveSlice";
 
 interface Session {
   _id: string;
@@ -13,11 +19,17 @@ interface Session {
 
 interface TodaysSessionsProps {
   setStartSession: React.Dispatch<React.SetStateAction<boolean>>;
+  // setIsLive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TodaysSessions: React.FC<TodaysSessionsProps> = ({ setStartSession }) => {
+const TodaysSessions: React.FC<TodaysSessionsProps> = ({
+  setStartSession,
+  // setIsLive,
+}) => {
   const formRef = useRef<HTMLDivElement>(null);
   const [sessions, setSessions] = useState<Session[]>([]);
+  const socket = useSelector(selectSocket);
+  const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     // GSAP animation
@@ -32,6 +44,31 @@ const TodaysSessions: React.FC<TodaysSessionsProps> = ({ setStartSession }) => {
         console.error("Error fetching sessions:", err);
       });
   }, []);
+
+  const dispatch = useDispatch();
+  function goLiveNow(sessionId: String) {
+    if (socket) {
+      // send message to all
+      socket.emit("startingLive", {
+        message: "Admin has just started a live stream",
+      });
+    }
+    // hit the backend API and make the status LIVE
+    goLIve(sessionId, user.role, user._id)
+      .then((data) => {
+        // console.log(data);
+        setStartSession(false);
+        // setIsLive(true);
+        dispatch(setIsLive(true));
+        dispatch(setVideoCallState(data.data));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  //send message to all users to notify that session is being started
+  // update the status from
 
   return (
     <div
@@ -74,7 +111,9 @@ const TodaysSessions: React.FC<TodaysSessionsProps> = ({ setStartSession }) => {
                   <div className="d-flex justify-content-between gap-4">
                     <button
                       className="btn btn-success"
-                      onClick={() => setStartSession(true)}
+                      onClick={() => {
+                        goLiveNow(session._id);
+                      }}
                     >
                       Start
                     </button>

@@ -30,3 +30,19 @@ export const getAllTodaysSession = async () => {
     return error.response?.data || { message: "Something went wrong" };
   }
 };
+
+export const goLIve = async (
+  sessionId: String,
+  role: String,
+  userId: String
+) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/session/goLive/${sessionId}/${role}/${userId}`
+    );
+    return response.data; // Return the data received from the server
+  } catch (error: any) {
+    console.error("Error creating session:", error);
+    return error.response?.data || { message: "Something went wrong" };
+  }
+};

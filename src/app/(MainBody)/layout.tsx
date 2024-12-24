@@ -21,6 +21,11 @@ import { io, Socket } from "socket.io-client";
 import { setMoveToBottom } from "@/Redux/Reducers/ChatSlice";
 import { toast } from "react-toastify";
 import style from "./layout.module.css";
+// import the depen
+import AgoraRTC, { AgoraRTCProvider } from "agora-rtc-react";
+
+// In video call, set mode to "rtc"
+const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
 interface Chat {
   _id?: string;
@@ -171,35 +176,37 @@ export default function RootLayout({
 
   return (
     <Provider store={Store}>
-      <div
-        className={`page-wrapper ${
-          sideBarToggle ? "compact-wrapper" : sidebar_types
-        } ${sideBarToggle ? "sidebar-open" : ""}`}
-        id="pageWrapper"
-      >
-        {/* <Header /> */}
-        {!ATTENDING && <Header />}
-
+      <AgoraRTCProvider client={client}>
         <div
-          className={`page-body-wrapper`}
-          style={
-            ATTENDING
-              ? {
-                  marginLeft: 0,
-                }
-              : {
-                  // marginLeft: "253px",
-                }
-          }
+          className={`page-wrapper ${
+            sideBarToggle ? "compact-wrapper" : sidebar_types
+          } ${sideBarToggle ? "sidebar-open" : ""}`}
+          id="pageWrapper"
         >
-          {!ATTENDING && <Sidebar />}
-          {/* <Sidebar /> */}
-          <div className="page-body">{children}</div>
-          <Footer />
+          {/* <Header /> */}
+          {!ATTENDING && <Header />}
+
+          <div
+            className={`page-body-wrapper`}
+            style={
+              ATTENDING
+                ? {
+                    marginLeft: 0,
+                  }
+                : {
+                    // marginLeft: "253px",
+                  }
+            }
+          >
+            {!ATTENDING && <Sidebar />}
+            {/* <Sidebar /> */}
+            <div className="page-body">{children}</div>
+            <Footer />
+          </div>
         </div>
-      </div>
-      <TapTop />
-      <ThemeCustomizer />
+        <TapTop />
+        <ThemeCustomizer />
+      </AgoraRTCProvider>
     </Provider>
   );
 }
