@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ReactQuill from "react-quill"; // Import ReactQuill
 import {
   setBiologyCount,
   setChemistryCount,
@@ -6,8 +9,6 @@ import {
 } from "@/Redux/Reducers/TestCounterSlice";
 import { RootState } from "@/Redux/Store";
 import { addSelectTypeQuestion } from "@/server/tests";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 interface TestQuestionFormData1 {
   subject: string;
@@ -55,6 +56,7 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
   });
 
   const dispatch = useDispatch();
+  const testId = useSelector((state: RootState) => state.testCounter.testId);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -87,34 +89,9 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
-  // console.log(formData);
 
-  const testId = useSelector((state: RootState) => state.testCounter.testId);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Handle form data without image files, assume images are base64 encoded
-    // const requestData = {
-    //   subject: formData.subject,
-    //   topic: formData.topic,
-    //   subtopic: formData.subtopic,
-    //   level: formData.level,
-    //   type: type,
-    //   description: formData.description,
-    //   optionType: formData.optionType,
-    //   correctAnswer: formData.correctAnswer,
-    //   textOptionsA: formData.textOptionsA,
-    //   textOptionsB: formData.textOptionsB,
-    //   textOptionsC: formData.textOptionsC,
-    //   textOptionsD: formData.textOptionsD,
-    //   imageOptionsA: formData.imageOptionsA,
-    //   imageOptionsB: formData.imageOptionsB,
-    //   imageOptionsC: formData.imageOptionsC,
-    //   imageOptionsD: formData.imageOptionsD,
-    //   descriptionImage: formData.descriptionImage, // Send base64 or image URL
-    // };
-
-    // console.log(requestData);
     addSelectTypeQuestion(formData, testId)
       .then((data) => {
         if (formData.subject === "physics") {
@@ -151,9 +128,6 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
       });
   };
 
-  // const getFieldStyle = (fieldName: string) =>
-  //   adminMarkedFields[fieldName] ? { border: "2px solid green" } : {};
-
   return (
     <form onSubmit={handleSubmit} className="container mt-4">
       {/* Subject Field */}
@@ -167,9 +141,7 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
           className="form-control"
           value={formData.subject}
           onChange={handleChange}
-          defaultValue={"physics"}
           required
-          // style={getFieldStyle("subject")}
         >
           <option value="physics">Physics</option>
           <option value="chemistry">Chemistry</option>
@@ -191,7 +163,6 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
           value={formData.topic}
           onChange={handleChange}
           required
-          // style={getFieldStyle("topic")}
         />
       </div>
 
@@ -208,7 +179,6 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
           value={formData.subtopic}
           onChange={handleChange}
           required
-          // style={getFieldStyle("subtopic")}
         />
       </div>
 
@@ -224,7 +194,6 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
           value={formData.level}
           onChange={handleChange}
           required
-          // style={getFieldStyle("level")}
         >
           <option value="easy">Easy</option>
           <option value="medium">Medium</option>
@@ -232,39 +201,39 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
         </select>
       </div>
 
-      {/* Type Field */}
-      <div className="mb-3">
-        <label htmlFor="type" className="form-label">
-          Type
-        </label>
-        <input
-          id="text"
-          name="type"
-          className="form-control"
-          value={type}
-          onChange={handleChange}
-          contentEditable="false"
-          required
-          // style={getFieldStyle("type")}
-        >
-          {/* <option value="single select">Single Select</option>
-          <option value="multi select">Multi Select</option> */}
-        </input>
-      </div>
-
       {/* Description Field */}
       <div className="mb-3">
         <label htmlFor="description" className="form-label">
           Description
         </label>
-        <textarea
-          id="description"
-          name="description"
-          className="form-control"
+        <ReactQuill
+          theme="snow"
           value={formData.description}
-          onChange={handleChange}
-          required
-          // style={getFieldStyle("description")}
+          onChange={(value) =>
+            setFormData((prev) => ({ ...prev, description: value }))
+          }
+          placeholder="Enter detailed description"
+          modules={{
+            toolbar: [
+              [{ header: [1, 2, 3, false] }],
+              ["bold", "italic", "underline", "strike"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              [{ script: "sub" }, { script: "super" }],
+              ["link", "formula"],
+            ],
+          }}
+          formats={[
+            "header", // Headers
+            "bold",
+            "italic",
+            "underline",
+            "strike", // Text styles
+            "list",
+            "bullet", // Lists
+            "script", // Subscript/Superscript
+            "link",
+            "formula", // Links and formulas
+          ]}
         />
       </div>
 
@@ -280,7 +249,6 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
           className="form-control"
           onChange={handleChange}
           accept="image/*"
-          // style={getFieldStyle("descriptionImage")}
         />
       </div>
 
@@ -292,15 +260,37 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
         {["A", "B", "C", "D"].map((option, index) => (
           <div key={index} className="mb-2">
             <h6>Option {index + 1}</h6>
-            <input
-              type="text"
-              name={`textOptions${option}`}
-              className="form-control"
+            <ReactQuill
+              theme="snow"
               value={formData[`textOptions${option}`]}
-              onChange={handleChange}
+              onChange={(value) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  [`textOptions${option}`]: value,
+                }))
+              }
               placeholder={`Option ${option}`}
-              required
-              // style={getFieldStyle(`textOptions${option}`)}
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, false] }],
+                  ["bold", "italic", "underline", "strike"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  [{ script: "sub" }, { script: "super" }],
+                  ["link", "formula"],
+                ],
+              }}
+              formats={[
+                "header", // Headers
+                "bold",
+                "italic",
+                "underline",
+                "strike", // Text styles
+                "list",
+                "bullet", // Lists
+                "script", // Subscript/Superscript
+                "link",
+                "formula", // Links and formulas
+              ]}
             />
             <input
               type="file"
@@ -308,7 +298,6 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
               className="form-control mt-2"
               onChange={handleChange}
               accept="image/*"
-              // style={getFieldStyle(`imageOptions${option}`)}
             />
           </div>
         ))}
@@ -327,7 +316,6 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
               checked={formData.correctAnswer.includes(option)}
               onChange={handleChange}
               className="form-check-input"
-              // required
             />
             <label
               htmlFor={`correctAnswer${option}`}

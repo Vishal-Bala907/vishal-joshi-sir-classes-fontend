@@ -117,8 +117,11 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
         <div className="mb-3">
           <h4>Description</h4>
           {/* <label className="form-label">Description</label> */}
-          <p className="form-control-plaintext">
-            {integerQuestion.description}
+          <p
+            className="form-control-plaintext"
+            dangerouslySetInnerHTML={{ __html: integerQuestion.description }}
+          >
+            {/* {integerQuestion.description} */}
           </p>
         </div>
         <div className="mb-3">

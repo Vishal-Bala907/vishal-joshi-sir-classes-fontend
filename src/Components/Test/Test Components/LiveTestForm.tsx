@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-quill/dist/quill.snow.css"; // Import Quill's CSS
 import ReactQuill from "react-quill";
+import "katex/dist/katex.min.css"; // Import KaTeX CSS for rendering math
+import katex from "katex";
 import { useDispatch } from "react-redux";
 import { setTestDetails } from "@/Redux/Reducers/LiveTestSlice";
 import { addTestMetaData } from "@/server/tests";
@@ -12,6 +14,40 @@ interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
   setcreatedTest: React.Dispatch<React.SetStateAction<any>>;
 }
+
+// Attach katex to the global window object for formula rendering
+window.katex = katex as typeof import("katex");
+
+// Configure Quill modules
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "strike"], // Text styling
+    [{ list: "ordered" }, { list: "bullet" }],
+    [
+      { script: "sub" }, // Subscript
+      { script: "super" }, // Superscript
+    ],
+    ["link"], // Media links
+    ["formula"], // Formula button
+    ["clean"], // Remove formatting
+  ],
+  formula: true, // Enable KaTeX formula support
+};
+
+// Quill supported formats
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "list",
+  "bullet",
+  "link",
+  "formula",
+  "script", // Includes subscript and superscript
+];
 
 interface FormDataType {
   testName: string;
@@ -58,11 +94,6 @@ const LiveTestForm: React.FC<LiveTestFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // const data = new FormData();
-    // for (const key in formData) {
-    //   data.append(key, formData[key as keyof typeof formData]);
-    // }
-    // console.log(data);
     dispatch(setTestDetails(formData));
 
     addTestMetaData(formData)
@@ -74,7 +105,6 @@ const LiveTestForm: React.FC<LiveTestFormProps> = ({
         console.error(err);
       });
     setcreatedTest(formData);
-    // console.log("Form Data Submitted:", Object.fromEntries(data.entries()));
   };
 
   return (
@@ -107,7 +137,9 @@ const LiveTestForm: React.FC<LiveTestFormProps> = ({
             theme="snow"
             value={formData.description}
             onChange={handleDescriptionChange}
-            placeholder="Enter Test Description"
+            placeholder="Enter Test Description (Math formulas, superscript, subscript supported)"
+            modules={modules}
+            formats={formats}
           />
         </div>
 

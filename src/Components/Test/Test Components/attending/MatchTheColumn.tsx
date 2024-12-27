@@ -175,7 +175,14 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
       {/* Description */}
       <div className="mt-3">
         <h4>Description</h4>
-        <p className="fw-bold">{matchTheColumnQuestions.description}</p>
+        <p
+          className="fw-bold"
+          dangerouslySetInnerHTML={{
+            __html: matchTheColumnQuestions.description,
+          }}
+        >
+          {/* {} */}
+        </p>
         {matchTheColumnQuestions.descriptionImage && (
           <div className="text-center mb-3">
             <img
@@ -216,8 +223,15 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
             },
           ].map((item) => (
             <div key={item.option} className="mb-3">
-              <p>
-                {item.option}. {item.text}
+              <span>
+                <b>Option {item.option}</b>
+              </span>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: item.text,
+                }}
+              >
+                {/* {item.option}. */}
               </p>
               {item.image && (
                 <img
@@ -257,9 +271,14 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
             },
           ].map((item) => (
             <div key={item.option} className="mb-3">
-              <p>
-                {item.option}. {item.text}
-              </p>
+              <span>
+                <b>Option {item.option}</b>
+              </span>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: item.text,
+                }}
+              ></p>
               {item.image && (
                 <img
                   src={process.env.NEXT_PUBLIC_BASE_URL + item.image}

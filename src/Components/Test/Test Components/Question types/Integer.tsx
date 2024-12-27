@@ -8,17 +8,17 @@ import {
   setMathsCount,
   setPhysicsCount,
 } from "@/Redux/Reducers/TestCounterSlice";
+import ReactQuill from "react-quill"; // Import ReactQuill
+import "react-quill/dist/quill.snow.css"; // Import Quill's CSS
+import "katex/dist/katex.min.css"; // Import KaTeX CSS for rendering math
+import katex from "katex"; // Import KaTeX for formula rendering
 
 interface Props {
   type: string;
 }
 
 const TestQuestionForm = ({ type }: Props) => {
-  console.log("RENDERING COMPONENT");
-
   const dispatch = useDispatch();
-  const liveTestFormData = useSelector((state: RootState) => state.liveTest);
-
   const [formData, setFormData] = useState({
     subject: "",
     topic: "",
@@ -38,19 +38,18 @@ const TestQuestionForm = ({ type }: Props) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  //? asdffdsf
+  const handleDescriptionChange = (value: string) => {
+    setFormData((prevData) => ({ ...prevData, description: value }));
+  };
+
+  const handleCorrectAnswerChange = (value: string) => {
+    setFormData((prevData) => ({ ...prevData, correctAnswer: value }));
+  };
+
   const testId = useSelector((state: RootState) => state.testCounter.testId);
-  // console.log(testId);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Dispatch the question object to the Redux store
-    // const questionObject = { ...formData };
-    // dispatch(addQuestion(questionObject));
-
-    // Submit the question to the server
-    // submitTestQuestion(liveTestFormData);
 
     addIntegerQuestion(formData, testId)
       .then((data) => {
@@ -67,18 +66,17 @@ const TestQuestionForm = ({ type }: Props) => {
       .catch((err) => {
         console.error(err);
       });
+
     // Reset form fields
     setFormData({
       subject: "",
       topic: "",
       subtopic: "",
       level: "easy",
-      type: "intger",
+      type: "integer",
       description: "",
       correctAnswer: "",
     });
-
-    // console.log("Question Submitted:", questionObject);
   };
 
   return (
@@ -88,8 +86,7 @@ const TestQuestionForm = ({ type }: Props) => {
           {/* Type */}
           <div className="mb-3 w-75">
             <label htmlFor="type" className="form-label">
-              {" "}
-              Type{" "}
+              Type
             </label>
             <input
               id="type"
@@ -97,11 +94,11 @@ const TestQuestionForm = ({ type }: Props) => {
               className="form-select w-100"
               value={type}
               type="text"
-              // onChange={handleChange}
               contentEditable="false"
               required
             />
           </div>
+
           {/* Subject */}
           <div className="mb-3 w-75">
             <label htmlFor="subject" className="form-label">
@@ -126,8 +123,7 @@ const TestQuestionForm = ({ type }: Props) => {
           {/* Topic */}
           <div className="mb-3 w-75">
             <label htmlFor="topic" className="form-label">
-              {" "}
-              Topic{" "}
+              Topic
             </label>
             <input
               type="text"
@@ -144,8 +140,7 @@ const TestQuestionForm = ({ type }: Props) => {
           {/* Subtopic */}
           <div className="mb-3 w-75">
             <label htmlFor="subtopic" className="form-label">
-              {" "}
-              Subtopic{" "}
+              Subtopic
             </label>
             <input
               type="text"
@@ -161,8 +156,7 @@ const TestQuestionForm = ({ type }: Props) => {
           {/* Level */}
           <div className="mb-3 w-75">
             <label htmlFor="level" className="form-label">
-              {" "}
-              Level{" "}
+              Level
             </label>
             <select
               id="level"
@@ -181,44 +175,78 @@ const TestQuestionForm = ({ type }: Props) => {
           {/* Description */}
           <div className="mb-3 w-75">
             <label htmlFor="description" className="form-label">
-              {" "}
-              Description{" "}
+              Description
             </label>
-            <textarea
-              id="description"
-              name="description"
-              className="form-control"
+            <ReactQuill
+              theme="snow"
               value={formData.description}
-              onChange={handleChange}
-              placeholder="Enter detailed description"
-              rows={4}
-              required
-            ></textarea>
+              onChange={handleDescriptionChange}
+              placeholder="Enter detailed description with formulas"
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, false] }],
+                  ["bold", "italic", "underline"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  [
+                    { script: "sub" }, // Subscript
+                    { script: "super" }, // Superscript
+                  ],
+                  ["link", "formula"],
+                ],
+              }}
+              formats={[
+                "header", // Headers
+                "bold",
+                "italic",
+                "underline",
+                "strike", // Text styles
+                "list",
+                "bullet", // Lists
+                "script", // Subscript/Superscript
+                "link",
+                "formula", // Links and formulas
+              ]}
+            />
           </div>
 
           {/* Correct Answer */}
           <div className="mb-3 w-75">
             <label htmlFor="correctAnswer" className="form-label">
-              {" "}
-              Correct Answer{" "}
+              Correct Answer
             </label>
-            <input
-              type="text"
-              id="correctAnswer"
-              name="correctAnswer"
-              className="form-control"
+            <ReactQuill
+              theme="snow"
               value={formData.correctAnswer}
-              onChange={handleChange}
-              placeholder="Enter correct answer"
-              required
+              onChange={handleCorrectAnswerChange}
+              placeholder="Enter correct answer with formulas"
+              modules={{
+                toolbar: [
+                  [{ header: [1, 2, 3, false] }],
+                  ["bold", "italic", "underline"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  [
+                    { script: "sub" }, // Subscript
+                    { script: "super" }, // Superscript
+                  ],
+                  ["link", "formula"],
+                ],
+              }}
+              formats={[
+                "bold",
+                "italic",
+                "underline",
+                "list",
+                "bullet",
+                "link",
+                "formula",
+              ]}
             />
           </div>
 
           {/* Submit Button */}
           <div className="text-center">
             <button type="submit" className="btn btn-primary">
-              {" "}
-              Add Test{" "}
+              Add Question
             </button>
           </div>
         </form>
@@ -228,103 +256,3 @@ const TestQuestionForm = ({ type }: Props) => {
 };
 
 export default TestQuestionForm;
-
-// import { addQuestion } from "@/Redux/Reducers/LiveTestSlice";
-// import { RootState } from "@/Redux/Store";
-// import React, { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-
-// interface TestQuestionFormData {
-//   description: string;
-//   correctAnswer: string;
-// }
-
-// // Type definition for testMetaData prop (you can adjust this based on the actual structure of your data)
-// interface IntegerProps {
-//   testMetaData: {
-//     // Adjust these fields based on the structure of testMetaData
-//     subject: string;
-//     topic: string;
-//     subtopic: string;
-//     level: string;
-//     type: string;
-//   };
-// }
-
-// const Integer = ({ testMetaData }: IntegerProps) => {
-//   const [formData, setFormData] = useState<TestQuestionFormData>({
-//     description: "",
-//     correctAnswer: "",
-//   });
-
-//   const handleChange = (
-//     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-//   ) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   };
-
-//   const dispatch = useDispatch();
-
-//   const handleSubmit = () => {
-//     // Merging testMetaData and formData
-//     const mergedObj = Object.assign({}, testMetaData, formData);
-//     dispatch(addQuestion(mergedObj));
-//     setFormData({
-//       description: "",
-//       correctAnswer: "",
-//     });
-//     console.log(mergedObj);
-//     // Add submission logic here
-//   };
-
-//   return (
-//     <div className="container mt-4">
-//       {/* Question Description */}
-//       <div className="mb-3">
-//         <label htmlFor="description" className="form-label">
-//           Description
-//         </label>
-//         <textarea
-//           id="description"
-//           name="description"
-//           className="form-control"
-//           value={formData.description}
-//           onChange={handleChange}
-//           placeholder="Enter detailed description"
-//           rows={4}
-//           required
-//         ></textarea>
-//       </div>
-
-//       {/* Correct Answer */}
-//       <div className="mb-3">
-//         <label htmlFor="correctAnswer" className="form-label">
-//           Correct Answer
-//         </label>
-//         <input
-//           type="number"
-//           id="correctAnswer"
-//           name="correctAnswer"
-//           className="form-control"
-//           value={formData.correctAnswer}
-//           onChange={handleChange}
-//           placeholder="Enter correct answer"
-//           required
-//         />
-//       </div>
-
-//       {/* Submit Button */}
-//       <div className="text-center">
-//         <button className="btn btn-primary" onClick={handleSubmit}>
-//           Add
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Integer;

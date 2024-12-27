@@ -1,4 +1,3 @@
-import { addQuestion } from "@/Redux/Reducers/LiveTestSlice";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,6 +9,7 @@ import {
   setMathsCount,
   setPhysicsCount,
 } from "@/Redux/Reducers/TestCounterSlice";
+import ReactQuill from "react-quill";
 
 interface MatchColumnFormData1 {
   subject: string;
@@ -243,17 +243,41 @@ const MatchColumnsForm = ({ type }: Props) => {
             contentEditable="false"
             onChange={(e) => handleChange(e, "type")}
           />
-          {type}
         </div>
 
         {/* Description */}
         <div className="mb-3">
-          <textarea
-            className="form-control"
-            placeholder="Description"
+          <ReactQuill
+            theme="snow"
             value={formData.description}
-            required
-            onChange={(e) => handleChange(e, "description")}
+            onChange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                description: value,
+              }))
+            }
+            placeholder="Enter detailed description"
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, 3, false] }],
+                ["bold", "italic", "underline", "strike"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                [{ script: "sub" }, { script: "super" }],
+                ["link", "formula"],
+              ],
+            }}
+            formats={[
+              "header", // Headers
+              "bold",
+              "italic",
+              "underline",
+              "strike", // Text styles
+              "list",
+              "bullet", // Lists
+              "script", // Subscript/Superscript
+              "link",
+              "formula", // Links and formulas
+            ]}
           />
         </div>
 
@@ -282,68 +306,113 @@ const MatchColumnsForm = ({ type }: Props) => {
         </div>
 
         {/* Left and Right Options */}
-        {"ABCD".split("").map((option, index) => (
-          <div className="row mb-3" key={option}>
-            <div className="col-md-4">
-              <b>{option}.</b>
-              <input
-                type="text"
-                className="form-control"
-                required
-                placeholder={`Left Option ${option}`}
-                value={
-                  formData[
-                    `leftOptions${option}` as keyof MatchColumnFormData1
-                  ] as string
-                }
-                onChange={(e) =>
-                  handleChange(
-                    e,
-                    `leftOptions${option}` as keyof MatchColumnFormData1
-                  )
-                }
-              />
+        <div
+          className="wrapper"
+          style={{
+            maxHeight: "350px",
+            overflow: "scroll",
+          }}
+        >
+          {"ABCD".split("").map((option, index) => (
+            <div
+              className="row mb-3"
+              key={option}
+              // style={{
+              //   width: "1500px",
+              // }}
+            >
+              <div className="col-md-4">
+                <b>{option}.</b>
+                <ReactQuill
+                  theme="snow"
+                  value={formData[`leftOptions${option}`]}
+                  onChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      [`leftOptions${option}`]: value,
+                    }))
+                  }
+                  placeholder={`Left Option ${option}`}
+                  modules={{
+                    toolbar: [
+                      [{ header: [1, 2, 3, false] }],
+                      ["bold", "italic", "underline", "strike"],
+                      [{ list: "ordered" }, { list: "bullet" }],
+                      [{ script: "sub" }, { script: "super" }],
+                      ["link", "formula"],
+                    ],
+                  }}
+                  formats={[
+                    "header", // Headers
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strike", // Text styles
+                    "list",
+                    "bullet", // Lists
+                    "script", // Subscript/Superscript
+                    "link",
+                    "formula", // Links and formulas
+                  ]}
+                />
+              </div>
+              <div className="col-md-4">
+                <b>{option}.</b>
+                <ReactQuill
+                  theme="snow"
+                  value={formData[`rightOptions${option}`]}
+                  onChange={(value) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      [`rightOptions${option}`]: value,
+                    }))
+                  }
+                  placeholder={`Right Option ${option}`}
+                  modules={{
+                    toolbar: [
+                      [{ header: [1, 2, 3, false] }],
+                      ["bold", "italic", "underline", "strike"],
+                      [{ list: "ordered" }, { list: "bullet" }],
+                      [{ script: "sub" }, { script: "super" }],
+                      ["link", "formula"],
+                    ],
+                  }}
+                  formats={[
+                    "header", // Headers
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strike", // Text styles
+                    "list",
+                    "bullet", // Lists
+                    "script", // Subscript/Superscript
+                    "link",
+                    "formula", // Links and formulas
+                  ]}
+                />
+              </div>
+
+              <div className="col-md-4">
+                <label className="form-label">
+                  Correct Matching : Left {option}
+                </label>
+                <select
+                  className="form-select"
+                  required
+                  onChange={(e) => handleMatchChange(e, index)}
+                >
+                  <option value="">Select Right Option</option>
+                  {[1, 2, 3, 4].map((num) => (
+                    <option
+                      key={num}
+                      value={num}
+                    >{`Right Option ${String.fromCharCode(64 + num)}`}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div className="col-md-4">
-              <b>{option}.</b>
-              <input
-                type="text"
-                className="form-control"
-                required
-                placeholder={`Right Option ${option}`}
-                value={
-                  formData[
-                    `rightOptions${option}` as keyof MatchColumnFormData1
-                  ] as string
-                }
-                onChange={(e) =>
-                  handleChange(
-                    e,
-                    `rightOptions${option}` as keyof MatchColumnFormData1
-                  )
-                }
-              />
-            </div>
-            <div className="col-md-4">
-              <label className="form-label">
-                Correct Matching : Left {option}
-              </label>
-              <select
-                className="form-select"
-                required
-                onChange={(e) => handleMatchChange(e, index)}
-              >
-                <option value="">Select Right Option</option>
-                {[1, 2, 3, 4].map((num) => (
-                  <option
-                    key={num}
-                    value={num}
-                  >{`Right Option ${String.fromCharCode(64 + num)}`}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
 
         {/* Image Uploads */}
         <h4 className="text-danger bg-danger-subtle text-center py-2 rounded-3">

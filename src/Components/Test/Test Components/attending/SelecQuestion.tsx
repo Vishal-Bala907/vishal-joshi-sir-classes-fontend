@@ -160,7 +160,12 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
           }}
         >
           <h4>Description</h4>
-          <p className="fw-bold">{selectQuestion.description}</p>
+          <p
+            className="fw-bold"
+            dangerouslySetInnerHTML={{
+              __html: selectQuestion.description,
+            }}
+          ></p>
           {selectQuestion.descriptionImage && (
             <div className="text-center mb-3">
               <img
@@ -184,7 +189,13 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
             >
               <h4>A.</h4>
               <div className={`w-auto`} style={{ cursor: "pointer" }}>
-                <p>{selectQuestion.textOptionsA}</p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: selectQuestion.textOptionsA,
+                  }}
+                >
+                  {/* {} */}
+                </p>
                 {selectQuestion.imageOptionsA && (
                   <img
                     // src={`${process.env.NEXT_PUBLIC_BASE_URL}/${selectQuestion.imageOptionsA}`}
@@ -218,7 +229,11 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
             >
               <h4>B.</h4>
               <div className={``} style={{ cursor: "pointer" }}>
-                <p>{selectQuestion.textOptionsB}</p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: selectQuestion.textOptionsB,
+                  }}
+                ></p>
                 {selectQuestion.imageOptionsB && (
                   <img
                     src={`${process.env.NEXT_PUBLIC_BASE_URL}${selectQuestion.imageOptionsB}`}
@@ -253,7 +268,11 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
             >
               <h4>C.</h4>
               <div className={``} style={{ cursor: "pointer" }}>
-                <p>{selectQuestion.textOptionsC}</p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: selectQuestion.textOptionsC,
+                  }}
+                ></p>
                 {selectQuestion.imageOptionsC && (
                   <img
                     src={`${process.env.NEXT_PUBLIC_BASE_URL}${selectQuestion.imageOptionsC}`}
@@ -286,7 +305,11 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
             >
               <h4>D.</h4>
               <div className={``} style={{ cursor: "pointer" }}>
-                <p>{selectQuestion.textOptionsD}</p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: selectQuestion.textOptionsD,
+                  }}
+                ></p>
                 {selectQuestion.imageOptionsD && (
                   <img
                     src={`${process.env.NEXT_PUBLIC_BASE_URL}${selectQuestion.imageOptionsD}`}
