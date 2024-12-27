@@ -19,11 +19,12 @@ interface Session {
 
 interface TodaysSessionsProps {
   setStartSession: React.Dispatch<React.SetStateAction<boolean>>;
-  // setIsLive: React.Dispatch<React.SetStateAction<boolean>>;
+  setLiveSessionId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const TodaysSessions: React.FC<TodaysSessionsProps> = ({
   setStartSession,
+  setLiveSessionId,
   // setIsLive,
 }) => {
   const formRef = useRef<HTMLDivElement>(null);
@@ -59,6 +60,7 @@ const TodaysSessions: React.FC<TodaysSessionsProps> = ({
         // console.log(data);
         setStartSession(false);
         // setIsLive(true);
+        setLiveSessionId(sessionId);
         dispatch(setIsLive(true));
         dispatch(setVideoCallState(data.data));
       })
@@ -115,7 +117,11 @@ const TodaysSessions: React.FC<TodaysSessionsProps> = ({
                         goLiveNow(session._id);
                       }}
                     >
-                      Start
+                      {session.status === "INACTIVE"
+                        ? "START"
+                        : session.status === "TAKEN"
+                        ? "RE-START"
+                        : ""}
                     </button>
                     <button
                       className="btn btn-danger"

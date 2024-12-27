@@ -1,0 +1,16 @@
+.sessions {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  background-color: #f0ffff00;
+  z-index: 10;
+  padding: 4%;
+  border-radius: 25px;
+  backdrop-filter: blur(23px);
+  display: none;
+  border: 2px dashed;
+  box-shadow: 2px 2px 10px #0000008f, inset 2px 2px 10px #8a8a8a99;
+  transition: all 1s ease-in-out;
+}
