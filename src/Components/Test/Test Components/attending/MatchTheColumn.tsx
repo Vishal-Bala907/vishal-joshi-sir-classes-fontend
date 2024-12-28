@@ -143,9 +143,15 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
   // }
 
   return (
-    <div className="container mt-4 w-75 bg-light rounded-4 p-3 text-dark">
+    <div className="container mt-4 w-100 bg-light rounded-4 p-1 text-dark">
       {/* Question Metadata */}
-      <section className="d-flex justify-content-center align-items-center flex-row gap-4 flex-wrap">
+      <section
+        className="d-flex justify-content-start align-items-center flex-row gap-4 flex-wrap"
+        // style={{
+        //   borderBottom: "2px solid",
+        //   width: "fit-content",
+        // }}
+      >
         <div className="mb-3 text-center">
           <label className="form-label">Subject</label>
           <p className="form-control-plaintext">
@@ -173,128 +179,181 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
       </section>
 
       {/* Description */}
-      <div className="mt-3">
-        <h4>Description</h4>
-        <p
-          className="fw-bold"
-          dangerouslySetInnerHTML={{
-            __html: matchTheColumnQuestions.description,
-          }}
-        >
-          {/* {} */}
-        </p>
-        {matchTheColumnQuestions.descriptionImage && (
-          <div className="text-center mb-3">
-            <img
-              src={`${process.env.NEXT_PUBLIC_BASE_URL}${matchTheColumnQuestions.descriptionImage}`}
-              alt="Description"
-              className="img-fluid"
-              style={{ maxWidth: "400px" }}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Columns for Matching */}
-      <div className="row mt-4">
-        {/* Left Column */}
-        <div className="col-md-6">
-          <h5 className="text-center">Left Column</h5>
-          {[
-            {
-              option: "A",
-              text: matchTheColumnQuestions.leftOptionsA,
-              image: matchTheColumnQuestions.leftImagesA,
-            },
-            {
-              option: "B",
-              text: matchTheColumnQuestions.leftOptionsB,
-              image: matchTheColumnQuestions.leftImagesB,
-            },
-            {
-              option: "C",
-              text: matchTheColumnQuestions.leftOptionsC,
-              image: matchTheColumnQuestions.leftImagesC,
-            },
-            {
-              option: "D",
-              text: matchTheColumnQuestions.leftOptionsD,
-              image: matchTheColumnQuestions.leftImagesD,
-            },
-          ].map((item) => (
-            <div key={item.option} className="mb-3">
-              <span>
-                <b>Option {item.option}</b>
-              </span>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: item.text,
-                }}
-              >
-                {/* {item.option}. */}
-              </p>
-              {item.image && (
-                <img
-                  src={process.env.NEXT_PUBLIC_BASE_URL + item.image}
-                  alt={`Left Option ${item.option}`}
-                  className="img-fluid"
-                  style={{ maxWidth: "150px" }}
-                />
-              )}
+      <div
+        className="bg-white p-3 rounded-4"
+        style={{
+          border: "1px solid #00000029",
+        }}
+      >
+        <div className="mt-3  border-bottom">
+          <h6 className="">Description</h6>
+          <p
+            className="fw-bold"
+            dangerouslySetInnerHTML={{
+              __html: matchTheColumnQuestions.description,
+            }}
+          >
+            {/* {} */}
+          </p>
+          {matchTheColumnQuestions.descriptionImage && (
+            <div className="text-center mb-3">
+              <img
+                src={`${process.env.NEXT_PUBLIC_BASE_URL}${matchTheColumnQuestions.descriptionImage}`}
+                alt="Description"
+                className="img-fluid"
+                style={{ maxWidth: "400px" }}
+              />
             </div>
-          ))}
+          )}
         </div>
 
-        {/* Right Column */}
-        <div className="col-md-6">
-          <h5 className="text-center">Right Column</h5>
-          {[
-            {
-              option: "A",
-              text: matchTheColumnQuestions.rightOptionsA,
-              image: matchTheColumnQuestions.rightImagesA,
-            },
-            {
-              option: "B",
-              text: matchTheColumnQuestions.rightOptionsB,
-              image: matchTheColumnQuestions.rightImagesB,
-            },
-            {
-              option: "C",
-              text: matchTheColumnQuestions.rightOptionsC,
-              image: matchTheColumnQuestions.rightImagesC,
-            },
-            {
-              option: "D",
-              text: matchTheColumnQuestions.rightOptionsD,
-              image: matchTheColumnQuestions.rightImagesD,
-            },
-          ].map((item) => (
-            <div key={item.option} className="mb-3">
-              <span>
-                <b>Option {item.option}</b>
-              </span>
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: item.text,
-                }}
-              ></p>
-              {item.image && (
-                <img
-                  src={process.env.NEXT_PUBLIC_BASE_URL + item.image}
-                  alt={`Right Option ${item.option}`}
-                  className="img-fluid"
-                  style={{ maxWidth: "150px" }}
-                />
-              )}
-            </div>
-          ))}
+        {/* Columns for Matching */}
+        <div
+          className="row mt-4"
+          style={{
+            maxHeight: "400px",
+            overflow: "scroll",
+          }}
+        >
+          {/* Left Column */}
+          <div className="col-md-6">
+            <h6
+              className="text-center"
+              style={{
+                backgroundColor: "#32cc677d",
+                padding: "3px 0px",
+                borderRadius: "10px",
+              }}
+            >
+              Left Column
+            </h6>
+            {[
+              {
+                option: "A",
+                text: matchTheColumnQuestions.leftOptionsA,
+                image: matchTheColumnQuestions.leftImagesA,
+              },
+              {
+                option: "B",
+                text: matchTheColumnQuestions.leftOptionsB,
+                image: matchTheColumnQuestions.leftImagesB,
+              },
+              {
+                option: "C",
+                text: matchTheColumnQuestions.leftOptionsC,
+                image: matchTheColumnQuestions.leftImagesC,
+              },
+              {
+                option: "D",
+                text: matchTheColumnQuestions.leftOptionsD,
+                image: matchTheColumnQuestions.leftImagesD,
+              },
+            ].map((item) => (
+              <div key={item.option} className="mb-3  border-bottom">
+                <span>
+                  <b
+                    style={{
+                      fontSize: ".8em",
+                    }}
+                  >
+                    Option {item.option}
+                  </b>
+                </span>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: item.text,
+                  }}
+                >
+                  {/* {item.option}. */}
+                </p>
+                {item.image && (
+                  <img
+                    src={process.env.NEXT_PUBLIC_BASE_URL + item.image}
+                    alt={`Left Option ${item.option}`}
+                    className="img-fluid"
+                    style={{ maxWidth: "150px" }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Right Column */}
+          <div className="col-md-6">
+            <h6
+              className="text-center"
+              style={{
+                backgroundColor: "#32cc677d",
+                padding: "3px 0px",
+                borderRadius: "10px",
+              }}
+            >
+              Right Column
+            </h6>
+            {[
+              {
+                option: "A",
+                text: matchTheColumnQuestions.rightOptionsA,
+                image: matchTheColumnQuestions.rightImagesA,
+              },
+              {
+                option: "B",
+                text: matchTheColumnQuestions.rightOptionsB,
+                image: matchTheColumnQuestions.rightImagesB,
+              },
+              {
+                option: "C",
+                text: matchTheColumnQuestions.rightOptionsC,
+                image: matchTheColumnQuestions.rightImagesC,
+              },
+              {
+                option: "D",
+                text: matchTheColumnQuestions.rightOptionsD,
+                image: matchTheColumnQuestions.rightImagesD,
+              },
+            ].map((item) => (
+              <div key={item.option} className="mb-3  border-bottom">
+                <span>
+                  <b
+                    style={{
+                      fontSize: ".8em",
+                    }}
+                  >
+                    Option {item.option}
+                  </b>
+                </span>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: item.text,
+                  }}
+                ></p>
+                {item.image && (
+                  <img
+                    src={process.env.NEXT_PUBLIC_BASE_URL + item.image}
+                    alt={`Right Option ${item.option}`}
+                    className="img-fluid"
+                    style={{ maxWidth: "150px" }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Matching Form */}
       <div className="mt-4">
-        <h5 className="text-center">Match the Options</h5>
+        <h6
+          className="text-center"
+          style={{
+            background: "#a6fcff8a",
+            padding: "3px 0px",
+            borderRadius: "10px",
+            border: "1px solid",
+          }}
+        >
+          Match the Options
+        </h6>
         {["A", "B", "C", "D"].map((leftOption) => (
           <div key={leftOption} className="row align-items-center mb-3">
             <div className="col-md-6">

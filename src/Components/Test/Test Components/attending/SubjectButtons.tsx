@@ -53,8 +53,8 @@ const SubjectButtons: React.FC<Props> = ({ settestCounter }) => {
     <div className="d-flex flex-column gap-4 my-4">
       {/* Iterate through grouped subjects */}
       {Object.keys(groupedBySubject).map((subject) => (
-        <div key={subject} className="d-flex flex-column gap-3">
-          <h6 className="text-uppercase">{subject}</h6>
+        <div key={subject} className="d-flex flex-column gap-2">
+          <h6 className="text-uppercase m-0">{subject}</h6>
           <div className="d-flex flex-row flex-wrap gap-3">
             {groupedBySubject[subject].map((question: any) => {
               counter++;
@@ -63,6 +63,10 @@ const SubjectButtons: React.FC<Props> = ({ settestCounter }) => {
                   style={{
                     backgroundColor: `${question.color}`,
                     border: "1px solid black",
+                    padding: "0",
+                    height: "20px",
+                    width: "20px",
+                    fontSize: "10px",
                   }}
                   key={question.questionId}
                   className="p-1 btn timesUp m-0 p-0"
@@ -70,7 +74,7 @@ const SubjectButtons: React.FC<Props> = ({ settestCounter }) => {
                     handleSubjectButtonClicked(question.questionId);
                   }}
                 >
-                  {counter + 1}
+                  {counter}
                 </button>
               );
             })}

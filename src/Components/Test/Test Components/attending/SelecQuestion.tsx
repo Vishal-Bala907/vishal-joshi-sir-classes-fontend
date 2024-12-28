@@ -120,8 +120,14 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
   const test = useSelector((state: RootState) => state.attend);
 
   return (
-    <div className="container mt-4 w-75 rounded-4 p-3 my-4">
-      <section className="d-flex justify-content-center align-items-center flex-row gap-4 flex-wrap">
+    <div className="container mt-4 w-100 rounded-4 p-3 my-4">
+      <section
+        className="d-flex justify-content-start align-items-center flex-row gap-4 flex-wrap"
+        // style={{
+        //   borderBottom: "2px solid",
+        //   width: "fit-content",
+        // }}
+      >
         <div className="mb-3 text-center">
           <label className="form-label">Subject</label>
           {selectQuestion.subject && (
@@ -145,21 +151,29 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
           <label className="form-label">Type</label>
           <p className="form-control-plaintext">{selectQuestion.type}</p>
         </div>
+        <div className="mb-3 text-center">
+          <label className="form-label">Selection Mode</label>
+          <p className="form-control-plaintext">
+            {selectQuestion.correctAnswer.length > 1
+              ? "Multi Select"
+              : "Single Select"}
+          </p>
+        </div>
       </section>
 
       <div
+        className="bg-white p-3 rounded-4"
         style={{
-          border: "2px dashed",
-          padding: "1em",
+          border: "1px solid #00000029",
         }}
       >
         <div
-          className="mt-3"
+          className="mt-3 border-bottom"
           style={{
             borderBottom: "2px dashed",
           }}
         >
-          <h4>Description</h4>
+          <h4 className="">Description</h4>
           <p
             className="fw-bold"
             dangerouslySetInnerHTML={{
@@ -187,7 +201,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
                 width: "fit-content",
               }}
             >
-              <h4>A.</h4>
+              <h6>A.</h6>
               <div className={`w-auto`} style={{ cursor: "pointer" }}>
                 <p
                   dangerouslySetInnerHTML={{
@@ -227,7 +241,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
                 width: "fit-content",
               }}
             >
-              <h4>B.</h4>
+              <h6>B.</h6>
               <div className={``} style={{ cursor: "pointer" }}>
                 <p
                   dangerouslySetInnerHTML={{
@@ -266,7 +280,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
                 width: "fit-content",
               }}
             >
-              <h4>C.</h4>
+              <h6>C.</h6>
               <div className={``} style={{ cursor: "pointer" }}>
                 <p
                   dangerouslySetInnerHTML={{
@@ -303,7 +317,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
                 width: "fit-content",
               }}
             >
-              <h4>D.</h4>
+              <h6>D.</h6>
               <div className={``} style={{ cursor: "pointer" }}>
                 <p
                   dangerouslySetInnerHTML={{

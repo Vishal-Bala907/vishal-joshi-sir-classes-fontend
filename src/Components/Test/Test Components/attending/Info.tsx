@@ -22,6 +22,7 @@ const Info = () => {
             borderRadius: "4px",
             height: "20px",
             width: "20px",
+            color: "#0def0d",
           }}
         />
         <p className="p-0 m-0">Save & Next</p>
@@ -33,6 +34,7 @@ const Info = () => {
             borderRadius: "4px",
             height: "20px",
             width: "20px",
+            color: "#0d6efd",
           }}
         />
         <p className="p-0 m-0">Save & Mark for review</p>
@@ -55,9 +57,10 @@ const Info = () => {
             borderRadius: "4px",
             height: "20px",
             width: "20px",
+            color: "#ffc107",
           }}
         />
-        <p className="p-0 m-0">MArk for review and next</p>
+        <p className="p-0 m-0">Mark for review and next</p>
       </div>
 
       {/* <Badge className="" bg="light" text="dark">

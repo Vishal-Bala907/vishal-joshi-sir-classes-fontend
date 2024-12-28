@@ -89,9 +89,15 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   };
 
   return (
-    <div className="container mt-5 bg-primary-subtle rounded-4 p-3 my-4">
+    <div className="container mt-5  rounded-4 p-3 my-4">
       <div>
-        <section className="d-flex justify-content-center align-items-center flex-row gap-4 flex-wrap">
+        <section
+          className="d-flex justify-content-start align-items-center flex-row gap-4 flex-wrap"
+          // style={{
+          //   borderBottom: "2px solid",
+          //   width: "fit-content",
+          // }}
+        >
           <div className="mb-3 text-center">
             <label className="form-label">Subject</label>
             <p className="form-control-plaintext">{integerQuestion.subject}</p>
@@ -114,31 +120,38 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
             <p className="form-control-plaintext">{integerQuestion.type}</p>
           </div>
         </section>
-        <div className="mb-3">
-          <h4>Description</h4>
-          {/* <label className="form-label">Description</label> */}
-          <p
-            className="form-control-plaintext"
-            dangerouslySetInnerHTML={{ __html: integerQuestion.description }}
-          >
-            {/* {integerQuestion.description} */}
-          </p>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="correctAnswer" className="form-label">
-            Correct Answer
-          </label>
-          <input
-            type="number"
-            id="correctAnswer"
-            name="correctAnswer"
-            className="form-control"
-            onChange={(e) => {
-              setAnswer(Number(e.target.value));
-            }}
-            // value={integerQuestion.correctAnswer}
-            // onChange={handleInputChange}
-          />
+        <div
+          className="bg-white p-3 rounded-4"
+          style={{
+            border: "1px solid #00000029",
+          }}
+        >
+          <div className="mb-3 border-bottom pt-3">
+            <h4 className="">Description</h4>
+            {/* <label className="form-label">Description</label> */}
+            <p
+              className="form-control-plaintext"
+              dangerouslySetInnerHTML={{ __html: integerQuestion.description }}
+            >
+              {/* {integerQuestion.description} */}
+            </p>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="correctAnswer" className="form-label">
+              Correct Answer
+            </label>
+            <input
+              type="number"
+              id="correctAnswer"
+              name="correctAnswer"
+              className="form-control"
+              onChange={(e) => {
+                setAnswer(Number(e.target.value));
+              }}
+              // value={integerQuestion.correctAnswer}
+              // onChange={handleInputChange}
+            />
+          </div>
         </div>
 
         <div className="d-flex justify-content-center align-items-center gap-3 flex-wrap">
