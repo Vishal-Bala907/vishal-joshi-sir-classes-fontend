@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  testId: null, // Holds the test ID
+  testId: "", // Holds the test ID
   physics: 0, // Individual physics question count
   chemistry: 0, // Individual chemistry question count
   maths: 0, // Individual maths question count

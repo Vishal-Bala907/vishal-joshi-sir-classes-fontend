@@ -28,6 +28,13 @@ export const getTestByType = async (type?: string) => {
  *
  */
 
+export const updateTestAttempt = async (testId: string) => {
+  try {
+  } catch (err: any) {
+    return err.response?.data || { message: "Something went wrong" };
+  }
+};
+
 export const getTests = async (role: any) => {
   try {
     const response = await axios.get(
@@ -215,7 +222,7 @@ export const getSingleTest = async (testId: string) => {
 };
 
 export const submitTest = async (data: any) => {
-  console.log(data);
+  // console.log(data);
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/tests/test-completed`,

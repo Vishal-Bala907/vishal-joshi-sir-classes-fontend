@@ -17,6 +17,7 @@ const initialState = {
       subject: "",
       type: "",
       color: "red",
+      timeTaken: 0,
     },
   ],
 };
@@ -61,6 +62,7 @@ const questionSlice = createSlice({
           subject: "",
           type: "",
           color: "",
+          timeTaken: 0,
         },
       ];
     },

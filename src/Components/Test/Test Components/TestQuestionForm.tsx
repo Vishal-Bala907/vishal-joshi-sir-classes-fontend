@@ -5,6 +5,7 @@ import MatchTheColumn from "./Question types/MatchTheColumn";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
 import { setTestId } from "@/Redux/Reducers/TestCounterSlice";
+import { updateTestAttempt } from "@/server/tests";
 
 interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
@@ -15,10 +16,7 @@ const TestQuestionForm: React.FC<LiveTestFormProps> = ({
   setTest,
   setcreatedTest,
 }) => {
-  console.log("RENDERING COMPONENT");
-
   const [type, setType] = useState("select");
-
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setType(e.target.value);
   };
@@ -41,10 +39,21 @@ const TestQuestionForm: React.FC<LiveTestFormProps> = ({
   }, [bio, chem, maths, phys]);
 
   const dispatch = useDispatch();
+  const liveTestId = useSelector(
+    (state: RootState) => state.testCounter.testId
+  );
   function finishUploadTest() {
-    setTest("TEST-LIST");
-    setcreatedTest(null);
-    dispatch(setTestId(null));
+    // canAttempt = true
+    // update the state to true
+    updateTestAttempt(liveTestId)
+      .then((data) => {
+        setTest("TEST-LIST");
+        setcreatedTest(null);
+        dispatch(setTestId(""));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   // useEffect(() => {

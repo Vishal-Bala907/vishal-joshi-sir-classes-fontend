@@ -21,7 +21,11 @@ const nunito = Nunito_Sans({
 export const metadata: Metadata = {
   title: "Vj sir classes",
 };
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const lng = await detectLanguage();
   const session = await getServerSession(authoption);
 
@@ -29,11 +33,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <I18nProvider language={lng}>
       <html>
         <head>
-          <link rel='icon' href='/assets/images/favicon.ico' type='image/x-icon' />
-          <link rel='shortcut icon' href='/assets/images/favicon.ico' type='image/x-icon' />
-          <link rel='preconnect' href='https://fonts.googleapis.com' />
-          <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='' />
-          <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAjeJEPREBQFvAIqDSZliF0WjQrCld-Mh0'></script>
+          <link
+            rel="icon"
+            href="/assets/images/favicon.ico"
+            type="image/x-icon"
+          />
+          <link
+            rel="shortcut icon"
+            href="/assets/images/favicon.ico"
+            type="image/x-icon"
+          />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin=""
+          />
+          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjeJEPREBQFvAIqDSZliF0WjQrCld-Mh0"></script>
         </head>
         <body suppressHydrationWarning={true} className={`${nunito.variable}`}>
           <NoSsr>

@@ -43,7 +43,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
 }) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
-  console.log(selectQuestion);
+  const start = Date.now();
   const handleCheckboxChange = (option: string) => {
     setSelectedOptions(
       (prev) =>
@@ -104,6 +104,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
       marks: ansStatus ? positiveMarking : negativeMarking,
       type: selectQuestion.type,
       subject: selectQuestion.subject,
+      timeTaken: Date.now() - start,
     };
 
     dispatch(addQuestion(respone));

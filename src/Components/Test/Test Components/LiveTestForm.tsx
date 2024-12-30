@@ -59,6 +59,7 @@ interface FormDataType {
   instructions: string;
   positiveMarking: number;
   negativeMarking: number;
+  canAttempt: boolean;
 }
 
 const LiveTestForm: React.FC<LiveTestFormProps> = ({
@@ -75,6 +76,7 @@ const LiveTestForm: React.FC<LiveTestFormProps> = ({
     instructions: "",
     positiveMarking: 0,
     negativeMarking: 0,
+    canAttempt: false,
   });
 
   const handleChange = (
@@ -96,9 +98,9 @@ const LiveTestForm: React.FC<LiveTestFormProps> = ({
 
     dispatch(setTestDetails(formData));
 
+    // add the test with canAttempt = false
     addTestMetaData(formData)
       .then((data) => {
-        console.log(data.message._id);
         dispatch(setTestId(data.message._id));
       })
       .catch((err) => {

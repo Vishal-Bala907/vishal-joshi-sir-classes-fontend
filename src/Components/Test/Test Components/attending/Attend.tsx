@@ -22,25 +22,6 @@ interface LiveTestFormProps {
 }
 
 const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
-  // const subjects = ["Maths", "Physics", "Chemistry", "Biology"];
-  // const options = ["Easy", "Medium", "Hard"];
-
-  // State to hold the selected difficulty for each subject
-  // const [selections, setSelections] = useState<{ [key: string]: string }>({
-  //   Maths: "Easy",
-  //   Physics: "Easy",
-  //   Chemistry: "Easy",
-  //   Biology: "Easy",
-  // });
-
-  // Handler for updating the selection
-  // const handleSelectionChange = (subject: string, value: string) => {
-  //   setSelections((prevSelections) => ({
-  //     ...prevSelections,
-  //     [subject]: value,
-  //   }));
-  // };
-
   // question states
   //* Integer question
   const [integerQuestion, setintegerQuestion] = useState({
@@ -53,7 +34,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
     correctAnswer: "",
     _id: "",
   });
-  //* Integer question
+  //* select type question
   const [multiSelectQuestion, setmultiSelectQuestion] = useState({
     subject: "",
     topic: "",
@@ -114,29 +95,11 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
   const [testCounter, settestCounter] = useState(0);
   const test = useSelector((state: RootState) => state.attend);
   const user = useSelector((state: RootState) => state.user);
-  // const userAnswers = useSelector((state: RootState) => state.answer.questions);
-
-  // Memoized Time Difference
-  // const timeDifference = useMemo(() => {
-  //   const currentTime = new Date();
-  //   const currentMinutes =
-  //     currentTime.getHours() * 60 + currentTime.getMinutes();
-  //   const [startHour, startMinute] = test.time.split(":").map(Number);
-  //   const testStartMinutes = startHour * 60 + startMinute;
-  //   const testEndMinutes = testStartMinutes + parseInt(test.timeDuration, 10);
-  //   return testEndMinutes - currentMinutes;
-  // }, [test.time, test.timeDuration]);
 
   const dispatch = useDispatch();
-  // console.log(test);
-  // console.log(testCounter);
-
   useEffect(() => {
-    // setting all answer to incorrect
-    // console.log("hello");
     test.Questions.forEach((SingleTest, index) => {
       console.log(SingleTest);
-      const status = "INIT";
       const respone = {
         color: "white",
         questionIndex: index,
@@ -148,9 +111,8 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
         questionStatus: "INIT",
         type: SingleTest.type,
         subject: SingleTest.subject,
-        marks: status === "INIT" ? test.positiveMarking : test.negativeMarking,
+        marks: 0,
       };
-
       dispatch(addQuestion(respone));
     });
 
@@ -187,40 +149,17 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
     [testCounter, test.Questions.length, settestCounter]
   );
 
-  // function updateIndex (action: string) {
-  //   if (action === "INCREMENT") {
-  //     if (testCounter < test.Questions.length - 1) {
-  //       settestCounter((prev) => prev + 1);
-  //     } else {
-  //       toast.error("Already at the end", {
-  //         position: "top-center",
-  //       });
-  //     }
-  //   } else {
-  //     if (testCounter > 0) {
-  //       settestCounter((prev) => prev - 1);
-  //     } else {
-  //       toast.error("No previous questions are available", {
-  //         position: "top-center",
-  //       });
-  //     }
-  //   }
-  // }
-
   const [loading, setLoadding] = useState(true);
 
   useEffect(() => {
     setLoadding(true);
     const questionId = test.Questions[testCounter].questionId;
     const type = test.Questions[testCounter].questionType;
-    // fetch the question with question id and question type
-    // console.log(questionId);
-    // console.log(type);
+
     getQuestion(questionId, type)
       .then((data) => {
         // console.log(data);
         if (type === "integer") {
-          console.log(data);
           setintegerQuestion(data);
         } else if (type === "select") {
           setmultiSelectQuestion(data);

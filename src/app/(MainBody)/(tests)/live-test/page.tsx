@@ -11,7 +11,6 @@ import Result from "@/Components/Test/Test Components/result analysis/Result";
 import Wrapper from "@/Components/Test/Test Components/attending/Wrapper";
 
 const Sessions = () => {
-  const [reload, setReload] = useState(0);
   const user = useSelector((state: any) => state.user);
   const [test, setTest] = useState("TEST-LIST");
   const [createdTest, setcreatedTest] = useState(null);
@@ -22,7 +21,7 @@ const Sessions = () => {
 
   return (
     <div className="mt-1 d-flex flex-column w-100 h-100 align-items-center justify-content-center p-3">
-      {user.role === "admin" && testId === null ? (
+      {user.role === "admin" && testId === "" ? (
         <Button color="primary" onClick={handleCreateTest}>
           Create New
         </Button>

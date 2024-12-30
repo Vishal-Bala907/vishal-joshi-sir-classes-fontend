@@ -64,7 +64,7 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
 }) => {
   const [matches, setMatches] = useState<{ left: string; right: string }[]>([]);
 
-  // console.log(matchTheColumnQuestions);
+  const start = Date.now();
   const handleMatchChange = (leftOption: string, rightOption: string) => {
     setMatches((prev) => {
       const existingMatchIndex = prev.findIndex(
@@ -125,6 +125,7 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
       marks: ansStatus ? positiveMarking : negativeMarking,
       type: matchTheColumnQuestions.type,
       subject: matchTheColumnQuestions.subject,
+      timeTaken: Date.now() - start,
     };
 
     dispatch(addQuestion(respone));

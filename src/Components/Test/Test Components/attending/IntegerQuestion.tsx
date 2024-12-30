@@ -23,20 +23,6 @@ interface IntegerQuestionProps {
   settestCounter: React.Dispatch<React.SetStateAction<number>>;
 }
 
-// interface QuestionAnswer {
-//   questionIndex: number; // Index of the question
-//   questionId: string; // Unique identifier for the question
-//   testId: string; // Identifier for the test
-//   userId: string; // Identifier for the user
-//   userAnswer: string; // User's answer to the question
-//   rightAnswer: string; // Correct answer to the question
-
-//   questionStatus: string; // 'correct' or 'incorrect'
-//   marks: number; // Marks obtained for the question
-// }
-
-// index  , testId
-
 const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   integerQuestion,
   index,
@@ -45,7 +31,7 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   positiveMarking,
   settestCounter,
 }) => {
-  console.log(integerQuestion);
+  const start = Date.now();
   const dispatch = useDispatch();
   const [answer, setAnswer] = useState<number>();
   const user = useSelector((state: RootState) => state.user);
@@ -76,6 +62,7 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
       type: integerQuestion.type,
       subject: integerQuestion.subject,
       marks: status === "CORRECT" ? positiveMarking : negativeMarking,
+      timeTaken: Date.now() - start,
     };
 
     dispatch(addQuestion(respone));
@@ -91,13 +78,7 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   return (
     <div className="container mt-5  rounded-4 p-3 my-4">
       <div>
-        <section
-          className="d-flex justify-content-start align-items-center flex-row gap-4 flex-wrap"
-          // style={{
-          //   borderBottom: "2px solid",
-          //   width: "fit-content",
-          // }}
-        >
+        <section className="d-flex justify-content-start align-items-center flex-row gap-4 flex-wrap">
           <div className="mb-3 text-center">
             <label className="form-label">Subject</label>
             <p className="form-control-plaintext">{integerQuestion.subject}</p>

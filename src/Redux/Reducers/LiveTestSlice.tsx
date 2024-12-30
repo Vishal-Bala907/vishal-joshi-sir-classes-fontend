@@ -19,6 +19,7 @@ interface LiveTestFormData {
   positiveMarking: number;
   negativeMarking: number;
   Questions: Question[]; // Array of Question objects
+  canAttempt: boolean;
   _id: string;
 }
 
@@ -34,6 +35,7 @@ const initialState: LiveTestFormData = {
   negativeMarking: 0,
   Questions: [], // Initialize as an empty array
   _id: "", // Initialize as an empty string
+  canAttempt: false,
 };
 
 const liveTestSlice = createSlice({

@@ -14,6 +14,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { setChartData } from "@/Redux/Reducers/ChartData";
 import { toast } from "react-toastify";
 import { setAttending } from "@/Redux/Reducers/AttendStatus";
+import NotAttended from "./NotAttended";
 
 interface LiveTestFormData {
   _id: string;
@@ -239,7 +240,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
       {selectedType === "AVAILABLE" ? (
         <div className="accordion w-100 " id="accordionExample">
           {tests.length === 0 ? (
-            <div>No Tests available</div>
+            <NotAttended message="Ops no tests available yet 🥲🥲" />
           ) : (
             tests.map((test, index) => {
               const collapseId = `collapse${index}`;
@@ -338,7 +339,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
       ) : (
         <div className="accordion w-100" id="accordionExample">
           {attendedTestDetails.length === 0 ? (
-            <div>No Tests attended</div>
+            <NotAttended message="Ops no tests attended yet 🥲🥲" />
           ) : (
             attendedTestDetails.map((test, index) => {
               const collapseId = `collapse${index}`;
