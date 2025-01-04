@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -19,6 +19,7 @@ import "./session.css";
 import { MdOutlineCancel } from "react-icons/md";
 import { setIsLive } from "@/Redux/Reducers/isLiveSlice";
 import { setVideoCallState } from "@/Redux/Reducers/VideoCall";
+import { stat } from "fs";
 
 interface Event {
   title: string;
@@ -51,6 +52,9 @@ const Sessions = () => {
   const sessionRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const [liveSessionId, setLiveSessionId] = useState<string>("");
+  const [date, setDate] = useState<string>(
+    new Date().toISOString().split("T")[0]
+  );
   if (socket) {
     socket.on("liveStarting", ({ message }) => {
       // alert(message);
@@ -65,8 +69,8 @@ const Sessions = () => {
   //^ fetch all  the session related data of this month
   useEffect(() => {
     setLoading(true);
-
-    getAllSessionsOfThisMonths()
+    console.log(date);
+    getAllSessionsOfThisMonths(date)
       .then((data) => {
         // Update session list state
         setSessionList(data);
@@ -95,7 +99,13 @@ const Sessions = () => {
       //? set the session state to TAKEN
       setIsLive(false);
     };
-  }, []);
+  }, [date]);
+
+  const fetchSessionsForDateRange = (start: Date, end: Date) => {
+    const DATE = new Date(start);
+    const isoDate = DATE.toISOString().split("T")[0];
+    // setDate(isoDate.toString());
+  };
 
   const handleDateClick = (info: { dateStr: string }) => {
     // alert(info.dateStr);
@@ -164,20 +174,29 @@ const Sessions = () => {
               setStartSession={setStartSession}
             />
           )}
+          <div className="d-flex justify-content-center align-items-center rounded-3">
+            <input
+              type="month"
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
+            />
+          </div>
 
           <FullCalendar
-            // height={300}
-            // contentHeight={100}
+            initialDate={date}
             aspectRatio={2.1}
             headerToolbar={{
               start: "dayGridMonth,timeGridWeek,timeGridDay",
               center: "title",
-              end: "prevYear,prev,next,nextYear",
             }}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
             events={events}
             dateClick={handleDateClick}
+            // datesSet={(dateInfo) => {
+            //   fetchSessionsForDateRange(dateInfo.start, dateInfo.end);
+            // }}
             eventContent={(eventInfo) => {
               console.log(eventInfo);
               return (

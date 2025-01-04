@@ -28,6 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "webpack.config.js",
+    "src/**/*.ts",
+    "src/types/aos.d.ts",
     ".next/types/app/(MainBody)/dashboard/page.tsx"
   ],
   "exclude": ["node_modules"]

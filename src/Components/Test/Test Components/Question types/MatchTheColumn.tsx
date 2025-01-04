@@ -130,6 +130,7 @@ const MatchColumnsForm = ({ type }: Props) => {
     index: number
   ) => {
     const { value } = e.target;
+    // alert(value);
     setFormData((prev) => {
       const updatedMatchings = [...prev.correctMatchings];
       updatedMatchings[index] = {
@@ -185,7 +186,7 @@ const MatchColumnsForm = ({ type }: Props) => {
       rightImagesB: null,
       rightImagesC: null,
       rightImagesD: null,
-      correctMatchings: [],
+      correctMatchings: formData.correctMatchings,
       optionType: "text",
       description: "",
       descriptionImage: null, // Reset description image

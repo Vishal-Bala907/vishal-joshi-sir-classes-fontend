@@ -60,10 +60,10 @@ export const goLIve = async (
   }
 };
 
-export const getAllSessionsOfThisMonths = async () => {
+export const getAllSessionsOfThisMonths = async (date: String) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/session/all/this-month`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/session/all/month/${date}`
     );
     return response.data;
   } catch (err) {

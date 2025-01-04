@@ -208,10 +208,14 @@ const QuestionData = () => {
                   <strong>Marks:</strong> {q.marks}
                 </p>
               </div>
-              <h5>
-                {index + 1}. {q.description}
-              </h5>
-              <p className="d-flex flex-column">
+              <h6
+                dangerouslySetInnerHTML={{
+                  __html: q.description,
+                }}
+              >
+                {/* {index + 1}. {q.description} */}
+              </h6>
+              {/*       <p className="d-flex flex-column">
                 <strong>Right Answer:</strong>
                 {Array.isArray(q.rightAnswer)
                   ? q.rightAnswer.map((answer, idx) => {
@@ -266,236 +270,10 @@ const QuestionData = () => {
                         );
                       }
                     })
-                  : // Handle simple string
+                  : 
                     q.userAnswer}
               </p>
-
-              {/* Render optional properties for image-based questions */}
-              {q.descriptionImage && (
-                <div>
-                  <strong>Description Image:</strong> <br />
-                  <img
-                    className="w-75"
-                    src={process.env.NEXT_PUBLIC_BASE_URL + q.descriptionImage}
-                    alt="Description"
-                  />
-                </div>
-              )}
-              {/* {q.imageOptionsA && (
-                  <p>
-                    <strong>Option A (Image):</strong> {q.imageOptionsA}
-                  </p>
-                )} */}
-              <div className="d-flex justify-content-center alogn-items-center flex-row flex-wrap gap-5 my-3">
-                {/* <p>Image options</p> */}
-                {q.imageOptionsA && (
-                  <p>
-                    <strong>Option Image A :</strong> <br />
-                    <img
-                      className="w-75"
-                      src={process.env.NEXT_PUBLIC_BASE_URL + q.imageOptionsA}
-                      alt="Description"
-                    />
-                  </p>
-                )}
-
-                {q.imageOptionsB && (
-                  <p>
-                    <strong>Option Image B :</strong> <br />
-                    <img
-                      className="w-75"
-                      src={process.env.NEXT_PUBLIC_BASE_URL + q.imageOptionsB}
-                      alt="Description"
-                    />
-                  </p>
-                )}
-
-                {q.imageOptionsC && (
-                  <p>
-                    <strong>Option Image C :</strong> <br />
-                    <img
-                      className="w-75"
-                      src={process.env.NEXT_PUBLIC_BASE_URL + q.imageOptionsC}
-                      alt="Description"
-                    />
-                  </p>
-                )}
-
-                {q.imageOptionsD && (
-                  <p>
-                    <strong>Option Image D :</strong> <br />
-                    <img
-                      className="w-75"
-                      src={process.env.NEXT_PUBLIC_BASE_URL + q.imageOptionsD}
-                      alt="Description"
-                    />
-                  </p>
-                )}
-              </div>
-
-              {/* // image options */}
-              <div className="d-flex justify-content-center alogn-items-center flex-row flex-wrap gap-5 my-3">
-                {/* <p>Text options</p> */}
-                {q.textOptionsA && (
-                  <p>
-                    <strong>Option A (Text):</strong> {q.textOptionsA}
-                  </p>
-                )}
-                {q.textOptionsB && (
-                  <p>
-                    <strong>Option B (Text):</strong> {q.textOptionsB}
-                  </p>
-                )}
-                {q.textOptionsC && (
-                  <p>
-                    <strong>Option C (Text):</strong> {q.textOptionsC}
-                  </p>
-                )}
-                {q.textOptionsD && (
-                  <p>
-                    <strong>Option D (Text):</strong> {q.textOptionsD}
-                  </p>
-                )}
-              </div>
-
-              {/* Similarly, display other options if available */}
-              <div className="d-flex flex-row flex-wrap gap-5 justify-content-center align-items-center">
-                <div>
-                  {q.leftOptionsA && (
-                    <p>
-                      <strong>Left Option A : </strong> {q.leftOptionsA}
-                    </p>
-                  )}
-                  {q.leftOptionsB && (
-                    <p>
-                      <strong>Left Option B : </strong> {q.leftOptionsB}
-                    </p>
-                  )}
-                  {q.leftOptionsC && (
-                    <p>
-                      <strong>Left Option C : </strong> {q.leftOptionsC}
-                    </p>
-                  )}
-                  {q.leftOptionsD && (
-                    <p>
-                      <strong>Left Option D : </strong> {q.leftOptionsD}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  {q.rightOptionsA && (
-                    <p>
-                      <strong>Right Option A : </strong> {q.rightOptionsA}
-                    </p>
-                  )}
-                  {q.rightOptionsB && (
-                    <p>
-                      <strong>Right Option B : </strong> {q.rightOptionsB}
-                    </p>
-                  )}
-                  {q.rightOptionsC && (
-                    <p>
-                      <strong>Right Option C : </strong> {q.rightOptionsC}
-                    </p>
-                  )}
-                  {q.rightOptionsD && (
-                    <p>
-                      <strong>Right Option D : </strong> {q.rightOptionsD}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Images for Match the column */}
-              {/* Similarly, display other options if available */}
-              <div className="d-flex flex-row flex-wrap gap-5 justify-content-center align-items-center">
-                <div className="img-div">
-                  {q.leftImagesA && (
-                    <p>
-                      <strong>Left Image A : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.leftImagesA}
-                        alt="left image A"
-                      />
-                    </p>
-                  )}
-                  {q.leftImagesB && (
-                    <p>
-                      <strong>Left image B : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.leftImagesB}
-                        alt="left image B"
-                      />
-                    </p>
-                  )}
-                  {q.leftImagesC && (
-                    <p>
-                      <strong>Left image C : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.leftImagesC}
-                        alt="left image B"
-                      />
-                    </p>
-                  )}
-                  {q.leftImagesD && (
-                    <p>
-                      <strong>Left image D : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.leftImagesD}
-                        alt="left image B"
-                      />
-                    </p>
-                  )}
-                </div>
-
-                <div className="img-div">
-                  {q.rightImagesA && (
-                    <p>
-                      <strong>Right Image A : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.rightImagesA}
-                        alt="left image A"
-                      />
-                    </p>
-                  )}
-                  {q.rightImagesB && (
-                    <p>
-                      <strong>Right image B : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.rightImagesB}
-                        alt="left image B"
-                      />
-                    </p>
-                  )}
-                  {q.rightImagesC && (
-                    <p>
-                      <strong>Right image C : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.rightImagesC}
-                        alt="left image B"
-                      />
-                    </p>
-                  )}
-                  {q.rightImagesD && (
-                    <p>
-                      <strong>Right image D : </strong> <br />
-                      <img
-                        className="w-75"
-                        src={process.env.NEXT_PUBLIC_BASE_URL + q.rightImagesD}
-                        alt="left image B"
-                      />
-                    </p>
-                  )}
-                </div>
-              </div>
+              */}
             </div>
           ))
         ) : (
