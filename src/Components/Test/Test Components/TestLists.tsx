@@ -6,6 +6,7 @@ import {
   getAllAttendedTests,
   getTestById,
   getTestDataFromBackend,
+  getTestLeaderBoard,
   getTests,
 } from "@/server/tests";
 import { setAttendTestDetails } from "@/Redux/Reducers/AttendSlice";
@@ -62,6 +63,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
   const [attendedTestDetails, setattendedTestDetails] = useState<ATTENDED[]>(
     []
   );
+  // const [leaderboardData, setLeaderBoardData] = useState<TestStats[]>([]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -163,32 +165,13 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
     dispatch(setAttendTestDetails(test));
     dispatch(setAttending());
     setTest("ATTENDING");
-    attendTestNow(test._id, USER._id);
   };
 
   const getTestData = (_id: string) => {
     const userId = USER._id;
 
-    // getTestById(_id)
-    //   .then((data) => {
-    //     const obj = {
-    //       category: data.data.category,
-    //       description: data.data.description,
-    //       date: data.data.date,
-    //       testName: data.data.testName,
-    //       time: data.data.time,
-    //       timeDuration: data.data.timeDuration,
-    //     };
-
-    //     setAttendTestDetails(obj);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //   });
-
     getTestDataFromBackend(_id, userId)
       .then((data) => {
-        console.log(data);
         dispatch(setChartData(data?.data));
         setTest("RESULT");
       })

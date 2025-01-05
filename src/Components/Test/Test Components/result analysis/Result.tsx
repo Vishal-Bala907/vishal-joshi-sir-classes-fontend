@@ -11,6 +11,7 @@ import TimeTakenBarChart from "./TimeTakenBarChart";
 import DataCard from "./DataCard"; // Import the DataCard component
 import AOS from "aos";
 import "aos/dist/aos.css";
+import LeaderBoadrd from "./LeaderBoadrd";
 
 interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
@@ -27,6 +28,7 @@ interface ChartData {
   subject: string;
   marks: number;
   timeTaken: number; // Add timeTaken here for processing
+  questionStatus: "INIT" | "CORRECT" | "INCORRECT"; // Status of the question
 }
 
 const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
@@ -43,12 +45,9 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
   const [totalNegativeMarks, setTotalNegativeMarks] = useState<number>(0);
   const [totalTime, setTotalTime] = useState<number>(0);
 
-  // Safely cast the chart data (if unsure about the type of chart)
   const safeChart = chart as unknown as ChartData[];
 
   const calculateData = () => {
-    let total = 0;
-    let obtainedMarks = 0;
     let answered = 0;
     let unanswered = 0;
     let positiveMarks = 0;
@@ -57,8 +56,17 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
     const aggregatedSubjectsData: { [key: string]: SubjectData } = {};
 
     safeChart.forEach((data) => {
-      obtainedMarks += data.marks;
       totalTimeTaken += Number(data.timeTaken);
+
+      if (data.questionStatus === "CORRECT") {
+        positiveMarks += 1;
+        answered += 1;
+      } else if (data.questionStatus === "INCORRECT") {
+        negativeMarks += 1;
+        answered += 1;
+      } else if (data.questionStatus === "INIT") {
+        unanswered += 1;
+      }
 
       const subject = data.subject;
 
@@ -74,26 +82,20 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
 
         aggregatedSubjectsData[subject].totalQuestions += 1;
 
-        if (data.marks > 0) {
+        if (data.questionStatus === "CORRECT") {
           aggregatedSubjectsData[subject].positiveMarksCount += 1;
-          positiveMarks += 1;
-        } else if (data.marks < 0) {
-          negativeMarks += 1;
-        } else {
-          unanswered += 1;
         }
 
         aggregatedSubjectsData[subject].totalTime += Number(data.timeTaken);
       }
     });
 
-    setTotalMarks(chart.length * 4);
-    setObtained(obtainedMarks);
-    setSubjectsData(aggregatedSubjectsData);
+    setTotalMarks(safeChart.length * 4);
     setTotalAnswered(answered);
     setTotalUnanswered(unanswered);
     setTotalPositiveMarks(positiveMarks);
     setTotalNegativeMarks(negativeMarks);
+    setSubjectsData(aggregatedSubjectsData);
     setTotalTime(totalTimeTaken);
   };
 
@@ -115,13 +117,15 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
           setTest("TEST-LIST");
         }}
       />
-      {/* Display DataCard */}
+      <div className="w-100">
+        <LeaderBoadrd />
+      </div>
       <div
         className="w-100 d-flex justify-content-center flex-row flex-wrap align-items-center gap-3 mt-4"
         data-aos="fade-up"
       >
         <DataCard
-          totalQuestions={chart.length || 0}
+          totalQuestions={safeChart.length || 0}
           totalMarks={totalMarks}
           totalAnswered={totalAnswered}
           totalUnanswered={totalUnanswered}
@@ -136,10 +140,18 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
         className="w-100 d-flex justify-content-center align-content-center"
         data-aos="fade-left"
       >
-        <PieChart subjectsData={subjectsData} />
+        <PieChart
+          totalPositiveMarks={totalPositiveMarks}
+          totalNegativeMarks={totalNegativeMarks}
+          totalUnanswered={totalUnanswered}
+        />
       </div>
       <div className="w-100 d-flex justify-content-center align-content-center flex-row flex-wrap gap-3">
-        <BarChart subjectsData={subjectsData} />
+        <BarChart
+          totalPositiveMarks={totalPositiveMarks}
+          totalNegativeMarks={totalNegativeMarks}
+          totalUnanswered={totalUnanswered}
+        />
         <TimeTakenBarChart subjectsData={subjectsData} />
       </div>
       <hr

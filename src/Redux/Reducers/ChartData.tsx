@@ -15,6 +15,7 @@ interface ChartData {
   userId: string;
   __v: number;
   _id: string;
+  timeTaken: number;
 }
 
 // Define the initial state

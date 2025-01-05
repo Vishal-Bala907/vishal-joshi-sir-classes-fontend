@@ -10,8 +10,6 @@ import {
 } from "@/Redux/Reducers/TestCounterSlice";
 import ReactQuill from "react-quill"; // Import ReactQuill
 import "react-quill/dist/quill.snow.css"; // Import Quill's CSS
-import "katex/dist/katex.min.css"; // Import KaTeX CSS for rendering math
-import katex from "katex"; // Import KaTeX for formula rendering
 
 interface Props {
   type: string;
@@ -40,10 +38,6 @@ const TestQuestionForm = ({ type }: Props) => {
 
   const handleDescriptionChange = (value: string) => {
     setFormData((prevData) => ({ ...prevData, description: value }));
-  };
-
-  const handleCorrectAnswerChange = (value: string) => {
-    setFormData((prevData) => ({ ...prevData, correctAnswer: value }));
   };
 
   const testId = useSelector((state: RootState) => state.testCounter.testId);
@@ -94,7 +88,7 @@ const TestQuestionForm = ({ type }: Props) => {
               className="form-select w-100"
               value={type}
               type="text"
-              contentEditable="false"
+              readOnly
               required
             />
           </div>
@@ -195,16 +189,15 @@ const TestQuestionForm = ({ type }: Props) => {
                 ],
               }}
               formats={[
-                "header", // Headers
+                "header",
                 "bold",
                 "italic",
                 "underline",
-                "strike", // Text styles
                 "list",
-                "bullet", // Lists
-                "script", // Subscript/Superscript
+                "bullet",
+                "script",
                 "link",
-                "formula", // Links and formulas
+                "formula",
               ]}
             />
           </div>
@@ -214,32 +207,15 @@ const TestQuestionForm = ({ type }: Props) => {
             <label htmlFor="correctAnswer" className="form-label">
               Correct Answer
             </label>
-            <ReactQuill
-              theme="snow"
+            <input
+              type="text"
+              id="correctAnswer"
+              name="correctAnswer"
+              className="form-control"
               value={formData.correctAnswer}
-              onChange={handleCorrectAnswerChange}
-              placeholder="Enter correct answer with formulas"
-              modules={{
-                toolbar: [
-                  [{ header: [1, 2, 3, false] }],
-                  ["bold", "italic", "underline"],
-                  [{ list: "ordered" }, { list: "bullet" }],
-                  [
-                    { script: "sub" }, // Subscript
-                    { script: "super" }, // Superscript
-                  ],
-                  ["link", "formula"],
-                ],
-              }}
-              formats={[
-                "bold",
-                "italic",
-                "underline",
-                "list",
-                "bullet",
-                "link",
-                "formula",
-              ]}
+              onChange={handleChange}
+              placeholder="Enter correct answer"
+              required
             />
           </div>
 

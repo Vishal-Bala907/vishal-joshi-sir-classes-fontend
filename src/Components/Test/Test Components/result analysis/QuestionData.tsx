@@ -14,6 +14,7 @@ interface QUESTIONS {
 
   description: string;
   level: string;
+  timeTaken: number;
 
   // SELECT TYPE
   // Optional properties
@@ -63,8 +64,8 @@ const QuestionData = () => {
     chart.forEach((c, ind) => {
       const qId = c.questionId;
       const qType = c.type;
-      console.log(c);
-      console.log(c.type);
+      // console.log(c);
+      // console.log(c.type);
 
       getQuestion(qId, qType)
         .then((data) => {
@@ -80,6 +81,7 @@ const QuestionData = () => {
 
               description: data.description,
               level: data.level,
+              timeTaken: c.timeTaken,
             };
             setquestion((prevState) => [...prevState, DATA]);
           } else if (c.type === "select") {
@@ -110,6 +112,7 @@ const QuestionData = () => {
               textOptionsB: data.textOptionsB,
               textOptionsC: data.textOptionsC,
               textOptionsD: data.textOptionsD,
+              timeTaken: c.timeTaken,
             };
             setquestion((prevState) => [...prevState, DATA]);
           } else {
@@ -167,6 +170,7 @@ const QuestionData = () => {
                 data.rightImagesD === "" || data.rightImagessD
                   ? ""
                   : data.rightImagesD,
+              timeTaken: c.timeTaken,
             };
             // console.log(DATA);
             setquestion((prevState) => [...prevState, DATA]);
@@ -192,7 +196,7 @@ const QuestionData = () => {
           question.map((q, index) => (
             <div
               key={q.questionId}
-              className="question-card p-3 mb-3 border rounded"
+              className="question-card p-3 mb-3 border rounded bg-white"
             >
               <div className="d-flex justify-content-center alogn-items-center flex-row flex-wrap gap-5">
                 <p>
@@ -207,6 +211,9 @@ const QuestionData = () => {
                 <p>
                   <strong>Marks:</strong> {q.marks}
                 </p>
+                <p>
+                  <strong>Time Taken By You:</strong> {q.timeTaken / 1000} sec
+                </p>
               </div>
               <h6
                 dangerouslySetInnerHTML={{
@@ -215,65 +222,6 @@ const QuestionData = () => {
               >
                 {/* {index + 1}. {q.description} */}
               </h6>
-              {/*       <p className="d-flex flex-column">
-                <strong>Right Answer:</strong>
-                {Array.isArray(q.rightAnswer)
-                  ? q.rightAnswer.map((answer, idx) => {
-                      if (typeof answer === "object") {
-                        // Handle array of objects
-                        return (
-                          <span key={idx}>
-                            Left Option {idx + 1} <FaArrowRight /> Right Option{" "}
-                            {answer.rightOption}
-                            {idx !== q.rightAnswer.length - 1 ? ", " : ""}
-                          </span>
-                        );
-                      } else {
-                        // Handle array of strings
-                        return (
-                          <span key={idx}>
-                            {answer}
-                            {idx !== q.rightAnswer.length - 1 ? ", " : ""}
-                          </span>
-                        );
-                      }
-                    })
-                  : // Handle simple string
-                    q.rightAnswer}
-              </p>
-              <p className="d-flex flex-column">
-                <strong>User Answer:</strong>
-                {Array.isArray(q.userAnswer)
-                  ? q.userAnswer.map((answer, idx) => {
-                      if (typeof answer === "object") {
-                        // Handle array of objects
-                        return (
-                          <span key={idx}>
-                            Left Option {idx + 1} <FaArrowRight /> Right Option{" "}
-                            {answer.right === "A"
-                              ? 1
-                              : answer.right === "B"
-                              ? 2
-                              : answer.right === "C"
-                              ? 3
-                              : 4}
-                            {idx !== q.rightAnswer.length - 1 ? ", " : ""}
-                          </span>
-                        );
-                      } else {
-                        // Handle array of strings
-                        return (
-                          <span key={idx}>
-                            {answer}
-                            {idx !== q.rightAnswer.length - 1 ? ", " : ""}
-                          </span>
-                        );
-                      }
-                    })
-                  : 
-                    q.userAnswer}
-              </p>
-              */}
             </div>
           ))
         ) : (

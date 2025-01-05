@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import img from "/myImages/logo3.png";
 import { toast } from "react-toastify";
 import IntegerQuestion from "./IntegerQuestion";
-import { getQuestion } from "@/server/tests";
+import { attendTestNow, getQuestion } from "@/server/tests";
 import SelecQuestion from "./SelecQuestion";
 import MatchTheColumn from "./MatchTheColumn";
 import {
@@ -109,9 +109,10 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
         rightAnswer: SingleTest.correctAnswer,
         userAnswer: "null",
         questionStatus: "INIT",
-        type: SingleTest.type,
+        type: SingleTest.questionType,
         subject: SingleTest.subject,
         marks: 0,
+        timeTaken: 0,
       };
       dispatch(addQuestion(respone));
     });
@@ -179,6 +180,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
   }
 
   function submitTest() {
+    attendTestNow(test._id, user._id);
     dispatch(submitTestCompleted());
     dispatch(resetAttending());
   }
