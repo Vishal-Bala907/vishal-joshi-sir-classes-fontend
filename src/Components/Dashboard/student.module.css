@@ -1,0 +1,11 @@
+.dp {
+  height: 200px;
+  width: auto;
+  border-radius: 50%;
+}
+
+.inp {
+  background: transparent;
+  border: none;
+  outline: none;
+}

@@ -1,0 +1,46 @@
+.mentors-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #1e1e2f, #232347);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.mentor-card {
+  background: linear-gradient(135deg, #4a90e2, #9013fe);
+  border-radius: 15px;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+  transform: perspective(1000px);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.mentor-card:hover {
+  transform: scale(1.05) rotateY(10deg);
+  box-shadow: 0 10px 30px rgba(144, 19, 254, 0.5);
+}
+
+.mentor-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mentor-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 10px;
+}
