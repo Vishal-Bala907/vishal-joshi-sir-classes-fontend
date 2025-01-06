@@ -29,7 +29,7 @@ const HeaderRight = () => {
     <div className="nav-right">
       <ul className="header-right">
         {/* <Languages/> */}
-        <button
+        {/* <button
           ref={ref}
           id="noti"
           onClick={() => {
@@ -47,8 +47,8 @@ const HeaderRight = () => {
               color: "black",
               fill: "black",
             }}
-          />
-        </button>
+          /> */}
+        {/* </button> */}
         {/* <ResponsiveSearch /> */}
         <DarkMode />
 
