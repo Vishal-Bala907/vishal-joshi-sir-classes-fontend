@@ -1,0 +1,75 @@
+/* leaderboard-container styles */
+.leaderboard-container {
+  font-family: "Arial", sans-serif;
+  margin: 20px;
+  text-align: center;
+}
+
+/* Header style */
+.header {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+/* Top scorers container */
+.top-scorers-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 40px;
+}
+
+/* Individual leaderboard card style */
+.leaderboard-card {
+  background: linear-gradient(135deg, #6e7e99, #9b8dc1);
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+  width: 250px;
+  margin: 10px;
+}
+
+.leaderboard-card h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.leaderboard-card p {
+  font-size: 1rem;
+  margin: 5px 0;
+}
+
+.leaderboard-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Rank card styles (for top scorers) */
+.rank-card {
+  background: linear-gradient(135deg, #4caf50, #81c784);
+  color: white;
+  padding: 25px;
+  margin: 10px;
+  width: 300px;
+}
+
+.rank-card h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Animation for cards */
+.leaderboard-card {
+  opacity: 0;
+  transform: translateY(100px);
+}
+
+.leaderboard-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}

@@ -16,6 +16,7 @@ import { setChartData } from "@/Redux/Reducers/ChartData";
 import { toast } from "react-toastify";
 import { setAttending } from "@/Redux/Reducers/AttendStatus";
 import NotAttended from "./NotAttended";
+import RescheduleTest from "./RescheduleTest";
 
 interface LiveTestFormData {
   _id: string;
@@ -266,44 +267,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
                   >
                     <div className="accordion-body">
                       {USER.role === "admin" ? (
-                        <div className="container mt-5">
-                          <h6 className="mb-4">Reschedule Test</h6>
-                          <form>
-                            <div className="mb-3">
-                              <label
-                                htmlFor={`testDate${index}`}
-                                className="form-label"
-                              >
-                                Select Date
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control"
-                                id={`testDate${index}`}
-                                name="testDate"
-                                required
-                              />
-                            </div>
-                            <div className="mb-3">
-                              <label
-                                htmlFor={`testTime${index}`}
-                                className="form-label"
-                              >
-                                Select Time
-                              </label>
-                              <input
-                                type="time"
-                                className="form-control"
-                                id={`testTime${index}`}
-                                name="testTime"
-                                required
-                              />
-                            </div>
-                            <button type="submit" className="btn btn-primary">
-                              Reschedule Test
-                            </button>
-                          </form>
-                        </div>
+                        <RescheduleTest testId={test._id} index={index} />
                       ) : (
                         <button
                           className="btn btn-primary"

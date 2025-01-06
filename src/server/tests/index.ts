@@ -115,6 +115,22 @@ export const addTestMetaData = async (testMetaData: any) => {
   }
 };
 
+//! reschedule test
+export const rescheduleTest = async (test: any) => {
+  // console.log(test);
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/tests/api/create/res`,
+      test
+    );
+    const res = await response.data;
+    // console.log(res);
+    return res;
+  } catch (error: any) {
+    throw error;
+  }
+};
+
 export const addIntegerQuestion = async (question: any, id: any) => {
   try {
     const response = await axios.post(

@@ -1,0 +1,65 @@
+/* General container styles */
+.question-list-container {
+  width: 100%;
+  padding: 2rem;
+  background-color: #f8f9fa; /* Light gray background for contrast */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-family: "Poppins", sans-serif;
+  color: #007bff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Question list */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.col-md-6 {
+  max-width: 45%; /* Ensures two cards per row */
+}
+
+.question-card {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    #74ebd5,
+    #acb6e5
+  ); /* Gradient background */
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.question-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.question-details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.question-description {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #f1f1f1;
+}
+
+.no-questions {
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.2rem;
+}

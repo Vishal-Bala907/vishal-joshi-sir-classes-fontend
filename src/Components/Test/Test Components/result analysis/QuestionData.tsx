@@ -1,9 +1,10 @@
 import { RootState } from "@/Redux/Store";
 import { getQuestion } from "@/server/tests";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
+import gsap from "gsap";
+import "./result.css";
 interface QUESTIONS {
   marks: number;
   questionId: string;
@@ -188,44 +189,63 @@ const QuestionData = () => {
     };
   }, [chart]);
 
+  const questionRefs = useRef<HTMLDivElement[]>([]);
+
+  useEffect(() => {
+    gsap.fromTo(
+      questionRefs.current,
+      { opacity: 0, y: 50, scale: 0.9 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        stagger: 0.1,
+        duration: 1,
+        ease: "power2.out",
+      }
+    );
+  }, []);
+
   return (
-    <div className="w-100 d-flex flex-column align-items-center gap-4">
-      {/* <h3>Questions Data</h3> */}
-      <div className="question-list w-100">
+    <div className="question-list-container">
+      <h3 className="title">Questions Data</h3>
+      <div className="row question-list gx-4 gy-5">
         {question.length > 0 ? (
           question.map((q, index) => (
             <div
               key={q.questionId}
-              className="question-card p-3 mb-3 border rounded bg-white"
+              className="col-12 col-md-6 d-flex justify-content-center"
+              ref={(el) => (questionRefs.current[index] = el!)}
             >
-              <div className="d-flex justify-content-center alogn-items-center flex-row flex-wrap gap-5">
-                <p>
-                  <strong>Subject:</strong> {q.subject}
-                </p>
-                <p>
-                  <strong>Level:</strong> {q.level}
-                </p>
-                <p>
-                  <strong>Status:</strong> {q.questionStatus}
-                </p>
-                <p>
-                  <strong>Marks:</strong> {q.marks}
-                </p>
-                <p>
-                  <strong>Time Taken By You:</strong> {q.timeTaken / 1000} sec
-                </p>
+              <div className="question-card">
+                <div className="question-details">
+                  <p>
+                    <strong>Subject:</strong> {q.subject}
+                  </p>
+                  <p>
+                    <strong>Level:</strong> {q.level}
+                  </p>
+                  <p>
+                    <strong>Status:</strong> {q.questionStatus}
+                  </p>
+                  <p>
+                    <strong>Marks:</strong> {q.marks}
+                  </p>
+                  <p>
+                    <strong>Time Taken:</strong> {q.timeTaken / 1000} sec
+                  </p>
+                </div>
+                <h6
+                  className="question-description"
+                  dangerouslySetInnerHTML={{
+                    __html: q.description,
+                  }}
+                ></h6>
               </div>
-              <h6
-                dangerouslySetInnerHTML={{
-                  __html: q.description,
-                }}
-              >
-                {/* {index + 1}. {q.description} */}
-              </h6>
             </div>
           ))
         ) : (
-          <p>No questions available.</p>
+          <p className="no-questions">No questions available.</p>
         )}
       </div>
     </div>
