@@ -1,34 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import "./ProfileCard.css";
-import style from "./student.module.css";
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
-
-interface Info {
-  name: string;
-  email: string;
-}
+import { FaPencilAlt } from "react-icons/fa";
+import ImageUploadModal from "./ImageUploadModal";
+import "./ProfileCard.css"; // Ensure this file is included
 
 const ProfileCard = () => {
   const cardRef = useRef(null);
   const buttonRef = useRef(null);
   const imageRef = useRef(null);
   const user = useSelector((state: RootState) => state.user);
-  const [userInfo, setUserInfo] = useState<Info>({
+  const [userInfo, setUserInfo] = useState({
     name: user.name,
     email: user.email,
   });
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const [mouseClick, setMouseClick] = useState<number>(0);
-  const [mouseButtonText, setMouseButtonText] = useState<string>("Update");
-  const [locked, setLocked] = useState<boolean>(true);
+  const [mouseClick, setMouseClick] = useState(0);
+  const [mouseButtonText, setMouseButtonText] = useState("Update");
+  const [locked, setLocked] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
-    if (nameRef.current) nameRef.current.contentEditable = "false";
-    if (emailRef.current) emailRef.current.contentEditable = "false";
-
     gsap.fromTo(
       cardRef.current,
       { y: 50, opacity: 0 },
@@ -55,11 +52,11 @@ const ProfileCard = () => {
     });
   }, []);
 
+  // const user = useSelector((state: RootState) => state.user);
   const handleMouseClick = () => {
-    setLocked(!locked); // unloacked for editing
+    setLocked(!locked); // unlock for editing
 
-    if (mouseClick % 2 != 0) {
-      console.log(userInfo);
+    if (mouseClick % 2 !== 0) {
       if (nameRef.current && emailRef.current) {
         nameRef.current.style.border = "none";
         nameRef.current.style.background = "transparent";
@@ -80,49 +77,45 @@ const ProfileCard = () => {
   };
 
   return (
-    <div
-      ref={cardRef}
-      className={`${style.profileCard} d-flex justify-content-center align-items-center flex-column p-4`}
-    >
-      <img
-        ref={imageRef}
-        className={`${style.dp} my-5`}
-        src="/assets/images/avtar/3.jpg"
-        alt="profile dp"
-      />
-      <div className={`profile-email ${style.inp} `}>
+    <div ref={cardRef} className="profile-card">
+      <div className="position-relative">
+        <img
+          ref={imageRef}
+          className="profile-image"
+          src={process.env.NEXT_PUBLIC_BASE_URL + user.image_url}
+          alt="profile dp"
+        />
+        <FaPencilAlt onClick={openModal} className="pencil" />
+      </div>
+      <div className="profile-info">
         <input
           ref={nameRef}
-          className={`${style.inp}  py-2 px-3 rounded-4`}
+          className="input-field"
           type="text"
           value={userInfo.name}
-          onChange={(e) => {
-            setUserInfo((state) => ({ ...state, name: e.target.value }));
-          }}
+          onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
           readOnly={locked}
         />
-      </div>
-      <div className={`profile-email ${style.inp}`}>
         <input
           ref={emailRef}
-          className={`${style.inp} py-2 px-3 rounded-4`}
+          className="input-field"
           type="text"
           value={userInfo.email}
-          onChange={(e) => {
-            setUserInfo((state) => ({ ...state, email: e.target.value }));
-          }}
+          onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
           readOnly={locked}
         />
       </div>
       <button
-        className="update-button"
         ref={buttonRef}
+        className="update-button"
         onMouseEnter={() => gsap.to(buttonRef.current, { scale: 1.1 })}
         onMouseLeave={() => gsap.to(buttonRef.current, { scale: 1 })}
         onClick={handleMouseClick}
       >
         {mouseButtonText}
       </button>
+      {isModalOpen && <ImageUploadModal onClose={closeModal} />}
+      {/* <ImageUploadModal onClose={closeModal} /> */}
     </div>
   );
 };
