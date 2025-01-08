@@ -16,18 +16,28 @@ export const startStudySession = async (userId: string, subject: string) => {
   }
 };
 
-export const stopStudySession = async (sessionId: string) => {
+export const stopStudySession = async (data: any) => {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/studyMode/stopStudySession`,
-      {
-        sessionId,
-      }
+      data
     );
     return response.data;
   } catch (error: any) {
     return error.response?.data || { message: "Something went wrong" };
   }
+};
+
+export const fetchStudySessions = async (userId: string) => {
+  // Example API call
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/studyMode/study-sessions?userId=${userId}`
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch study sessions");
+  }
+  const data = await response.json();
+  return data; // Array of session data
 };
 
 export const updateProfile = async (data: any) => {
@@ -82,6 +92,16 @@ export const updateProgress = async (progressId: string, data: any) => {
     const response = await apiClient.post(
       `/api/v1/progress/${progressId}`,
       data
+    );
+    return response.data;
+  } catch (error: any) {
+    return error.response?.data || { message: "Something went wrong" };
+  }
+};
+export const fetchAllStudySessions = async (userId: string) => {
+  try {
+    const response = await apiClient.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/studyMode/all/${userId}`
     );
     return response.data;
   } catch (error: any) {
