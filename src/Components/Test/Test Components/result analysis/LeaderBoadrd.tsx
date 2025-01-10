@@ -143,10 +143,13 @@ const LeaderBoadrd = () => {
           #{userIndex + 1}
         </span>
       </div>
-      <div className="w-100 d-flex justify-content-center align-items-center flex-row flex-wrap">
-        <LiveTestResults name={user.name || "You"} data={userData} />
-        <LiveTestResults name="Topper" data={maxCorrectCountData} />
-        <LiveTestResults name="Average" data={averageStats} />
+      <div>
+        <h1 className="text-center">Comparative analysis</h1>
+        <div className="w-100 d-flex justify-content-center align-items-center flex-row flex-wrap">
+          <LiveTestResults name={user.name || "You"} data={userData} />
+          <LiveTestResults name="Topper" data={maxCorrectCountData} />
+          <LiveTestResults name="Average" data={averageStats} />
+        </div>
       </div>
     </>
   );

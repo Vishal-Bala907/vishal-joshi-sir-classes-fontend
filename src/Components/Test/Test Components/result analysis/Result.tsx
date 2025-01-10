@@ -117,9 +117,7 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
           setTest("TEST-LIST");
         }}
       />
-      <div className="w-100">
-        <LeaderBoadrd />
-      </div>
+
       <div
         className="w-100 d-flex justify-content-center flex-row flex-wrap align-items-center gap-3 mt-4"
         data-aos="fade-up"
@@ -134,6 +132,9 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
           subjectsData={subjectsData}
           totalTime={totalTime}
         />
+      </div>
+      <div className="w-100">
+        <LeaderBoadrd />
       </div>
 
       <div

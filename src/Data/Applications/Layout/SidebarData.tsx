@@ -97,14 +97,14 @@ export const StudentMenuList: MenuItem[] | undefined = [
         type: "link",
         lanClass: "lan-3",
       },
-      // {
-      //   title: "My Progress",
-      //   id: 2,
-      //   icon: "ri:progress-5-fill",
-      //   path: "/progress",
-      //   type: "link",
-      //   lanClass: "lan-3",
-      // },
+      {
+        title: "My Progress",
+        id: 2,
+        icon: "ri:progress-5-fill",
+        path: "/progress",
+        type: "link",
+        lanClass: "lan-3",
+      },
     ],
   },
 ];

@@ -1,5 +1,4 @@
-/* General container styles */
-.question-list-container {
+General container styles .question-list-container {
   width: 100%;
   padding: 2rem;
   background-color: #f8f9fa; /* Light gray background for contrast */
@@ -28,16 +27,16 @@
 
 .question-card {
   width: 100%;
-  padding: 1.5rem;
   border-radius: 12px;
-  background: linear-gradient(
-    135deg,
-    #74ebd5,
-    #acb6e5
-  ); /* Gradient background */
+  background: white; /* Gradient background */
   color: #fff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sms-info-bg {
+  background-color: #0097b2;
+  padding: 15px;
 }
 
 .question-card:hover {
@@ -62,4 +61,14 @@
   text-align: center;
   color: #6c757d;
   font-size: 1.2rem;
+}
+
+.circle {
+  background-color: #0097b2;
+  padding: 15px 23px;
+  border-radius: 50%;
+  top: -35px;
+  left: 0px;
+  font-weight: 600;
+  color: white;
 }

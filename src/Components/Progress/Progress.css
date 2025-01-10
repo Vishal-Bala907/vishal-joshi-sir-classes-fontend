@@ -1,0 +1,75 @@
+.progress-container {
+  width: 100%;
+  height: 30px;
+  background-color: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #316933; /* Green color */
+  transition: width 0.3s ease;
+}
+
+.progressAreaLeft {
+  min-width: 600px;
+  width: 60%;
+}
+.progressAreaRight {
+  min-width: 400px;
+  width: 40%;
+}
+
+.progress-area-wrapper-bg {
+  background-image: url("/assets/images/progressAreabg.jpeg");
+  background-size: cover;
+}
+
+.update-progress-text {
+  min-width: 250px;
+  width: 300px;
+}
+
+.arrow-img {
+  mix-blend-mode: multiply;
+  rotate: 90deg;
+}
+.progress-area-second {
+  min-width: 250px;
+  width: 300px;
+}
+
+.progress-area-card {
+  background: linear-gradient(265deg, #114268, #0194b1);
+  width: 500px;
+  border-radius: 10px;
+}
+.startCover {
+  width: fit-content;
+  padding: 10px;
+  background-color: white;
+  border-radius: 50%;
+  border: 1px solid #00000012;
+  position: relative;
+  left: 20px;
+}
+.starText {
+  /* height: 100%; */
+  /* padding: 45px 10px; */
+  background-color: #0196b2;
+  height: 65px;
+  color: white;
+  /* padding: 0pc 26px; */
+  width: 300px;
+}
+
+.rightToppers {
+  width: 340px;
+  justify-self: flex-end;
+  background: linear-gradient(265deg, #114268, #0194b1);
+  padding: 20px;
+  max-height: 500px;
+  overflow: scroll;
+}

@@ -3,6 +3,7 @@ import { fetchAllStudySessions } from "@/server/user"; // Replace with your fetc
 import { useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
 import { gsap } from "gsap"; // Import GSAP for animation
+import "./StudySessionsCard.css";
 
 const StudySessionsCard: React.FC = () => {
   const [sessionsData, setSessionsData] = useState<any[]>([]); // Ensure this is initialized as an array

@@ -2,11 +2,7 @@
 
 .study-sessions {
   padding: 20px;
-  background: linear-gradient(
-    135deg,
-    #1c1c1c,
-    #121212
-  ); /* Dark gradient background */
+  background: linear-gradient(135deg, #c7ffe300, #acfff0a6);
   min-height: 100vh;
 }
 
@@ -18,14 +14,10 @@
 }
 
 .card {
-  background: linear-gradient(
-    145deg,
-    #2a2a2a,
-    #1f1f1f
-  ); /* Dark, rich gradients */
+  background: linear-gradient(145deg, #6da5bf, #2c977ab3);
   padding: 30px;
   border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  /* box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); */
   color: #f1f1f1;
   display: flex;
   flex-direction: column;
@@ -71,7 +63,7 @@
 
 .card:hover {
   transform: translateY(-10px); /* Floating effect */
-  box-shadow: 0 25px 50px rgba(0, 255, 171, 0.2); /* Enhanced neon glow on hover */
+  background: linear-gradient(145deg, #001b69, #00ffde00);
   filter: brightness(1.2);
 }
 

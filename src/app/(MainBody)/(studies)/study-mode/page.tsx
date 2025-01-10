@@ -54,8 +54,10 @@ const StudyMode = () => {
       <div>
         <StopwatchTimer />
       </div>
-      <SubjectTimeChart />
-      <SubjectPieChart />
+      <div className="d-flex flex-row justify-content-center align-items-center gap-4">
+        <SubjectTimeChart />
+        <SubjectPieChart />
+      </div>
       <StudySessionsCard />
     </>
   );

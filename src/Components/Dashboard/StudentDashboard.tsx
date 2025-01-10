@@ -7,6 +7,7 @@ import MentorsList from "./Mentors";
 import TopTests from "./TopTest";
 import TestBarGraph from "./TestBarGraph";
 import StudySessionsGraph from "./StudySessionsGraph";
+import SubjectTimeChart from "../StudyMode/SubjectTimeChart";
 
 const primary = ConfigDB.color.primary_color || "var(--theme-default)";
 const secondary = ConfigDB.color.secondary_color || "var(--theme-secondary)";
@@ -23,7 +24,7 @@ const StudentDashboard = () => {
         <TestBarGraph />
       </section>
       <section className="my-4">
-        <StudySessionsGraph />
+        <SubjectTimeChart />
       </section>
     </main>
   );

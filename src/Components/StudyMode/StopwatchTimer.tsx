@@ -225,7 +225,11 @@ const StopwatchTimer: React.FC = () => {
           />
         </InputGroup>
       )}
-      <ButtonGroup>
+      <ButtonGroup
+        style={{
+          margin: "15px 0px",
+        }}
+      >
         <Button onClick={handleStart} disabled={isRunning && !isPaused}>
           Start
         </Button>
@@ -237,14 +241,14 @@ const StopwatchTimer: React.FC = () => {
         </Button>
         <Button onClick={reset}>Reset</Button>
       </ButtonGroup>
-      <Button
+      {/* <Button
         style={{
           margin: "15px 0px",
         }}
         onClick={() => setIsStopwatch((prev) => !prev)}
       >
         Switch to {isStopwatch ? "Timer" : "Stopwatch"}
-      </Button>
+      </Button> */}
       {sessionData && (
         <DataContainer>
           <strong>Session Data:</strong>

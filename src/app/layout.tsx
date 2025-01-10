@@ -9,6 +9,7 @@ import SessionWrapper from "@/CommonComponent/SessionWrapper";
 import { authoption } from "./api/auth/[...nextauth]/authOption";
 import { getServerSession } from "next-auth";
 import { ToastContainer } from "react-toastify";
+import "./font.css";
 
 const nunito = Nunito_Sans({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900", "1000"],
@@ -49,9 +50,18 @@ export default async function RootLayout({
             href="https://fonts.gstatic.com"
             crossOrigin=""
           />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap"
+            rel="stylesheet"
+          />
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjeJEPREBQFvAIqDSZliF0WjQrCld-Mh0"></script>
         </head>
-        <body suppressHydrationWarning={true} className={`${nunito.variable}`}>
+        <body
+          suppressHydrationWarning={true}
+          className={`${nunito.variable} league-spartan`}
+        >
           <NoSsr>
             <SessionWrapper session={session}>
               <MainProvider>{children}</MainProvider>

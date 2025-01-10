@@ -2,6 +2,7 @@ import { RootState } from "@/Redux/Store";
 import { getQuestion } from "@/server/tests";
 import React, { useEffect, useRef, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import { GiStopwatch } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import gsap from "gsap";
 import "./result.css";
@@ -207,40 +208,93 @@ const QuestionData = () => {
   }, []);
 
   return (
-    <div className="question-list-container">
-      <h3 className="title">Questions Data</h3>
-      <div className="row question-list gx-4 gy-5">
+    <div className="question-list-container bg-white text-dark">
+      <h3 className="title bg-white text-dark">Question-wise analysis</h3>
+      <div className="row question-list gx-4 gy-5 bg-white text-dark">
         {question.length > 0 ? (
           question.map((q, index) => (
             <div
               key={q.questionId}
-              className="col-12 col-md-6 d-flex justify-content-center"
+              className="col-12 col-md-6 d-flex justify-content-center bg-white text-dark position-relative"
               ref={(el) => (questionRefs.current[index] = el!)}
             >
-              <div className="question-card">
-                <div className="question-details">
-                  <p>
-                    <strong>Subject:</strong> {q.subject}
-                  </p>
-                  <p>
-                    <strong>Level:</strong> {q.level}
-                  </p>
-                  <p>
-                    <strong>Status:</strong> {q.questionStatus}
-                  </p>
-                  <p>
-                    <strong>Marks:</strong> {q.marks}
-                  </p>
-                  <p>
-                    <strong>Time Taken:</strong> {q.timeTaken / 1000} sec
-                  </p>
-                </div>
+              <div className="question-card bg-white text-dark">
                 <h6
-                  className="question-description"
+                  className="question-description bg-white text-dark p-4"
                   dangerouslySetInnerHTML={{
                     __html: q.description,
                   }}
                 ></h6>
+                <div className="d-flex justify-content-center align-items-center flex-row ">
+                  <div className="question-details sms-info-bg w-75">
+                    <p className="m-0 p-0 fw-semibold">
+                      <strong className="text-white">Subject : </strong>{" "}
+                      <span
+                        style={{
+                          color: "yellow",
+                        }}
+                      >
+                        {q.subject}
+                      </span>
+                    </p>
+                    <p className="m-0 p-0 fw-semibold">
+                      <strong className="text-white">Level : </strong>
+                      <span
+                        style={{
+                          color: "yellow",
+                        }}
+                      >
+                        {q.level}
+                      </span>
+                    </p>
+                    <p className="m-0 p-0 fw-semibold">
+                      <strong className="text-white">Status : </strong>
+                      <span
+                        style={{
+                          color: "yellow",
+                        }}
+                      >
+                        {q.questionStatus}
+                      </span>
+                    </p>
+                    <p className="m-0 p-0 fw-semibold">
+                      <strong className="text-white">Marks : </strong>
+                      <span
+                        style={{
+                          color: "yellow",
+                        }}
+                      >
+                        {q.marks}
+                      </span>
+                    </p>
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor: "green",
+                      padding: "3px",
+                    }}
+                    className="d-flex justify-content-center align-items-center gap-2 flex-row w-25"
+                  >
+                    <GiStopwatch
+                      style={{
+                        fontSize: "xxx-large",
+                        color: "white",
+                      }}
+                    />
+                    <p className="m-0 p-0 fw-semibold">
+                      <strong className="text-white">Time Taken :</strong>
+                      <span
+                        style={{
+                          color: "yellow",
+                        }}
+                      >
+                        {" "}
+                        {q.timeTaken / 1000} sec
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <span className="circle position-absolute">{index + 1}</span>
               </div>
             </div>
           ))
