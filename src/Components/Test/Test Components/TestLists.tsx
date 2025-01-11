@@ -57,7 +57,7 @@ interface LiveTestFormProps {
 }
 
 const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
-  const USER = useSelector((state: RootState) => state.user);
+  const USER = useSelector((state: any) => state.user);
   const [tests, setTests] = useState<LiveTestFormData[]>([]);
   const [attendedTest, setAttendedTest] = useState<AttendedTest[]>([]);
   const [selectedType, setSelectedType] = useState<string>("AVAILABLE");
@@ -82,10 +82,10 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
           console.log(data);
           setAttendedTest(data?.data || []);
           if (data?.data && data?.data.length > 0) {
-            data?.data.map((t, ind) => {
+            data?.data.map((t: any, ind: number) => {
               getTestById(t.liveTestId)
                 .then((data) => {
-                  console.log(data.data);
+                  // console.log(data.data);
                   const obj = {
                     category: data.data.category,
                     description: data.data.description,

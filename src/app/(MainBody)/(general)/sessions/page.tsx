@@ -39,7 +39,7 @@ interface SessionList {
 }
 
 const Sessions = () => {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedDateEvents, setSelectedDateEvents] = useState<Event[]>([]);
   const [addSession, setAddSession] = useState(false);
@@ -69,7 +69,7 @@ const Sessions = () => {
   //^ fetch all  the session related data of this month
   useEffect(() => {
     setLoading(true);
-    console.log(date);
+    // console.log(date);
     getAllSessionsOfThisMonths(date)
       .then((data) => {
         // Update session list state

@@ -94,7 +94,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
 
   const [testCounter, settestCounter] = useState(0);
   const test = useSelector((state: RootState) => state.attend);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
 
   const dispatch = useDispatch();
   useEffect(() => {

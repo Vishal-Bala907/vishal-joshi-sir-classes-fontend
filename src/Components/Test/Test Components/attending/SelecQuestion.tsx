@@ -53,7 +53,7 @@ const SelecQuestion: React.FC<IntegerQuestionProps> = ({
     );
   };
 
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
 
   function saveTheAnswer(color: string, action: string) {

@@ -37,7 +37,7 @@ const SubjectTimeChart: React.FC = () => {
     },
   });
 
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
 
   // Fetch study sessions data
   useEffect(() => {
@@ -83,7 +83,7 @@ const SubjectTimeChart: React.FC = () => {
     }
 
     // Prepare the data for ApexCharts
-    setChartData((prevChartData) => ({
+    setChartData((prevChartData: any) => ({
       ...prevChartData,
       series: [
         {

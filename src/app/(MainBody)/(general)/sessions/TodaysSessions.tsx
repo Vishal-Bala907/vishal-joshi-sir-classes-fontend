@@ -30,7 +30,7 @@ const TodaysSessions: React.FC<TodaysSessionsProps> = ({
   const formRef = useRef<HTMLDivElement>(null);
   const [sessions, setSessions] = useState<Session[]>([]);
   const socket = useSelector(selectSocket);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
     // GSAP animation
@@ -47,7 +47,7 @@ const TodaysSessions: React.FC<TodaysSessionsProps> = ({
   }, []);
 
   const dispatch = useDispatch();
-  function goLiveNow(sessionId: String) {
+  function goLiveNow(sessionId: string) {
     if (socket) {
       // send message to all
       socket.emit("startingLive", {

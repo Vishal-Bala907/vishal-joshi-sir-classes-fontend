@@ -159,7 +159,7 @@ const StopwatchTimer: React.FC = () => {
     setIsPaused((prev) => !prev);
   };
 
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const handleStop = () => {
     setIsRunning(false);
     setIsPaused(false);

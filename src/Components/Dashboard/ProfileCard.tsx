@@ -10,7 +10,7 @@ const ProfileCard = () => {
   const cardRef = useRef(null);
   const buttonRef = useRef(null);
   const imageRef = useRef(null);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const [userInfo, setUserInfo] = useState({
     name: user.name,
     email: user.email,

@@ -29,7 +29,7 @@ const VideoCall: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
 
   // Get data from Redux
   const data = useSelector((state: RootState) => state.videoCall);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const isLive = useSelector((state: RootState) => state.isLive.isLive);
   const dispatch = useDispatch();
   // Agora Config

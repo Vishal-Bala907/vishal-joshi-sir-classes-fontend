@@ -15,7 +15,7 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ onClose }) => {
     "/assets/images/avtar/3.jpg"
   );
 
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

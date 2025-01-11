@@ -87,7 +87,7 @@ const MatchTheColumn: React.FC<MatchColumnFormData> = ({
   };
 
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
 
   const saveTheAnswer = (color: string, action: string) => {
     // console.log(matchTheColumnQuestions);

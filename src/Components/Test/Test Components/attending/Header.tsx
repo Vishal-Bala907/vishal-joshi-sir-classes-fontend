@@ -5,7 +5,7 @@ import { RootState } from "@/Redux/Store";
 
 const Header = () => {
   const test = useSelector((state: RootState) => state.attend);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   // const userAnswers = useSelector((state: RootState) => state.answer.questions);
 
   // Memoized Time Difference

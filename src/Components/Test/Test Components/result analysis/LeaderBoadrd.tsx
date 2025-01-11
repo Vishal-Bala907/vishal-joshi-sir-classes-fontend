@@ -35,7 +35,7 @@ const defaultTestStats: TestStats = {
 };
 const LeaderBoadrd = () => {
   const chart = useSelector((state: RootState) => state.chart);
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const [leaderboardData, setLeaderBoardData] = useState<TestStats[]>([]);
   const [maxCorrectCountData, setMaxCorrectCountData] =
     useState<TestStats>(defaultTestStats);

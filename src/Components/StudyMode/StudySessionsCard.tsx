@@ -7,7 +7,7 @@ import "./StudySessionsCard.css";
 
 const StudySessionsCard: React.FC = () => {
   const [sessionsData, setSessionsData] = useState<any[]>([]); // Ensure this is initialized as an array
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const [loading, setLoading] = useState<boolean>(false);
 
   // Function to format date and time in a readable format

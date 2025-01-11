@@ -34,7 +34,7 @@ const IntegerQuestion: React.FC<IntegerQuestionProps> = ({
   const start = Date.now();
   const dispatch = useDispatch();
   const [answer, setAnswer] = useState<number>();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const test = useSelector((state: RootState) => state.attend);
 
   const saveTheAnswer = (color: string, action: string) => {
