@@ -63,29 +63,36 @@ const MultiSelectWithCheckboxes = ({ type }: Props) => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
 
-    if (type === "file") {
-      const input = e.target as HTMLInputElement;
-      const files = input.files;
+    // Check if the event target is an HTMLInputElement
+    if (e.target instanceof HTMLInputElement) {
+      const { checked } = e.target;
 
-      if (files && files[0]) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64Image = reader.result as string;
-          setFormData((prev) => ({ ...prev, [name]: base64Image }));
-        };
-        reader.readAsDataURL(files[0]);
+      if (type === "file") {
+        const files = e.target.files;
+
+        if (files && files[0]) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64Image = reader.result as string;
+            setFormData((prev) => ({ ...prev, [name]: base64Image }));
+          };
+          reader.readAsDataURL(files[0]);
+        }
+      } else if (name === "correctAnswer") {
+        const updatedCorrectAnswers = checked
+          ? [...formData.correctAnswer, value]
+          : formData.correctAnswer.filter((answer) => answer !== value);
+        setFormData((prev) => ({
+          ...prev,
+          correctAnswer: updatedCorrectAnswers,
+        }));
+      } else {
+        setFormData((prev) => ({ ...prev, [name]: value }));
       }
-    } else if (name === "correctAnswer") {
-      const updatedCorrectAnswers = checked
-        ? [...formData.correctAnswer, value]
-        : formData.correctAnswer.filter((answer) => answer !== value);
-      setFormData((prev) => ({
-        ...prev,
-        correctAnswer: updatedCorrectAnswers,
-      }));
     } else {
+      // Handle non-input elements (select, textarea, etc.)
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
