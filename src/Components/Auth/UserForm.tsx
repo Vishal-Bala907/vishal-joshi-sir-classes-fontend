@@ -63,6 +63,7 @@ export const UserForm = () => {
     //   toast.error("Invalid Credentaial...");
     // }
     if (result?.ok) {
+      console.log(result);
       toast.success("successfully Logged in Rediract......");
       router.push(result.url || "/dashboard");
       // create a room after successfull login
