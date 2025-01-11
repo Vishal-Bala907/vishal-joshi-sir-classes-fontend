@@ -1,5 +1,6 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
 
 const StudySessionsGraph: React.FC = () => {
   const series = [
@@ -9,9 +10,9 @@ const StudySessionsGraph: React.FC = () => {
     },
   ];
 
-  const options = {
+  const options: ApexOptions = {
     chart: {
-      type: "bar",
+      type: "bar", // Correct type
       height: 350,
       toolbar: {
         show: false,
@@ -86,7 +87,7 @@ const StudySessionsGraph: React.FC = () => {
       <ReactApexChart
         options={options}
         series={series}
-        type="bar"
+        type="bar" // Ensure this matches the chart type
         height={350}
       />
     </div>
