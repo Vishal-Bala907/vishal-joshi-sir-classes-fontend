@@ -1,14 +1,31 @@
 "use client";
 
+import dynamic from "next/dynamic"; // Import dynamic from next/dynamic
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { Button } from "reactstrap";
-import LiveTestForm from "@/Components/Test/Test Components/LiveTestForm";
-import TestQuestionForm from "@/Components/Test/Test Components/TestQuestionForm";
 import { RootState } from "@/Redux/Store";
-import TestLists from "@/Components/Test/Test Components/TestLists";
-import Result from "@/Components/Test/Test Components/result analysis/Result";
-import Wrapper from "@/Components/Test/Test Components/attending/Wrapper";
+
+// Dynamically import components
+const TestLists = dynamic(
+  () => import("@/Components/Test/Test Components/TestLists"),
+  { ssr: false }
+);
+const LiveTestForm = dynamic(
+  () => import("@/Components/Test/Test Components/LiveTestForm"),
+  { ssr: false }
+);
+const TestQuestionForm = dynamic(
+  () => import("@/Components/Test/Test Components/TestQuestionForm"),
+  { ssr: false }
+);
+const Wrapper = dynamic(
+  () => import("@/Components/Test/Test Components/attending/Wrapper"),
+  { ssr: false }
+);
+const Result = dynamic(
+  () => import("@/Components/Test/Test Components/result analysis/Result"),
+  { ssr: false }
+);
 
 const Sessions = () => {
   const user = useSelector((state: any) => state.user);
@@ -22,15 +39,15 @@ const Sessions = () => {
   return (
     <div className="mt-1 d-flex flex-column w-100 h-100 align-items-center justify-content-center p-3">
       {user.role === "admin" && testId === "" ? (
-        <Button color="primary" onClick={handleCreateTest}>
+        <button color="primary" onClick={handleCreateTest}>
           Create New
-        </Button>
+        </button>
       ) : (
         <div></div>
       )}
       {test === "TEST-LIST" ? (
         <TestLists setTest={setTest} />
-      ) : test === "CREATE-TEST" && createdTest === null ? ( // if created is not null then show the quesion form
+      ) : test === "CREATE-TEST" && createdTest === null ? (
         <LiveTestForm setTest={setTest} setcreatedTest={setcreatedTest} />
       ) : test === "CREATE-TEST" && createdTest !== null ? (
         <TestQuestionForm setTest={setTest} setcreatedTest={setcreatedTest} />

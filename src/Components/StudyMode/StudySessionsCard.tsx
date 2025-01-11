@@ -1,7 +1,7 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { fetchAllStudySessions } from "@/server/user"; // Replace with your fetch function
 import { useSelector } from "react-redux";
-import { RootState } from "@/Redux/Store";
 import { gsap } from "gsap"; // Import GSAP for animation
 import "./StudySessionsCard.css";
 

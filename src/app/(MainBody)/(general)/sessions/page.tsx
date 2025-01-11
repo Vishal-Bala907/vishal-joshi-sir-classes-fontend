@@ -1,6 +1,6 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import FullCalendar from "@fullcalendar/react";
+import React, { useEffect, useRef, useState } from "react";
+// import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
@@ -9,17 +9,27 @@ import Breadcrumbs from "@/CommonComponent/Breadcrumbs";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap styles
-import SessionInput from "./SessionInput";
-import TodaysSessions from "./TodaysSessions";
+// import SessionInput from "./SessionInput";
+// import TodaysSessions from "./TodaysSessions";
 import { selectSocket } from "@/Redux/Reducers/SocketSlice";
 import { toast } from "react-toastify";
-import VideoCall from "./VideoCall";
+// import VideoCall from "./VideoCall";
 import { getAllSessionsOfThisMonths, goLIve } from "@/server/sessions";
 import "./session.css";
 import { MdOutlineCancel } from "react-icons/md";
 import { setIsLive } from "@/Redux/Reducers/isLiveSlice";
 import { setVideoCallState } from "@/Redux/Reducers/VideoCall";
-import { stat } from "fs";
+import dynamic from "next/dynamic";
+
+// Dynamically import components
+const FullCalendar = dynamic(() => import("@fullcalendar/react"), {
+  ssr: false,
+});
+const SessionInput = dynamic(() => import("./SessionInput"), { ssr: false });
+const TodaysSessions = dynamic(() => import("./TodaysSessions"), {
+  ssr: false,
+});
+const VideoCall = dynamic(() => import("./VideoCall"), { ssr: false });
 
 interface Event {
   title: string;

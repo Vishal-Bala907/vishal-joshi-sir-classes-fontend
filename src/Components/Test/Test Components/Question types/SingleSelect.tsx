@@ -46,27 +46,39 @@ const SingleSelect: React.FC<Props> = ({ testMetaData }) => {
     >,
     index?: number
   ) => {
-    const { name, value, type, files } = e.target;
+    const { name, value, type } = e.target;
 
-    if (type === "file" && files) {
-      if (name === "descriptionImage") {
-        setFormData((prev) => ({ ...prev, descriptionImage: files[0] }));
-      } else if (name === "imageOptions" && index !== undefined) {
-        const updatedOptions = [...formData.imageOptions];
-        updatedOptions[index].image = files[0];
-        setFormData((prev) => ({ ...prev, imageOptions: updatedOptions }));
+    // File handling for descriptionImage and imageOptions
+    if (type === "file") {
+      const input = e.target as HTMLInputElement; // Narrow to HTMLInputElement
+      const { files } = input;
+
+      if (files && files[0]) {
+        if (name === "descriptionImage") {
+          setFormData((prev) => ({ ...prev, descriptionImage: files[0] }));
+        } else if (name === "imageOptions" && index !== undefined) {
+          const updatedOptions = [...formData.imageOptions];
+          updatedOptions[index].image = files[0];
+          setFormData((prev) => ({ ...prev, imageOptions: updatedOptions }));
+        }
       }
-    } else if (name === "optionType") {
+    }
+    // OptionType change handling
+    else if (name === "optionType") {
       setFormData((prev) => ({
         ...prev,
         optionType: value as "text" | "textImage",
         correctAnswer: [], // Reset correctAnswer when optionType changes
       }));
-    } else if (name === "textOptions" && index !== undefined) {
+    }
+    // Handling textOptions with index
+    else if (name === "textOptions" && index !== undefined) {
       const updatedOptions = [...formData.textOptions];
       updatedOptions[index] = value;
       setFormData((prev) => ({ ...prev, textOptions: updatedOptions }));
-    } else if (
+    }
+    // Handling imageOptions text fields when it's not a file input
+    else if (
       name === "imageOptions" &&
       index !== undefined &&
       type !== "file"
@@ -74,20 +86,27 @@ const SingleSelect: React.FC<Props> = ({ testMetaData }) => {
       const updatedOptions = [...formData.imageOptions];
       updatedOptions[index].text = value;
       setFormData((prev) => ({ ...prev, imageOptions: updatedOptions }));
-    } else if (name === "correctAnswer") {
+    }
+    // Handling correctAnswer multi-select
+    else if (
+      name === "correctAnswer" &&
+      e.target instanceof HTMLSelectElement
+    ) {
       const selectedOptions = Array.from(
         e.target.selectedOptions,
         (option) => option.value
       );
       setFormData((prev) => ({ ...prev, correctAnswer: selectedOptions }));
-    } else {
+    }
+    // Generic field updates
+    else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleSubmit = () => {
     const mergedObj = { ...testMetaData, ...formData };
-    dispatch(addQuestion(mergedObj));
+    // dispatch(addQuestion(mergedObj));
     setFormData({
       description: "",
       descriptionImage: null,

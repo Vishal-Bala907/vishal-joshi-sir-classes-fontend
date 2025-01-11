@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import style from "./SessionInput.module.css";
 import { gsap } from "gsap";

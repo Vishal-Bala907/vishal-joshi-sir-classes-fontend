@@ -1,17 +1,31 @@
 "use client";
 import Breadcrumbs from "@/CommonComponent/Breadcrumbs";
 import { useEffect, useState } from "react";
-import { FormGroup, Label, Input } from "reactstrap";
 import { useSelector } from "react-redux";
 import { startStudySession, stopStudySession } from "@/server/user";
 import { useAppDispatch } from "@/Redux/Hooks";
 import { setUser } from "@/Redux/Reducers/userSlice";
-import LeaderBoardSection from "@/Components/StudyMode/leaderBoardSection/LeaderBoardSection";
-import UpcomingFeature from "@/CommonComponent/UpcomingFeature";
-import StopwatchTimer from "@/Components/StudyMode/StopwatchTimer";
-import SubjectTimeChart from "@/Components/StudyMode/SubjectTimeChart";
-import SubjectPieChart from "@/Components/StudyMode/SubjectPieChart";
-import StudySessionsCard from "@/Components/StudyMode/StudySessionsCard";
+
+// Dynamic imports for components
+import dynamic from "next/dynamic";
+
+// Dynamically importing components to prevent SSR issues
+const StopwatchTimer = dynamic(
+  () => import("@/Components/StudyMode/StopwatchTimer"),
+  { ssr: false }
+);
+const SubjectTimeChart = dynamic(
+  () => import("@/Components/StudyMode/SubjectTimeChart"),
+  { ssr: false }
+);
+const SubjectPieChart = dynamic(
+  () => import("@/Components/StudyMode/SubjectPieChart"),
+  { ssr: false }
+);
+const StudySessionsCard = dynamic(
+  () => import("@/Components/StudyMode/StudySessionsCard"),
+  { ssr: false }
+);
 
 const StudyMode = () => {
   const dispatch = useAppDispatch();

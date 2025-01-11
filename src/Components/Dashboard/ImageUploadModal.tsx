@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./imagemd.css";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { RootState } from "@/Redux/Store";
 import { updateImage } from "@/server/user";
 
 interface ImageUploadModalProps {

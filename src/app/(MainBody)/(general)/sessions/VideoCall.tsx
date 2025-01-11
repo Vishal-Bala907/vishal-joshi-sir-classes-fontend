@@ -1,3 +1,4 @@
+"use client";
 import React, { SetStateAction, useEffect, useState } from "react";
 import AgoraRTC, {
   LocalUser,

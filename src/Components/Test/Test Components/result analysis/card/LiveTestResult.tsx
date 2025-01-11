@@ -24,6 +24,7 @@ const StyledCard = styled(Card)`
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); // Lifting effect on hover
   }
 `;
+
 export interface TestStats {
   userId: string;
   testId: string;
@@ -37,6 +38,7 @@ export interface TestStats {
   mark: number;
   obtainedMarks: number;
 }
+
 interface ResultProps {
   name: string;
   data: TestStats;
@@ -50,8 +52,6 @@ const LiveTestResults: React.FC<ResultProps> = ({ name, data }) => {
   const [skippedQuestions, setSkippedQuestions] = useState(75);
   const [loading, setLoading] = useState(false);
 
-  // console.log(data);
-
   useEffect(() => {
     // Fetch data from your backend or API here
     setLoading(true);
@@ -63,13 +63,13 @@ const LiveTestResults: React.FC<ResultProps> = ({ name, data }) => {
     setIncorrectAnswers(data.incorrectCount);
     setSkippedQuestions(data.unansweredCount);
     setLoading(false);
-  }, []);
+  }, [data]);
 
   const chartOptions = {
     labels: ["Correct", "Incorrect", "Skipped"],
     colors: ["#28a745", "#dc3545", "#6c757d"], // Bootstrap colors
     chart: {
-      type: "donut",
+      type: "donut" as "donut", // Explicitly casting to "donut" type
     },
     responsive: [
       {
@@ -87,6 +87,7 @@ const LiveTestResults: React.FC<ResultProps> = ({ name, data }) => {
   };
 
   const chartSeries = [correctAnswers, incorrectAnswers, skippedQuestions];
+
   if (loading) {
     return <div>Loading...</div>;
   }

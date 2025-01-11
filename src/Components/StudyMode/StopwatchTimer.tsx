@@ -1,4 +1,4 @@
-import { RootState } from "@/Redux/Store";
+"use client";
 import { stopStudySession } from "@/server/user";
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
@@ -241,14 +241,7 @@ const StopwatchTimer: React.FC = () => {
         </Button>
         <Button onClick={reset}>Reset</Button>
       </ButtonGroup>
-      {/* <Button
-        style={{
-          margin: "15px 0px",
-        }}
-        onClick={() => setIsStopwatch((prev) => !prev)}
-      >
-        Switch to {isStopwatch ? "Timer" : "Stopwatch"}
-      </Button> */}
+
       {sessionData && (
         <DataContainer>
           <strong>Session Data:</strong>

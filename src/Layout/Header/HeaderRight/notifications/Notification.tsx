@@ -36,7 +36,7 @@ const Notification: React.FC<NotificationProps> = ({ setNotification }) => {
       });
   }, []);
 
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   function goLiveButton(sessionId: string) {
     goLIve(sessionId, user.role, user._id)

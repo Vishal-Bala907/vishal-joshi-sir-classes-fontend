@@ -1,7 +1,7 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import ApexCharts from "react-apexcharts";
-import { RootState } from "@/Redux/Store";
 import { fetchStudySessions } from "@/server/user"; // Mock function to fetch data
 
 const SubjectTimeChart: React.FC = () => {

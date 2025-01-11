@@ -1,3 +1,4 @@
+"use client";
 import { Breadcrumb, BreadcrumbItem, Col, Container, Row } from "reactstrap";
 import Link from "next/link";
 import { PropsTypes } from "@/Types/LayoutTypes";
@@ -17,10 +18,7 @@ const Breadcrumbs: React.FC<PropsTypes> = ({ mainTitle, parent, title }) => {
                 <i className="iconly-Home icli svg-color" />
               </Link>
             </BreadcrumbItem>
-            {
-              parent &&
-              <BreadcrumbItem>{parent}</BreadcrumbItem>
-            }
+            {parent && <BreadcrumbItem>{parent}</BreadcrumbItem>}
             <BreadcrumbItem className="active">{mainTitle}</BreadcrumbItem>
           </Breadcrumb>
         </Col>

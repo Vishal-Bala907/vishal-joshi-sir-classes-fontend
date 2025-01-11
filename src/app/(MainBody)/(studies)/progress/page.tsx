@@ -1,11 +1,14 @@
 "use client";
 
-import ProgressAreaWrapper from "@/Components/Progress/ProgressAreaWrapper";
-import dynamic from "next/dynamic";
+import dynamic from "next/dynamic"; // Import dynamic from next/dynamic
 import React from "react";
 import { useSelector } from "react-redux";
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+// Dynamically import ProgressAreaWrapper
+const ProgressAreaWrapper = dynamic(
+  () => import("@/Components/Progress/ProgressAreaWrapper"),
+  { ssr: false }
+);
 
 const ProgressPage: React.FC = () => {
   const user = useSelector((state: any) => state.user);

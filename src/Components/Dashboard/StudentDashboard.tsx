@@ -1,13 +1,19 @@
 "use client";
 import React, { Fragment } from "react";
-import Chart from "react-apexcharts";
 import ConfigDB from "@/Config/ThemeConfig";
-import ProfileCard from "./ProfileCard";
-import MentorsList from "./Mentors";
-import TopTests from "./TopTest";
-import TestBarGraph from "./TestBarGraph";
-import StudySessionsGraph from "./StudySessionsGraph";
-import SubjectTimeChart from "../StudyMode/SubjectTimeChart";
+
+// Dynamic imports for components
+import dynamic from "next/dynamic";
+
+// Dynamically importing components to prevent SSR issues
+const ProfileCard = dynamic(() => import("./ProfileCard"), { ssr: false });
+const MentorsList = dynamic(() => import("./Mentors"), { ssr: false });
+const TopTests = dynamic(() => import("./TopTest"), { ssr: false });
+const TestBarGraph = dynamic(() => import("./TestBarGraph"), { ssr: false });
+const SubjectTimeChart = dynamic(
+  () => import("../StudyMode/SubjectTimeChart"),
+  { ssr: false }
+);
 
 const primary = ConfigDB.color.primary_color || "var(--theme-default)";
 const secondary = ConfigDB.color.secondary_color || "var(--theme-secondary)";
