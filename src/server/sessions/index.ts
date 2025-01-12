@@ -1,4 +1,5 @@
 import axios from "axios";
+import apiClient from "../config/axiosConfig";
 
 interface Session {
   sessionName: string;
@@ -50,7 +51,7 @@ export const goLIve = async (
   userId: String
 ) => {
   try {
-    const response = await axios.get(
+    const response = await apiClient.get(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/session/goLive/${sessionId}/${role}/${userId}`
     );
     return response.data; // Return the data received from the server
