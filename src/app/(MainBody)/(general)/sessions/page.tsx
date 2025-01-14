@@ -21,6 +21,8 @@ import { setIsLive } from "@/Redux/Reducers/isLiveSlice";
 import { setVideoCallState } from "@/Redux/Reducers/VideoCall";
 import dynamic from "next/dynamic";
 
+const LiveStream = dynamic(() => import("./LiveStream"), { ssr: false });
+
 // Dynamically import components
 const FullCalendar = dynamic(() => import("@fullcalendar/react"), {
   ssr: false,
@@ -156,7 +158,8 @@ const Sessions = () => {
     <>
       <Breadcrumbs mainTitle={"Sessions"} />
       {isLive ? (
-        <VideoCall liveSessionId={liveSessionId} />
+        // <VideoCall liveSessionId={liveSessionId} />
+        <LiveStream liveSessionId={liveSessionId} />
       ) : (
         <div className="w-100 p-3 position-relative">
           <div className="my-3">
