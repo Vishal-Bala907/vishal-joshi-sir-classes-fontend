@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import AgoraRTC, {
   LocalUser,
-  RemoteUser,
   useIsConnected,
   useJoin,
   useLocalMicrophoneTrack,
@@ -16,6 +15,7 @@ import { BsTelephoneXFill } from "react-icons/bs";
 import { setIsLive } from "@/Redux/Reducers/isLiveSlice";
 import { updateSessionById } from "@/server/sessions";
 import { PiCameraDuotone, PiCameraSlashDuotone } from "react-icons/pi";
+import "./LiveStream.css"; // For custom styles
 
 interface LiveSessoinProps {
   liveSessionId: string;
@@ -63,15 +63,11 @@ const LiveStream: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
   // Remote users (viewers)
   const remoteUsers = useRemoteUsers();
 
-  useEffect(() => {
-    console.log("Remote Users Updated:", remoteUsers);
-  }, [remoteUsers]);
-
   // End call for broadcaster
   function handleCallEnd() {
     if (user.role === "admin") {
       updateSessionById("TAKEN", liveSessionId)
-        .then((data) => {
+        .then(() => {
           setCalling(false);
           dispatch(setIsLive(false));
           location.reload();
@@ -91,10 +87,8 @@ const LiveStream: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
     if (localCameraTrack) {
       try {
         if (cameraOn) {
-          // Play the local camera track on the "local-video" element
-          localCameraTrack.play("local-video");
+          localCameraTrack.play("lsc-local-video");
         } else {
-          // Stop the local camera track when it's turned off
           localCameraTrack.stop();
         }
       } catch (err) {
@@ -102,7 +96,6 @@ const LiveStream: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
       }
     }
 
-    // Cleanup: stop the local camera when the component is unmounted
     return () => {
       if (localCameraTrack) {
         localCameraTrack.stop();
@@ -110,85 +103,73 @@ const LiveStream: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
     };
   }, [localCameraTrack, cameraOn]);
 
-  return (
-    <div>
-      {/* Local broadcaster video */}
-      {user.role === "admin" && (
-        <LocalUser
-          audioTrack={localMicrophoneTrack}
-          cameraOn={cameraOn}
-          micOn={micOn}
-          videoTrack={localCameraTrack}
-          cover="https://www.agora.io/en/wp-content/uploads/2022/10/3d-spatial-audio-icon.svg"
-          style={{
-            height: "400px",
-            width: "400px",
-          }}
-        >
-          {/* Controls for broadcaster */}
-          <div className="controls d-flex gap-4 py-2 px-3">
-            <samp className="user-name">You (Broadcaster)</samp>
-            {micOn ? (
-              <BsTelephoneXFill
-                style={{
-                  fontSize: "x-large",
-                  color: "green",
-                }}
-                onClick={() => setMic((prev) => !prev)}
-              />
-            ) : (
-              <BsTelephoneXFill
-                style={{
-                  fontSize: "x-large",
-                  color: "red",
-                }}
-                onClick={() => setMic((prev) => !prev)}
-              />
-            )}
-            {cameraOn ? (
-              <PiCameraDuotone
-                style={{
-                  fontSize: "x-large",
-                  color: "green",
-                }}
-                onClick={() => setCamera((prev) => !prev)}
-              />
-            ) : (
-              <PiCameraSlashDuotone
-                style={{
-                  fontSize: "x-large",
-                  color: "red",
-                }}
-                onClick={() => setCamera((prev) => !prev)}
-              />
-            )}
-            {calling && (
-              <BsTelephoneXFill
-                style={{
-                  fontSize: "x-large",
-                  color: "red",
-                }}
-                onClick={handleCallEnd}
-              />
-            )}
-          </div>
-        </LocalUser>
-      )}
+  console.log(remoteUsers);
 
-      {/* Remote viewers */}
-      <div className="user-list">
-        {remoteUsers.map((remoteUser) => (
-          <div className="user" key={remoteUser.uid}>
-            <RemoteUser
-              style={{ height: "400px", width: "400px" }}
+  return (
+    <div className="lsc-livestream-container">
+      {user.role === "admin" ? (
+        <div className="lsc-content">
+          {/* Local broadcaster video */}
+          <div className="lsc-broadcaster">
+            <LocalUser
+              audioTrack={localMicrophoneTrack}
+              cameraOn={cameraOn}
+              micOn={micOn}
+              videoTrack={localCameraTrack}
               cover="https://www.agora.io/en/wp-content/uploads/2022/10/3d-spatial-audio-icon.svg"
-              user={remoteUser}
-            >
-              <span className="user-name">{remoteUser.uid}</span>
-            </RemoteUser>
+              style={{ height: "100%", width: "100%" }}
+            />
+            <div className="lsc-controls">
+              <button onClick={() => setMic((prev) => !prev)}>
+                {micOn ? "Mute Mic" : "Unmute Mic"}
+              </button>
+              <button onClick={() => setCamera((prev) => !prev)}>
+                {cameraOn ? "Turn Off Camera" : "Turn On Camera"}
+              </button>
+              <button className="lsc-end-call" onClick={handleCallEnd}>
+                End Call
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
+
+          {/* Live Chat Box */}
+          <div className="lsc-chat-container">
+            <div className="lsc-chat-messages">
+              {/* Render chat messages dynamically here */}
+            </div>
+            <div className="lsc-chat-input">
+              <input type="text" placeholder="Type a message..." />
+              <button>Send</button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="lsc-content">
+          {/* Chat for viewers */}
+          <div className="lsc-chat-container">
+            <div className="lsc-chat-messages">
+              {/* Render chat messages dynamically here */}
+            </div>
+            <div className="lsc-chat-input">
+              <input type="text" placeholder="Type a message..." />
+              <button>Send</button>
+            </div>
+          </div>
+
+          {/* List of joined users */}
+          <div className="lsc-viewer-container">
+            <div className="lsc-joined-users">
+              <h4>Joined Users</h4>
+              <ul>
+                {remoteUsers.map((remoteUser) => (
+                  <li key={remoteUser.uid}>User ID: {remoteUser.uid}</li>
+                ))}
+              </ul>
+            </div>
+            {remoteUsers.length === 0 && <p>No viewers connected.</p>}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

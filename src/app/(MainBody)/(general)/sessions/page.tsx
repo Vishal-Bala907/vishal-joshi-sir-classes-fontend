@@ -138,7 +138,7 @@ const Sessions = () => {
   function goLiveButton(sessionId: string) {
     goLIve(sessionId, user.role, user._id)
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         dispatch(setIsLive(true));
         dispatch(setVideoCallState(data.data));
         // setLiveSessionId(sessionId);
