@@ -3,6 +3,7 @@ import { stopStudySession } from "@/server/user";
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import CameraView from "../slider/CameraView";
 
 // Styled components for a modern, lighter theme
 const Container = styled.div`
@@ -111,6 +112,7 @@ const StopwatchTimer: React.FC = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const startTime = useRef<Date | null>(null);
   const endTime = useRef<Date | null>(null);
+  const [isTrue, setTrue] = useState(false);
 
   useEffect(() => {
     let start: number;
@@ -143,6 +145,7 @@ const StopwatchTimer: React.FC = () => {
   };
 
   const handleStart = () => {
+    setTrue(true);
     if (!subject) {
       alert("Please select a subject first!");
       return;
@@ -161,6 +164,7 @@ const StopwatchTimer: React.FC = () => {
 
   const user = useSelector((state: any) => state.user);
   const handleStop = () => {
+    setTrue(false);
     setIsRunning(false);
     setIsPaused(false);
     endTime.current = new Date();
@@ -206,6 +210,7 @@ const StopwatchTimer: React.FC = () => {
         <option value="Maths">Maths</option>
         <option value="Biology">Biology</option>
       </Dropdown>
+      {isTrue && <CameraView />}
       <Display>
         {isStopwatch ? formatTime(time) : formatTime(countdown)}
       </Display>

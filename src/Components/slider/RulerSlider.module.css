@@ -1,0 +1,36 @@
+.SLDsliderContainer {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+  user-select: none;
+}
+
+.SLDslider {
+  position: relative;
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.SLDpointer {
+  position: absolute;
+  top: -6px;
+  width: 16px;
+  height: 16px;
+  background: #007bff;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  transition: background 0.2s ease;
+}
+
+.SLDpointer:hover {
+  background: #0056b3;
+}
+
+.SLDvalueDisplay {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+}

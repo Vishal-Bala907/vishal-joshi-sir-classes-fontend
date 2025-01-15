@@ -12,6 +12,8 @@ import DataCard from "./DataCard"; // Import the DataCard component
 import AOS from "aos";
 import "aos/dist/aos.css";
 import LeaderBoadrd from "./LeaderBoadrd";
+import RulerSlider from "@/Components/slider/RulerSlider";
+import SliderWithTicks from "@/Components/slider/SliderWithTicks";
 
 interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
@@ -117,7 +119,9 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
           setTest("TEST-LIST");
         }}
       />
-
+      <RulerSlider /> <br />
+      <SliderWithTicks />
+      <div>{Math.floor(Math.random() * 100000) + 1}</div>
       <div
         className="w-100 d-flex justify-content-center flex-row flex-wrap align-items-center gap-3 mt-4"
         data-aos="fade-up"
@@ -136,7 +140,6 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
       <div className="w-100">
         <LeaderBoadrd />
       </div>
-
       <div
         className="w-100 d-flex justify-content-center align-content-center"
         data-aos="fade-left"
@@ -177,7 +180,6 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
           );
         })}
       </div>
-
       <hr
         style={{
           width: "70%",

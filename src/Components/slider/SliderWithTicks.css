@@ -1,0 +1,30 @@
+/* Slider container */
+.SWThorizontal-slider {
+  width: 100%;
+  height: 4px;
+  background: #ddd;
+  position: relative;
+  margin: 20px 0;
+}
+
+/* Track (filled portion) */
+.SWTtrack {
+  background: #6200ea;
+  height: 100%;
+  position: absolute;
+}
+
+/* Thumb (draggable handle) */
+.SWTthumb {
+  height: 20px;
+  width: 20px;
+  background: #6200ea;
+  border-radius: 50%;
+  position: absolute;
+  top: -8px;
+  cursor: grab;
+}
+
+.SWTthumb:hover {
+  background: #7b1fa2;
+}

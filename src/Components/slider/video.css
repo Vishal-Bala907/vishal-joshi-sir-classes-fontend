@@ -1,0 +1,8 @@
+video {
+  max-width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  border: 2px solid rgb(221, 221, 221);
+  border-radius: 50%;
+  object-fit: cover;
+}
