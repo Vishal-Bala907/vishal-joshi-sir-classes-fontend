@@ -11,7 +11,7 @@ import {
   Students as students,
 } from "@/Types/ChatType";
 import { RootState } from "@/Redux/Store";
-import { getChats } from "@/server/chats";
+import { getChats, removeSeen } from "@/server/chats";
 import { setChats, setSelectedUser } from "@/Redux/Reducers/ChatSlice";
 import { WiMoonAltNew } from "react-icons/wi";
 
@@ -31,11 +31,15 @@ const Students = () => {
   // if role === mentor ? then fetch all the students
   const loggedInUser = useSelector((state: any) => state.user);
   const students = useSelector((state: RootState) => state.chat.students);
+  const [unseen, setUnseen] = useState<string[] | null>([""]);
   // console.log(students);
   const dispatch = useDispatch();
   const selectedUser = useSelector((state: any) => state.chat.selectedUser);
 
   useEffect(() => {
+    setUnseen(loggedInUser.seenBy);
+    console.log(unseen);
+
     if (loggedInUser.role === "admin") {
       //fetch all the students and all the mentors
     } else if (loggedInUser.role === "mentor") {
@@ -57,6 +61,8 @@ const Students = () => {
     >
       {selectedUser === null ? (
         students.map((student, i) => {
+          console.log(unseen.includes(student._id));
+
           return (
             <div
               key={i}
@@ -67,6 +73,17 @@ const Students = () => {
                 if (chat) {
                   chat.style.visibility = "visible";
                 }
+                const USER =
+                  loggedInUser.role === "admin" ? "admin" : loggedInUser._id;
+                document.getElementById(`s-u-${student._id}`).style.visibility =
+                  "hidden";
+                removeSeen(USER, student._id)
+                  .then((data) => {
+                    console.log(data);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
                 dispatch(setSelectedUser(student));
               }}
               style={{
@@ -76,19 +93,35 @@ const Students = () => {
             >
               <p className="p-0 m-0 fw-semibold">{student.name}</p>
               <p className="p-0 m-0">{student.email}</p>
-              <WiMoonAltNew
-                id={`s-u-${student._id}`}
-                style={{
-                  position: "absolute",
-                  top: "30%",
-                  right: "3%",
-                  fontSize: "x-large",
-                  color: "#000bff",
-                  border: "1px solid white",
-                  borderRadius: "50%",
-                  visibility: "hidden",
-                }}
-              />
+              {unseen.includes(student._id) ? (
+                <WiMoonAltNew
+                  id={`s-u-${student._id}`}
+                  style={{
+                    position: "absolute",
+                    top: "30%",
+                    right: "3%",
+                    fontSize: "x-large",
+                    color: "#000bff",
+                    border: "1px solid white",
+                    borderRadius: "50%",
+                    visibility: "visible",
+                  }}
+                />
+              ) : (
+                <WiMoonAltNew
+                  id={`s-u-${student._id}`}
+                  style={{
+                    position: "absolute",
+                    top: "30%",
+                    right: "3%",
+                    fontSize: "x-large",
+                    color: "#000bff",
+                    border: "1px solid white",
+                    borderRadius: "50%",
+                    visibility: "hidden",
+                  }}
+                />
+              )}
             </div>
           );
         })

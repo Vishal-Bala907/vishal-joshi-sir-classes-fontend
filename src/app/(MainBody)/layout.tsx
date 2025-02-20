@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import style from "./layout.module.css";
 // import the depen
 import AgoraRTC, { AgoraRTCProvider } from "agora-rtc-react";
+import { updateSeen } from "@/server/chats";
 
 // In video call, set mode to "rtc"
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
@@ -90,7 +91,16 @@ export default function RootLayout({
               toast.success(`You got a new message from ${MESSAGE.senderName}`);
               const chatId = `s-u-${MESSAGE.sender}`;
               const chat = document.getElementById(chatId);
-              console.log(chat);
+              // console.log(chat);
+
+              const USER = user.role === "admin" ? "admin" : user._id;
+              updateSeen(USER, recipient)
+                .then((data) => {
+                  console.log("HOGYA");
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
 
               let chatBubbles = document.getElementsByClassName("chat-bubble");
               const senderBubble = document.getElementById(MESSAGE.sender);
