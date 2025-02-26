@@ -8,6 +8,7 @@ import AgoraRTC, {
   useLocalCameraTrack,
   usePublish,
   useRemoteUsers,
+  RemoteUser,
 } from "agora-rtc-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Redux/Store";
@@ -109,7 +110,6 @@ const LiveStream: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
     <div className="lsc-livestream-container">
       {user.role === "admin" ? (
         <div className="lsc-content">
-          {/* Local broadcaster video */}
           <div className="lsc-broadcaster">
             <LocalUser
               audioTrack={localMicrophoneTrack}
@@ -132,11 +132,8 @@ const LiveStream: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
             </div>
           </div>
 
-          {/* Live Chat Box */}
           <div className="lsc-chat-container">
-            <div className="lsc-chat-messages">
-              {/* Render chat messages dynamically here */}
-            </div>
+            <div className="lsc-chat-messages"></div>
             <div className="lsc-chat-input">
               <input type="text" placeholder="Type a message..." />
               <button>Send</button>
@@ -145,28 +142,27 @@ const LiveStream: React.FC<LiveSessoinProps> = ({ liveSessionId }) => {
         </div>
       ) : (
         <div className="lsc-content">
-          {/* Chat for viewers */}
+          <div className="lsc-broadcaster">
+            {remoteUsers.map(
+              (user) =>
+                user.uid === "67b6c38104a818e90df30d51" && (
+                  <RemoteUser
+                    key={user.uid}
+                    user={user}
+                    style={{ width: "100%", height: "100%" }}
+                  >
+                    {/* <span>{user.uid}</span> */}
+                  </RemoteUser>
+                )
+            )}
+          </div>
+
           <div className="lsc-chat-container">
-            <div className="lsc-chat-messages">
-              {/* Render chat messages dynamically here */}
-            </div>
+            <div className="lsc-chat-messages"></div>
             <div className="lsc-chat-input">
               <input type="text" placeholder="Type a message..." />
               <button>Send</button>
             </div>
-          </div>
-
-          {/* List of joined users */}
-          <div className="lsc-viewer-container">
-            <div className="lsc-joined-users">
-              <h4>Joined Users</h4>
-              <ul>
-                {remoteUsers.map((remoteUser) => (
-                  <li key={remoteUser.uid}>User ID: {remoteUser.uid}</li>
-                ))}
-              </ul>
-            </div>
-            {remoteUsers.length === 0 && <p>No viewers connected.</p>}
           </div>
         </div>
       )}
