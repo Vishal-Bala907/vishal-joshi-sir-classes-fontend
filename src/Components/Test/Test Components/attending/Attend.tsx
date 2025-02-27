@@ -16,6 +16,7 @@ import Info from "./Info";
 import SubjectButtons from "./SubjectButtons";
 import { resetAttending } from "@/Redux/Reducers/AttendStatus";
 import { resetAttendFormData } from "@/Redux/Reducers/AttendSlice";
+import CameraView from "@/Components/slider/CameraView";
 
 interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
@@ -189,6 +190,9 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
     <div className="w-100 bg-primary-subtle">
       <div className="p-3 bg-warning">
         <b> {test.category}</b>
+        <div style={{ height: "50px !important", width: "50px !important" }}>
+          <CameraView />
+        </div>
       </div>
       <main className="bg-light text-dark d-flex justify-content-between align-items-center flex-row  w-100 p-2 gap-3">
         <div

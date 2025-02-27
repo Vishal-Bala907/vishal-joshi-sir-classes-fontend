@@ -36,7 +36,7 @@ const CameraView: React.FC = () => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h1>Camera View</h1>
+      <h1>Proctor</h1>
       {error ? (
         <p style={{ color: "red" }}>{error}</p>
       ) : (

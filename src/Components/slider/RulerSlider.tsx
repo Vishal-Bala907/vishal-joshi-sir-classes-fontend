@@ -7,28 +7,27 @@ const RulerSlider: React.FC = () => {
   const min = 0; // Minimum value
   const max = 300; // Maximum value
   const step = 1; // Step size
-  // const sliderRef =
-  //   useRef < HTMLDivElement<React.MouseEvent | React.TouchEvent>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
   const handleDrag = (event: React.MouseEvent | React.TouchEvent) => {
-    // const slider = sliderRef.current;
-    // if (!slider) return;
-    // const sliderRect = slider.getBoundingClientRect();
-    // const clientX =
-    //   "touches" in event ? event.touches[0].clientX : event.clientX;
-    // const offsetX = Math.min(
-    //   Math.max(clientX - sliderRect.left, 0),
-    //   sliderRect.width
-    // );
-    // const newValue =
-    //   Math.round(((offsetX / sliderRect.width) * (max - min)) / step) * step +
-    //   min;
-    // const newValue2 =
-    //   (Math.round(((offsetX / sliderRect.width) * (max - min)) / step) * step +
-    //     min) *
-    //   1000;
-    // setValue(newValue);
-    // setMarks(newValue2);
+    const slider = sliderRef.current;
+    if (!slider) return;
+    const sliderRect = slider.getBoundingClientRect();
+    const clientX =
+      "touches" in event ? event.touches[0].clientX : event.clientX;
+    const offsetX = Math.min(
+      Math.max(clientX - sliderRect.left, 0),
+      sliderRect.width
+    );
+    const newValue =
+      Math.round(((offsetX / sliderRect.width) * (max - min)) / step) * step +
+      min;
+    const newValue2 =
+      (Math.round(((offsetX / sliderRect.width) * (max - min)) / step) * step +
+        min) *
+      1000;
+    setValue(newValue);
+    setMarks(newValue2);
   };
 
   const handleMouseDown = (event: React.MouseEvent) => {

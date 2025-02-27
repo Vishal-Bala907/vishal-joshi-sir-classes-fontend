@@ -119,9 +119,9 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
           setTest("TEST-LIST");
         }}
       />
-      <RulerSlider /> <br />
-      <SliderWithTicks />
-      <div>{Math.floor(Math.random() * 100000) + 1}</div>
+      {/* <RulerSlider /> <br /> */}
+      {/* <SliderWithTicks /> */}
+      {/* <div>{Math.floor(Math.random() * 100000) + 1}</div> */}
       <div
         className="w-100 d-flex justify-content-center flex-row flex-wrap align-items-center gap-3 mt-4"
         data-aos="fade-up"

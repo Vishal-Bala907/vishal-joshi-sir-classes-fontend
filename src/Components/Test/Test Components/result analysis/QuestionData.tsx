@@ -5,6 +5,7 @@ import { GiStopwatch } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import gsap from "gsap";
 import "./result.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 interface QUESTIONS {
   marks: number;
@@ -123,7 +124,7 @@ const QuestionData: React.FC = () => {
   }, [question]);
 
   return (
-    <div className="question-list-container bg-white text-dark">
+    <div className="question-list-container bg-white text-dark w-100">
       <h3 className="title">Question-wise analysis</h3>
       <div className="row question-list gx-4 gy-5">
         {question.length > 0 ? (
@@ -139,10 +140,13 @@ const QuestionData: React.FC = () => {
             >
               <div className="question-card">
                 <h6
-                  className="question-description p-4"
+                  className="question-description p-4 text-black"
                   dangerouslySetInnerHTML={{ __html: q.description }}
                 ></h6>
-                <div className="d-flex justify-content-center align-items-center flex-row">
+                <div
+                  className="d-flex justify-content-center align-items-center flex-row"
+                  style={{ backgroundColor: "green" }}
+                >
                   <div className="question-details sms-info-bg w-75">
                     <p>
                       <strong className="text-white">Subject:</strong>{" "}
@@ -164,7 +168,7 @@ const QuestionData: React.FC = () => {
                     </p>
                   </div>
                   <div
-                    className="d-flex justify-content-center align-items-center gap-2 flex-row w-25"
+                    className="d-flex justify-content-center align-items-center gap-2 flex-row w-25 h-100"
                     style={{ backgroundColor: "green", padding: "3px" }}
                   >
                     <GiStopwatch

@@ -41,6 +41,28 @@ export const StudentMenuList: MenuItem[] | undefined = [
       },
     ],
   },
+  // {
+  //   title: "College predict",
+  //   lanClass: "lan-1",
+  //   Items: [
+  //     {
+  //       title: "Predict College",
+  //       id: 1,
+  //       icon: "mingcute:checks-line",
+  //       path: "/college",
+  //       type: "link",
+  //       lanClass: "lan-3",
+  //     },
+  //     // {
+  //     //   title: "Practice Test",
+  //     //   id: 2,
+  //     //   icon: "uil:analysis",
+  //     //   path: "/practice-test",
+  //     //   type: "link",
+  //     //   lanClass: "lan-3",
+  //     // },
+  //   ],
+  // },
   {
     title: "Tests",
     lanClass: "lan-1",
@@ -50,6 +72,14 @@ export const StudentMenuList: MenuItem[] | undefined = [
         id: 1,
         icon: "mingcute:checks-line",
         path: "/live-test",
+        type: "link",
+        lanClass: "lan-3",
+      },
+      {
+        title: "Predict College",
+        id: 1,
+        icon: "mingcute:checks-line",
+        path: "/college",
         type: "link",
         lanClass: "lan-3",
       },
