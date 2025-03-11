@@ -10,6 +10,13 @@ import { authoption } from "./api/auth/[...nextauth]/authOption";
 import { getServerSession } from "next-auth";
 import { ToastContainer } from "react-toastify";
 import "./font.css";
+import "@mantine/core/styles.css";
+
+import {
+  ColorSchemeScript,
+  MantineProvider,
+  mantineHtmlProps,
+} from "@mantine/core";
 
 const nunito = Nunito_Sans({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900", "1000"],
@@ -32,7 +39,7 @@ export default async function RootLayout({
 
   return (
     <I18nProvider language={lng}>
-      <html>
+      <html lang="en" {...mantineHtmlProps}>
         <head>
           <link
             rel="icon"
@@ -57,17 +64,20 @@ export default async function RootLayout({
             rel="stylesheet"
           />
           <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjeJEPREBQFvAIqDSZliF0WjQrCld-Mh0"></script>
+          <ColorSchemeScript />
         </head>
         <body
           suppressHydrationWarning={true}
           className={`${nunito.variable} league-spartan`}
         >
-          <NoSsr>
-            <SessionWrapper session={session}>
-              <MainProvider>{children}</MainProvider>
-              <ToastContainer />
-            </SessionWrapper>
-          </NoSsr>
+          <MantineProvider>
+            <NoSsr>
+              <SessionWrapper session={session}>
+                <MainProvider>{children}</MainProvider>
+                <ToastContainer />
+              </SessionWrapper>
+            </NoSsr>
+          </MantineProvider>
         </body>
       </html>
     </I18nProvider>

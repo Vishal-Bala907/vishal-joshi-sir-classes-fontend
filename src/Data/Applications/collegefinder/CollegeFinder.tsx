@@ -4,6 +4,7 @@ import { debounce } from "lodash";
 import ReactPaginate from "react-paginate";
 import "bootstrap/dist/css/bootstrap.min.css";
 import categorized_data from "./categorized_data.json";
+import RankSlider from "./RankSlider";
 
 // Debounced input handler
 const useDebouncedInput = (initialValue = "", delay = 300) => {
@@ -81,6 +82,7 @@ const CollegeFinder: React.FC = React.memo(() => {
 
   return (
     <div className="container mt-5">
+      <RankSlider />
       <h2 className="mb-4">VJ Nucleus College Finder</h2>
       <div className="row mb-3">
         <div className="col-md-4 mb-2">
