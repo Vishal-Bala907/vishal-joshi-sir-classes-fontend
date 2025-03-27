@@ -4,6 +4,7 @@ const nextConfig = {
     domains: ["lh3.googleusercontent.com"],
   },
   reactStrictMode: false,
+  output: "standalone",
 };
 
-export default nextConfig;
+module.exports = nextConfig;
