@@ -4,7 +4,7 @@ import style from "./NotAttended.module.css";
 const NotAttended = ({ message }: { message: string }) => {
   return (
     <div
-      className={`d-flex flex-column justify-content-center`}
+      className={`d-flex w-100 h-100 flex-column justify-content-center`}
       style={{
         alignItems: "center !important",
       }}
