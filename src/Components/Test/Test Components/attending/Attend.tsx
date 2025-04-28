@@ -194,13 +194,22 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
           <CameraView />
         </div>
       </div>
-      <main className="bg-light text-dark d-flex justify-content-between align-items-center flex-row  w-100 p-2 gap-3">
+
+      {/* old code  <main className="bg-light text-dark d-flex justify-content-between align-items-center flex-row  w-100 p-2 gap-3">
         <div
           className=""
           style={{
             width: "70%",
           }}
-        >
+        > */}
+
+      <main className="bg-light text-dark d-flex justify-content-between align-items-center flex-column flex-md-row w-100 p-2 gap-3">
+        {/* Display subject buttons for mobile before the main content on small screens only */}
+        <div className="d-md-none w-100 mb-3">
+          <SubjectButtons settestCounter={settestCounter} />
+        </div>
+
+        <div className="w-100 w-md-70">
           {test.Questions[testCounter].questionType === "integer" ? (
             // index , questionId , testId, userId, rightAnswer
             <IntegerQuestion
@@ -261,11 +270,12 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
           </div>
         </div>
         <aside
+          className="ps-2 h-100 d-none d-md-block"
           style={{
             borderLeft: "2px solid black",
             width: "30%",
           }}
-          className="ps-2 h-100"
+          // className="ps-2 h-100" //old code
         >
           <Info />
           <SubjectButtons settestCounter={settestCounter} />
