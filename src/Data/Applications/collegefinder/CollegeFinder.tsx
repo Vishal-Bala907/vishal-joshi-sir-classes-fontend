@@ -9,9 +9,9 @@ import RankSlider from "./RankSlider";
 // Debounced input handler
 const useDebouncedInput = (initialValue = "", delay = 300) => {
   const [value, setValue] = useState(initialValue);
-  const debouncedSetValue = useCallback(debounce(setValue, delay), []);
+  const debouncedSetValue = useMemo(() => debounce((val: string) => setValue(val), delay), [delay]);
 
-  return [value, debouncedSetValue];
+  return [value, (val: string) => debouncedSetValue(val)] as const;
 };
 
 const CollegeFinder: React.FC = React.memo(() => {
@@ -45,9 +45,9 @@ const CollegeFinder: React.FC = React.memo(() => {
       (college) =>
         (!examType || allowedCollegeTypes.includes(college.type)) &&
         (!institute ||
-          college.institute.toLowerCase().includes(institute.toLowerCase())) &&
+          typeof institute === 'string' && college.institute.toLowerCase().includes(institute.toLowerCase())) &&
         (!program ||
-          college.program.toLowerCase().includes(program.toLowerCase())) &&
+          typeof program === 'string' && college.program.toLowerCase().includes(program.toLowerCase())) &&
         (!quota || college.quota.toLowerCase() === quota.toLowerCase()) &&
         (!category ||
           college.category.toLowerCase() === category.toLowerCase()) &&
