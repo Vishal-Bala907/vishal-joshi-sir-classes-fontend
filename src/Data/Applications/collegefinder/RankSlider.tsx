@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Slider } from "@mantine/core";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart, FaGrinHearts } from "react-icons/fa";
@@ -9,15 +8,13 @@ interface RankSliderProps {
   rank: string;
   setRank: React.Dispatch<React.SetStateAction<string>>;
 }
+
 function RankSlider({ rank, setRank }: RankSliderProps) {
-  const [value, setValue] = useState(50);
-  const min = 0;
-  const max = 360;
-  const step = 10; // Adjust step size for more/less lines
-  const marks = Array.from(
-    { length: (max - min) / step + 1 },
-    (_, i) => i * step
-  );
+  const min = 1;
+  const max = 900000;
+  const step = 1;
+
+  const numericRank = Number(rank);
 
   return (
     <div
@@ -30,40 +27,29 @@ function RankSlider({ rank, setRank }: RankSliderProps) {
     >
       <Slider
         size="xl"
-        value={value}
-        onChange={setValue}
+        value={numericRank}
+        onChange={(val) => setRank(String(val))}
         thumbChildren={
-          value < 200 ? (
-            <CiHeart />
-          ) : value < 300 ? (
-            <FaHeart />
+          numericRank < 200000 ? (
+            <FaGrinHearts />
+          ) : numericRank < 600000 ? (
+            <FaGrinHearts />
           ) : (
             <FaGrinHearts />
           )
         }
         color="red"
-        label={value}
+        label={numericRank}
         min={min}
         max={max}
+        step={step}
         thumbSize={32}
         styles={{
           thumb: { borderWidth: 2, padding: 3 },
           markLabel: { fontSize: 10 },
         }}
       />
-
-      {/* Ruler Marks */}
-      <div className="ruler">
-        {marks.map((mark) => (
-          <div
-            key={mark}
-            className="ruler-mark"
-            style={{ left: `${(mark / max) * 100}%` }}
-          />
-        ))}
-      </div>
-
-      <p className="mt-5">Selected Value: {value}</p>
+      <p className="mt-3">Selected Rank: {numericRank}</p>
     </div>
   );
 }

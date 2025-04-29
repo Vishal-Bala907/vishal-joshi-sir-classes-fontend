@@ -146,7 +146,7 @@ const CollegeFinder: React.FC = React.memo(() => {
             <option value="ST">ST</option>
           </select>
         </div>
-        <div className="col-md-4 mb-2">
+        {/* <div className="col-md-4 mb-2">
           <label htmlFor="rankSlider" className="form-label">
             Rank: {rank}
           </label>
@@ -159,7 +159,7 @@ const CollegeFinder: React.FC = React.memo(() => {
             value={rank}
             onChange={(e) => setRank(e.target.value)}
           />
-        </div>
+        </div> */}
         <div className="col-md-4 mb-2">
           <select
             className="form-control"
