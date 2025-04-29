@@ -9,7 +9,10 @@ import RankSlider from "./RankSlider";
 // Debounced input handler
 const useDebouncedInput = (initialValue = "", delay = 300) => {
   const [value, setValue] = useState(initialValue);
-  const debouncedSetValue = useMemo(() => debounce((val: string) => setValue(val), delay), [delay]);
+  const debouncedSetValue = useMemo(
+    () => debounce((val: string) => setValue(val), delay),
+    [delay]
+  );
 
   return [value, (val: string) => debouncedSetValue(val)] as const;
 };
@@ -22,7 +25,7 @@ const CollegeFinder: React.FC = React.memo(() => {
   const [quota, setQuota] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [courseDuration, setCourseDuration] = useState<string>("");
-  const [rank, setRank] = useState<string>("900000");
+  const [rank, setRank] = useState<string>("1");
   const [seatType, setSeatType] = useState<string>(""); // New state for seat type
   const [currentPage, setCurrentPage] = useState<number>(0);
 
@@ -45,9 +48,13 @@ const CollegeFinder: React.FC = React.memo(() => {
       (college) =>
         (!examType || allowedCollegeTypes.includes(college.type)) &&
         (!institute ||
-          typeof institute === 'string' && college.institute.toLowerCase().includes(institute.toLowerCase())) &&
+          (typeof institute === "string" &&
+            college.institute
+              .toLowerCase()
+              .includes(institute.toLowerCase()))) &&
         (!program ||
-          typeof program === 'string' && college.program.toLowerCase().includes(program.toLowerCase())) &&
+          (typeof program === "string" &&
+            college.program.toLowerCase().includes(program.toLowerCase()))) &&
         (!quota || college.quota.toLowerCase() === quota.toLowerCase()) &&
         (!category ||
           college.category.toLowerCase() === category.toLowerCase()) &&
@@ -82,7 +89,7 @@ const CollegeFinder: React.FC = React.memo(() => {
 
   return (
     <div className="container mt-5">
-      <RankSlider />
+      <RankSlider rank={rank} setRank={setRank} />
       <h2 className="mb-4">VJ Nucleus College Finder</h2>
       <div className="row mb-3">
         <div className="col-md-4 mb-2">
@@ -197,7 +204,15 @@ const CollegeFinder: React.FC = React.memo(() => {
                 <tr key={index}>
                   <td>{college.institute}</td>
                   <td>{college.program}</td>
-                  <td>{college.quota}</td>
+                  <td>
+                    {college.quota === "AI"
+                      ? "All India"
+                      : college.quota === "HS"
+                      ? "Home State"
+                      : college.quota === "OS"
+                      ? "Other State"
+                      : college.quota}
+                  </td>
                   <td>{college.category}</td>
                   <td>{college.courseDuration}</td>
                   <td>{college.seat}</td>
