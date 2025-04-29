@@ -126,12 +126,12 @@ const QuestionData: React.FC = () => {
   return (
     <div className="question-list-container bg-white text-dark w-100">
       <h3 className="title">Question-wise analysis</h3>
-      <div className="row question-list gx-4 gy-5">
+      <div className="d-flex flex-lg-row flex-column flex-wrap gap-4 justify-content-center gy-5 align-items-center question-list">
         {question.length > 0 ? (
           question.map((q, index) => (
             <div
               key={q.questionId}
-              className="col-12 col-md-6 d-flex justify-content-center position-relative"
+              className="w-full m-auto d-flex justify-content-center align-items-center position-relative"
               ref={(el) => {
                 if (el) {
                   questionRefs.current[index] = el;

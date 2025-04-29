@@ -10,7 +10,7 @@ import {
   getTests,
 } from "@/server/tests";
 import { setAttendTestDetails } from "@/Redux/Reducers/AttendSlice";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { setChartData } from "@/Redux/Reducers/ChartData";
 import { toast } from "react-toastify";

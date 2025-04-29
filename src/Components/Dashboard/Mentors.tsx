@@ -36,17 +36,20 @@ const MentorsList: React.FC = () => {
   }, []);
 
   return (
-    <div className="mentors-list" ref={containerRef}>
-      {mentors.map((mentor) => (
-        <div className="mentor-card" key={mentor.id}>
-          <img
-            className="mentor-image"
-            src={mentor.image}
-            alt={`${mentor.name}'s profile`}
-          />
-          <h3 className="mentor-name">{mentor.name}</h3>
-        </div>
-      ))}
+    <div className="d-flex flex-column mentor-wrapper align-self-start">
+      <h3 className="m-auto py-3">Our Top Mentors</h3>
+      <div className="mentors-list" ref={containerRef}>
+        {mentors.map((mentor) => (
+          <div className="mentor-card" key={mentor.id}>
+            <img
+              className="mentor-image"
+              src={mentor.image}
+              alt={`${mentor.name}'s profile`}
+            />
+            <h3 className="mentor-name">{mentor.name}</h3>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

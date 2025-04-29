@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { debounce } from "lodash";
 import ReactPaginate from "react-paginate";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import categorized_data from "./categorized_data.json";
 import RankSlider from "./RankSlider";
 

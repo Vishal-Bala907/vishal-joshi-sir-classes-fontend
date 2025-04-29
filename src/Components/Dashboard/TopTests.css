@@ -3,11 +3,11 @@
   flex-direction: column;
   gap: 20px;
   padding: 40px;
-  background: linear-gradient(135deg, #1f1f2e, #2e2f3e);
+  background: white;
   border-radius: 20px;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   max-width: 600px;
-  margin: 50px auto;
+  /* margin: 50px auto; */
   border: 2px solid #4a90e2;
 }
 

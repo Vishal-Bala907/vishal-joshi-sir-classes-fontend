@@ -35,7 +35,7 @@ const DataCard: React.FC<DataCardProps> = ({
 
   return (
     <Card
-      className="shadow-lg rounded-3"
+      className="shadow-lg rounded-3 overflow-hidden"
       style={{
         width: "100%",
         maxWidth: "700px",

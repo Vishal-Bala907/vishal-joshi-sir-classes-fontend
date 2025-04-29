@@ -24,8 +24,8 @@ const StudentDashboard = () => {
       <section className="d-flex flex-row flex-wrap gap-4 justify-content-center align-items-center">
         <ProfileCard />
         <TopTests />
+        <MentorsList />
       </section>
-      <MentorsList />
       <section className="my-4">
         <TestBarGraph />
       </section>

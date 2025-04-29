@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import PieChart from "./PieChart";
 import SubjectAnalysis from "./SubjectAnalysis";
 import { FaArrowLeft } from "react-icons/fa";
-import "./matchTheColumn.css";
+// import "./matchTheColumn.css";
 import QuestionData from "./QuestionData";
 import BarChart from "./BarChart";
 import TimeTakenBarChart from "./TimeTakenBarChart";
@@ -12,8 +12,8 @@ import DataCard from "./DataCard"; // Import the DataCard component
 import AOS from "aos";
 import "aos/dist/aos.css";
 import LeaderBoadrd from "./LeaderBoadrd";
-import RulerSlider from "@/Components/slider/RulerSlider";
-import SliderWithTicks from "@/Components/slider/SliderWithTicks";
+// import RulerSlider from "@/Components/slider/RulerSlider";
+// import SliderWithTicks from "@/Components/slider/SliderWithTicks";
 
 interface LiveTestFormProps {
   setTest: React.Dispatch<React.SetStateAction<any>>;
@@ -165,7 +165,7 @@ const Result: React.FC<LiveTestFormProps> = memo(({ setTest }) => {
           backgroundColor: "red",
         }}
       />
-      <div className="w-100 d-flex justify-content-center align-items-center flex-row flex-wrap gap-4">
+      <div className="w-100 d-flex justify-content-center align-items-center flex-row flex-wrap gap-4 overflow-hidden">
         {Object.keys(subjectsData).map((subject) => {
           const { totalQuestions, positiveMarksCount } = subjectsData[subject];
           return (
