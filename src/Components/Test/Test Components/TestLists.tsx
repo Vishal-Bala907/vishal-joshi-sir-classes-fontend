@@ -114,7 +114,7 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
   }, [USER._id, USER.role]);
 
   const attendTest = (test: LiveTestFormData) => {
-    /*   const today = new Date();
+    const today = new Date();
     today.setHours(0, 0, 0, 0); // Today's 12:00 AM timestamp
     const TODAYTIMESTAMP = today.getTime();
 
@@ -161,7 +161,6 @@ const TestLists: React.FC<LiveTestFormProps> = ({ setTest }) => {
       });
       return;
     }
-      */
 
     dispatch(setAttendTestDetails(test));
     dispatch(setAttending());
