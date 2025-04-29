@@ -212,8 +212,7 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
       <div
         className="p-3"
         style={{
-          background:
-            "linear-gradient(71deg, rgba(42, 147, 155, 1) 0%, rgba(87, 199, 180, 1) 30%, rgba(237, 221, 83, 1) 83%)",
+          background: "#F0DF87",
           height: "50px !important",
           width: "50px !important",
         }}
