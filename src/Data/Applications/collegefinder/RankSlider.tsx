@@ -30,13 +30,27 @@ function RankSlider({ rank, setRank }: RankSliderProps) {
         value={numericRank}
         onChange={(val) => setRank(String(val))}
         thumbChildren={
-          numericRank < 200000 ? (
-            <FaGrinHearts />
-          ) : numericRank < 600000 ? (
-            <FaGrinHearts />
-          ) : (
-            <FaGrinHearts />
-          )
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "50%",
+              overflow: "hidden",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src="/assets/images/vjsir.jpeg"
+              alt="Rank Icon"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </div>
         }
         color="red"
         label={numericRank}
@@ -45,10 +59,11 @@ function RankSlider({ rank, setRank }: RankSliderProps) {
         step={step}
         thumbSize={32}
         styles={{
-          thumb: { borderWidth: 2, padding: 3 },
+          thumb: { borderWidth: 2, padding: 0 }, // no extra padding
           markLabel: { fontSize: 10 },
         }}
       />
+
       <p className="mt-3">Selected Rank: {numericRank}</p>
     </div>
   );
