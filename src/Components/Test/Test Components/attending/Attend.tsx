@@ -101,20 +101,20 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
   const user = useSelector((state: any) => state.user);
 
   // Check if the screen size is mobile
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 992); // Bootstrap lg breakpoint
-    };
+  // useEffect(() => {
+  //   const checkIfMobile = () => {
+  //     setIsMobile(window.innerWidth < 992); // Bootstrap lg breakpoint
+  //   };
 
-    // Initial check
-    checkIfMobile();
+  //   // Initial check
+  //   checkIfMobile();
 
-    // Add event listener
-    window.addEventListener("resize", checkIfMobile);
+  //   // Add event listener
+  //   window.addEventListener("resize", checkIfMobile);
 
-    // Clean up
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
+  //   // Clean up
+  //   return () => window.removeEventListener("resize", checkIfMobile);
+  // }, []);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -226,82 +226,83 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
       {/* Desktop and Mobile Layout */}
       <div className="bg-white text-dark w-100">
         {/* Desktop Layout */}
-        {!isMobile ? (
-          <div className="d-flex justify-content-between align-items-start flex-row w-100 p-2 gap-3">
-            <div className="question-container" style={{ width: "70%" }}>
-              {test.Questions[testCounter].questionType === "integer" ? (
-                <IntegerQuestion
-                  integerQuestion={integerQuestion}
-                  index={testCounter}
-                  testId={test._id}
-                  negativeMarking={Number(test.negativeMarking)}
-                  positiveMarking={Number(test.positiveMarking)}
-                  settestCounter={settestCounter}
-                />
-              ) : test.Questions[testCounter].questionType === "select" ? (
-                <SelecQuestion
-                  selectQuestion={multiSelectQuestion}
-                  index={testCounter}
-                  testId={test._id}
-                  negativeMarking={Number(test.negativeMarking)}
-                  positiveMarking={Number(test.positiveMarking)}
-                  settestCounter={settestCounter}
-                />
-              ) : (
-                <MatchTheColumn
-                  matchTheColumnQuestions={matchTheColumn}
-                  index={testCounter}
-                  testId={test._id}
-                  negativeMarking={Number(test.negativeMarking)}
-                  positiveMarking={Number(test.positiveMarking)}
-                  settestCounter={settestCounter}
-                />
-              )}
+        {/* {!isMobile ? ( */}
+        <div className="d-flex d-none d-md-flex justify-content-between align-items-start flex-row w-100 p-2 gap-3">
+          <div className="question-container" style={{ width: "70%" }}>
+            {test.Questions[testCounter].questionType === "integer" ? (
+              <IntegerQuestion
+                integerQuestion={integerQuestion}
+                index={testCounter}
+                testId={test._id}
+                negativeMarking={Number(test.negativeMarking)}
+                positiveMarking={Number(test.positiveMarking)}
+                settestCounter={settestCounter}
+              />
+            ) : test.Questions[testCounter].questionType === "select" ? (
+              <SelecQuestion
+                selectQuestion={multiSelectQuestion}
+                index={testCounter}
+                testId={test._id}
+                negativeMarking={Number(test.negativeMarking)}
+                positiveMarking={Number(test.positiveMarking)}
+                settestCounter={settestCounter}
+              />
+            ) : (
+              <MatchTheColumn
+                matchTheColumnQuestions={matchTheColumn}
+                index={testCounter}
+                testId={test._id}
+                negativeMarking={Number(test.negativeMarking)}
+                positiveMarking={Number(test.positiveMarking)}
+                settestCounter={settestCounter}
+              />
+            )}
 
-              <div className="mt-4">
-                <button
-                  className="btn btn-info mx-2 timesUp"
-                  onClick={() => {
-                    updateIndex("DECREMENT");
-                  }}
-                >
-                  Previous
-                </button>
-                <button
-                  className="btn btn-info mx-2 timesUp"
-                  onClick={() => {
-                    updateIndex("INCREMENT");
-                  }}
-                >
-                  Next
-                </button>
+            <div className="mt-4">
+              <button
+                className="btn btn-info mx-2 timesUp"
+                onClick={() => {
+                  updateIndex("DECREMENT");
+                }}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-info mx-2 timesUp"
+                onClick={() => {
+                  updateIndex("INCREMENT");
+                }}
+              >
+                Next
+              </button>
 
-                <button
-                  onClick={() => {
-                    submitTest();
-                    setTest("TEST-LIST");
-                  }}
-                  className="btn btn-danger mx-2"
-                >
-                  Submit Test
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  submitTest();
+                  setTest("TEST-LIST");
+                }}
+                className="btn btn-danger mx-2"
+              >
+                Submit Test
+              </button>
             </div>
-
-            {/* Desktop Sidebar - Fixed on page */}
-            <aside
-              style={{
-                borderLeft: "2px solid black",
-                width: "30%",
-              }}
-              className="ps-3 h-100"
-            >
-              <Info />
-              <SubjectButtons settestCounter={settestCounter} />
-            </aside>
           </div>
-        ) : (
-          /* Mobile Layout */
+
+          {/* Desktop Sidebar - Fixed on page */}
+          <aside
+            style={{
+              borderLeft: "2px solid black",
+              width: "30%",
+            }}
+            className="ps-3 h-100"
+          >
+            <Info />
+            <SubjectButtons settestCounter={settestCounter} />
+          </aside>
+        </div>
+        {/* ) : ( */}
+        {/* Mobile Layout */}
+        <span className="d-block d-md-none">
           <main className="d-flex flex-column w-100 p-2">
             <div className="d-flex justify-content-end mb-2">
               <button
@@ -413,7 +414,8 @@ const Attend: React.FC<LiveTestFormProps> = ({ setTest }) => {
               ></div>
             )}
           </main>
-        )}
+        </span>
+        {/* )} */}
       </div>
     </div>
   );
