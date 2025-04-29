@@ -135,7 +135,7 @@ const LeaderBoadrd = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center gap-4">
+      <div className="d-flex justify-content-center align-items-center gap-4 overflow-hidden">
         <h3 className="modern-text">Rank:</h3>
         <span
           className={`rank-number fs-3 fw-bold ${animatedRank ? "pop-in" : ""}`}

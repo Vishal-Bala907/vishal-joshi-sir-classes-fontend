@@ -2,14 +2,17 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { debounce } from "lodash";
 import ReactPaginate from "react-paginate";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import categorized_data from "./categorized_data.json";
 import RankSlider from "./RankSlider";
 
 // Debounced input handler
 const useDebouncedInput = (initialValue = "", delay = 300) => {
   const [value, setValue] = useState(initialValue);
-  const debouncedSetValue = useMemo(() => debounce((val: string) => setValue(val), delay), [delay]);
+  const debouncedSetValue = useMemo(
+    () => debounce((val: string) => setValue(val), delay),
+    [delay]
+  );
 
   return [value, (val: string) => debouncedSetValue(val)] as const;
 };
@@ -45,9 +48,13 @@ const CollegeFinder: React.FC = React.memo(() => {
       (college) =>
         (!examType || allowedCollegeTypes.includes(college.type)) &&
         (!institute ||
-          typeof institute === 'string' && college.institute.toLowerCase().includes(institute.toLowerCase())) &&
+          (typeof institute === "string" &&
+            college.institute
+              .toLowerCase()
+              .includes(institute.toLowerCase()))) &&
         (!program ||
-          typeof program === 'string' && college.program.toLowerCase().includes(program.toLowerCase())) &&
+          (typeof program === "string" &&
+            college.program.toLowerCase().includes(program.toLowerCase()))) &&
         (!quota || college.quota.toLowerCase() === quota.toLowerCase()) &&
         (!category ||
           college.category.toLowerCase() === category.toLowerCase()) &&

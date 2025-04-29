@@ -38,7 +38,7 @@ const TestBarGraph: React.FC = () => {
       ], // Replace with your test names
       labels: {
         style: {
-          colors: "#ffffff", // White labels for modern look
+          colors: "#000000", // White labels for modern look
         },
       },
     },
@@ -46,12 +46,12 @@ const TestBarGraph: React.FC = () => {
       title: {
         text: "Marks (%)",
         style: {
-          color: "#ffffff",
+          color: "#000000",
         },
       },
       labels: {
         style: {
-          colors: "#ffffff",
+          colors: "#000000",
         },
       },
     },
@@ -79,8 +79,9 @@ const TestBarGraph: React.FC = () => {
     <div
       style={{
         padding: "20px",
-        backgroundColor: "#1f1f2e",
+        backgroundColor: "white",
         borderRadius: "10px",
+        color: "black",
       }}
     >
       <ReactApexChart

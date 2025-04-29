@@ -84,26 +84,42 @@ const ProfileCard = () => {
           className="profile-image"
           src={process.env.NEXT_PUBLIC_BASE_URL + user.image_url}
           alt="profile dp"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = "/assets/images/avatars/user.png";
+          }}
         />
-        <FaPencilAlt onClick={openModal} className="pencil" />
+
+        <FaPencilAlt
+          onClick={openModal}
+          className="pencil text-black bg-secondary"
+        />
       </div>
       <div className="profile-info">
-        <input
-          ref={nameRef}
-          className="input-field"
-          type="text"
-          value={userInfo.name}
-          onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
-          readOnly={locked}
-        />
-        <input
-          ref={emailRef}
-          className="input-field"
-          type="text"
-          value={userInfo.email}
-          onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-          readOnly={locked}
-        />
+        <div className="d-flex flex-row gap-3 align-items-center justify-content-center">
+          <p className="text-dark m-0 p-0">Name</p>
+          <input
+            ref={nameRef}
+            className="input-field m-0 p-0"
+            type="text"
+            value={userInfo.name}
+            onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+            readOnly={locked}
+          />
+        </div>
+        <div className="d-flex flex-row gap-3 align-items-center justify-content-center">
+          <p className="text-dark m-0 p-0">Email</p>
+          <input
+            ref={emailRef}
+            className="input-field m-0 p-0"
+            type="text"
+            value={userInfo.email}
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, email: e.target.value })
+            }
+            readOnly={locked}
+          />
+        </div>
       </div>
       <button
         ref={buttonRef}

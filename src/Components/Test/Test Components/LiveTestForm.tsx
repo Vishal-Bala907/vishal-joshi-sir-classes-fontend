@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "react-quill/dist/quill.snow.css"; // Import Quill's CSS
 import ReactQuill from "react-quill";
 import "katex/dist/katex.min.css"; // Import KaTeX CSS for rendering math

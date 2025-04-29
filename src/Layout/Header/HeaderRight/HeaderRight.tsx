@@ -28,37 +28,7 @@ const HeaderRight = () => {
   return (
     <div className="nav-right">
       <ul className="header-right">
-        {/* <Languages/> */}
-        {/* <button
-          ref={ref}
-          id="noti"
-          onClick={() => {
-            setNotification(true);
-          }}
-          style={{
-            borderRadius: "50%",
-            outline: "none",
-            border: "1px solid #f9f7f6",
-            padding: "8px",
-          }}
-        >
-          <CiStreamOn
-            style={{
-              color: "black",
-              fill: "black",
-            }}
-          /> */}
-        {/* </button> */}
-        {/* <ResponsiveSearch /> */}
-        <DarkMode />
-
         {notification && <Notification setNotification={setNotification} />}
-        {/* <NotificationHeader /> */}
-
-        {/* <CartHeader />
-        <MaximizeScreen />
-        <Bookmark />
-        <CloudDesign /> */}
         <Profile />
       </ul>
     </div>

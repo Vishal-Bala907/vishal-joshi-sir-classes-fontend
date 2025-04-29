@@ -1,12 +1,14 @@
 .profile-card {
-  background: linear-gradient(135deg, #4a90e2, #9013fe);
+  background: white;
   border-radius: 20px;
   padding: 40px;
   text-align: center;
   max-width: 400px;
-  margin: 50px auto;
+  /* margin: 50px auto; */
+  align-self: baseline;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   color: #fff;
+  width: fit-content;
 }
 
 .profile-image {

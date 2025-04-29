@@ -14,7 +14,7 @@ const Profile = () => {
     signOut();
   };
   return (
-    <li className="profile-nav custom-dropdown">
+    <li className="profile-nav custom-dropdown w-100 ">
       <div className="user-wrap">
         <div className="user-img">
           <Image
@@ -24,8 +24,8 @@ const Profile = () => {
             alt="user"
           />
         </div>
-        <div className="user-content" onClick={() => setShow(!show)}>
-          <h6>{session?.user?.email}</h6>
+        <div className="user-content w-100 " onClick={() => setShow(!show)}>
+          <h6 className="m-0 p-0 w-100 h-100">{session?.user?.email}</h6>
           <p className="mb-0">
             {session?.user?.name || "Admin"}
             <i className="fa-solid fa-chevron-down" />
